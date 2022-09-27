@@ -33,6 +33,10 @@ class BackendChannel extends ApplicationChannel {
       return Response.ok({"key": "value"});
     });
 
+    router.route("/mongo/add").linkFunction((request) async {
+      
+    });
+
     return router;
   }
 }
