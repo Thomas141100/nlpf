@@ -8,4 +8,4 @@ export 'dart:async';
 
 export 'package:conduit/conduit.dart';
 
-export 'users.dart';
+export 'channel.dart';

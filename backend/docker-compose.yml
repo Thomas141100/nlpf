@@ -1,7 +1,8 @@
 version: '3.1'
 
 services:
-  mongo:
+  nlpf_mongo:
+    container_name: nlpf_mongo
     image: mongo:4.2
     restart: always
     environment:
@@ -9,3 +10,10 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - 27025:27017
+
+  nlpf_backend:
+    container_name: nlpf_backend
+    image: nlpf_backend:latest
+    restart: always
+    ports:
+      - 8080:8080
