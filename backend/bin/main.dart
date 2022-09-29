@@ -1,7 +1,7 @@
 import 'package:backend/backend.dart';
 
 Future main() async {
-  final app = Application<MongoDBChannel>()
+  final app = Application<UserChannel>()
     ..options.configurationFilePath = "config.yaml"
     ..options.port = 8888;
 
