@@ -46,18 +46,21 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
+            padding: const EdgeInsets.only(right: 20.0),
+            child: IconButton(
+              icon: const Icon(Icons.search),
+              tooltip: 'Show Snackbar',
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('This is a snackbar')));
+              },
+            ),
+          ),
           Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
+              child: IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
                   Navigator.pushReplacement<void, void>(
                     context,
                     MaterialPageRoute<void>(
@@ -66,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: const Icon(Icons.logout),
               )),
         ],
       ),
