@@ -1,9 +1,6 @@
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-import 'package:backend/helpers/user.dart';
-import 'package:backend/helpers/database.dart';
-
 class SignupController extends ResourceController {
   SignupController(this.db);
 

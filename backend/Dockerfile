@@ -8,4 +8,4 @@ RUN dart pub get --offline --no-precompile
 
 WORKDIR /app
 EXPOSE 80
-ENTRYPOINT ["dart", "run", "conduit:conduit", "serve", "--port", "8080"]
+ENTRYPOINT ["dart", "bin/main.dart"]

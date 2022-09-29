@@ -1,3 +1,4 @@
+import 'package:backend/controller/singup.dart';
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -16,9 +17,9 @@ class Channel extends ApplicationChannel {
   Controller get entryPoint {
     final router = Router();
 
-    // Add to Db
-    router.route("/users")
-    .link(() => UserController(db));
+    router.route("/users/[:id]").link(() => UserController(db));
+
+    router.route('/singup').link(() => SignupController(db));
 
     return router;
   }
