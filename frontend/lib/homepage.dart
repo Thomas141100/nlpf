@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fht_linkedin/login.dart';
+import 'login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
