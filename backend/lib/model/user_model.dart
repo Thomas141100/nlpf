@@ -1,12 +1,26 @@
-import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-// class User extends ManagedObject<_User> implements _User {}
+class User {
 
-// class _User {
-//   @primaryKey
-//   ObjectId _id;
+  User(this.email, this.password);
 
-//   @Column(unique: true)
-//   String name;
-// }
+  factory User.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      throw const FormatException('Null JSON in User constructor');
+    }
+    return User(
+      json['email'] as String,
+      json['password'] as String,
+    );
+  }
+  ObjectId id;
+  String email;
+  String password;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'password': password,
+    };
+  }
+}

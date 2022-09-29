@@ -1,5 +1,6 @@
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+
 import 'controller/user_controller.dart';
 
 class Channel extends ApplicationChannel {
