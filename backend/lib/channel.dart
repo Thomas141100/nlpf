@@ -2,7 +2,7 @@ import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'controller/user_controller.dart';
 
-class UserChannel extends ApplicationChannel {
+class Channel extends ApplicationChannel {
   Db db = Db("mongodb://root:example@localhost:27025/test?authSource=admin");
 
   @override
@@ -16,7 +16,7 @@ class UserChannel extends ApplicationChannel {
     final router = Router();
 
     // Add to Db
-    router.route("/users/[:id]")
+    router.route("/users")
     .link(() => UserController(db));
 
     return router;

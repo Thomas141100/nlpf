@@ -1,8 +1,6 @@
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-import '../model/user.dart';
-
 class UserController extends ResourceController {
   UserController(this.db);
 
@@ -17,11 +15,9 @@ class UserController extends ResourceController {
   }
 
   @Operation.get('id')
-  Future<Response> getUserByID(@Bind.path('id') int id) async {
+  Future<Response> getUserByID(@Bind.path('id') ObjectId id) async {
     var collection = db.collection("users");
-    var result = await collection.findOne(where.eq("id", id));
-
-    
+    var result = await collection.findOne(where.eq("_id", id));
 
     return Response.ok(result);
   }
@@ -39,35 +35,24 @@ class UserController extends ResourceController {
     return Response.ok(inserted);
   }
 
+  @Operation.put('id')
+  Future<Response> updateUser(@Bind.path('id') ObjectId id) async {
+    if (request?.body == null || request!.body.isEmpty) {
+      return Response.badRequest(body: {"error": "No body"});
+    }
 
+    var collection = db.collection("users");
+    Map<String, dynamic> user = await request!.body.decode();
+    var updated = await collection.update(where.eq("_id", id), user);
 
-  // @override
-  // Controller get entryPoint {
-  //   final router = Router();
+    return Response.ok(updated);
+  }
 
-  //   // Add to Db
-  //   router.route("/mongo/add").linkFunction((request) async {
-  //     var collection = db.collection("test");
-  //     await collection.insert({"name": "Dart"});
-  //     return Response.ok({"key": "value"});
-  //   });
+  @Operation.delete('id')
+  Future<Response> deleteUser(@Bind.path('id') ObjectId id) async {
+    var collection = db.collection("users");
+    var deleted = await collection.remove(where.eq("_id", id));
 
-    
-
-  //   // Update in Db
-  //   router.route("/mongo/update").linkFunction((request) async {
-  //     var collection = db.collection("test");
-  //     await collection.update({"name": "Dart"}, {"name": "Dart2"});
-  //     return Response.ok({"key": "value"});
-  //   });
-
-  //   // Delete from Db
-  //   router.route("/mongo/delete").linkFunction((request) async {
-  //     var collection = db.collection("test");
-  //     await collection.remove({"name": "Dart2"});
-  //     return Response.ok({"key": "value"});
-  //   });
-
-  //   return router;
-  // }
+    return Response.ok(deleted);
+  }
 }
