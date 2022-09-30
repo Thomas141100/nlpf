@@ -4,8 +4,8 @@ WORKDIR /app
 ADD pubspec.* /app/
 RUN dart pub get --no-precompile
 ADD . /app/
+RUN mv config.prod.yaml config.yaml
 RUN dart pub get --offline --no-precompile
 
-WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["dart", "bin/main.dart"]

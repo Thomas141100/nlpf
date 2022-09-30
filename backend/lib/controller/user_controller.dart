@@ -11,10 +11,12 @@ class UserController extends ResourceController {
 
   @override
   FutureOr<RequestOrResponse> willProcessRequest(Request res) async {
+    if (request?.raw.headers['authorization']?[0] == null)
+      return Response.unauthorized();
     // check if the user is authorized
-    if (!await isAuthorized(db, request!.raw.headers['authorization']![0])) {
+    if (!await isAuthorized(db, request!.raw.headers['authorization']![0]))
       return Response.forbidden();
-    }
+
     return res;
   }
 

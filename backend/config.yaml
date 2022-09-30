@@ -1,0 +1,2 @@
+port: 8080
+mongoUri: mongodb://root:example@localhost:27025/test?authSource=admin

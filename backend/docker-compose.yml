@@ -11,9 +11,9 @@ services:
     ports:
       - 27025:27017
 
-  # nlpf_backend:
-  #   container_name: nlpf_backend
-  #   image: nlpf_backend:latest
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+  nlpf_backend:
+    container_name: nlpf_backend
+    image: nlpf_backend:latest
+    restart: always
+    ports:
+      - 8080:8080
