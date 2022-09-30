@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -113,7 +114,12 @@ class _UserPageState extends State<UserPage> {
                       ),
                     ),
                     onPressed: () {
-                      //signup screen
+                      showDialog(
+                          context: context,
+                          builder: ((context) => const ConfirmationDialog(
+                                key:
+                                    ValueKey('confirmation_dialog_user_delete'),
+                              )));
                     },
                   ),
                 ],
