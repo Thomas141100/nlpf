@@ -119,6 +119,9 @@ class _UserPageState extends State<UserPage> {
                           builder: ((context) => const ConfirmationDialog(
                                 key:
                                     ValueKey('confirmation_dialog_user_delete'),
+                                title: "Confirmation Dialog",
+                                message:
+                                    "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
                               )));
                     },
                   ),
