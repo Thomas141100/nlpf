@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart';
+import 'components/header.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -26,7 +27,11 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: Header(
+        key: ValueKey('header'),
+        title: 'FHT Linkedin',
+        displayLogout: false,
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
