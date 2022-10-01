@@ -1,5 +1,6 @@
 import 'components/header.dart';
 import 'package:flutter/material.dart';
+import 'createJobOffer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -74,8 +75,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Scaffold(
+                body: CreateJobOffer(),
+              );
+            },
+          );
+        },
+        tooltip: 'Post a JobOffer',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
