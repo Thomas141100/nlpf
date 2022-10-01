@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class CreateJobOffer extends StatefulWidget {
@@ -9,6 +10,7 @@ class CreateJobOffer extends StatefulWidget {
 
 class _CreateJobOffer extends State<CreateJobOffer> {
   final _formKey = GlobalKey<FormState>();
+
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final tagsController = TextEditingController();
@@ -41,37 +43,64 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                   fontSize: 30),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextFormField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'titre de l\'annconce',
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'titre de l\'annconce',
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        controller: companyNameController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'nom de l\'entreprise',
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextFormField(
-              controller: companyNameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'nom de l\'entreprise',
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      constraints: const BoxConstraints(
+                        minHeight: 200.0,
+                        maxHeight: 400.0,
+                      ),
+                      child: Image.network(
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+                    ),
+                  ],
+                ),
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
+            ],
           ),
           Container(
             padding: const EdgeInsets.all(10),
