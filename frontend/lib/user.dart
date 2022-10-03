@@ -1,6 +1,6 @@
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
+import 'package:fht_linkedin/components/header.dart';
 import 'package:flutter/material.dart';
-import 'login.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key, required this.title});
@@ -30,33 +30,10 @@ class _UserPageState extends State<UserPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement<void, void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const LoginPage(title: "User"),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.logout),
-              )),
-        ],
+      appBar: Header(
+        key: const ValueKey('header'),
+        title: 'FHT Linkedin - User',
+        // displayLogout: false,
       ),
       body: Container(
         width: double.infinity,
