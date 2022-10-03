@@ -12,6 +12,7 @@ class _SignupForm extends State<SignupForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+  final companyController = TextEditingController();
   bool isCompany = false;
 
   @override
@@ -20,6 +21,7 @@ class _SignupForm extends State<SignupForm> {
     emailController.dispose();
     passwordController.dispose();
     passwordConfirmController.dispose();
+    companyController.dispose();
     super.dispose();
   }
 
@@ -99,7 +101,25 @@ class _SignupForm extends State<SignupForm> {
               ),
               const Text("I am a company"),
             ],
-          )
+          ),
+          if (isCompany)
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: TextFormField(
+                controller: companyController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Company name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            )
         ],
       ),
     ));

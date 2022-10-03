@@ -133,10 +133,14 @@ class _LoginPage extends State<LoginPage> {
                             content: const SignupForm(),
                             actions: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancel')),
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.redAccent),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Cancel'),
+                              ),
+
                               // The "Yes" button
                               TextButton(
                                   onPressed: () {
