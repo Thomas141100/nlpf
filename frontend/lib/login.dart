@@ -29,8 +29,6 @@ class _LoginPage extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(
-        key: ValueKey('header'),
-        title: 'FHT Linkedin',
         displayLogout: false,
       ),
       body: Form(

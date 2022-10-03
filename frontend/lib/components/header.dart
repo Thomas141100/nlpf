@@ -3,10 +3,12 @@ import '../login.dart';
 
 class Header extends StatefulWidget with PreferredSizeWidget {
   var displayLogout = true;
+  String title;
 
-  Header({super.key, required this.title, this.displayLogout = true});
-
-  final String title;
+  Header(
+      {super.key = const ValueKey("header"),
+      this.title = "",
+      this.displayLogout = true});
 
   @override
   State<Header> createState() => _Header();
@@ -20,7 +22,8 @@ class _Header extends State<Header> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+            "FHT Linkedin${widget.title.isNotEmpty ? " - ${widget.title}" : ""}"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
