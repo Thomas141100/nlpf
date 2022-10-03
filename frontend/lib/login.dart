@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'homepage.dart';
@@ -129,8 +131,18 @@ class _LoginPage extends State<LoginPage> {
                     'Sign in',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: () {
-                    //signup screen
+                  // example of good communication between frontend and backend
+                  onPressed: () async {
+                    var url = Uri.http('localhost:8082', '/singup');
+                    await http.post(
+                      url,
+                      headers: {
+                        "Accept": "application/json",
+                        "content-type": "application/json"
+                      },
+                      body: jsonEncode(
+                          {'mail': 'didier@wanadoo.fr', 'name': 'didier'}),
+                    );
                   },
                 )
               ],
