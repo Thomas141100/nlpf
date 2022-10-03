@@ -16,7 +16,7 @@ services:
     image: nlpf_backend:latest
     restart: always
     ports:
-      - 8082:8080
+      - 42069:42069
 
   nlpf_frontend:
     container_name: nlpf_frontend

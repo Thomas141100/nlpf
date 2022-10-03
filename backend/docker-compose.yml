@@ -16,4 +16,4 @@ services:
     image: nlpf_backend:latest
     restart: always
     ports:
-      - 8080:8080
+      - 42069:42069

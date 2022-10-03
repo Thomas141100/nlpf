@@ -7,5 +7,5 @@ ADD . /app/
 RUN mv config.prod.yaml config.yaml
 RUN dart pub get --offline --no-precompile
 
-EXPOSE 8080
+EXPOSE 42069
 ENTRYPOINT ["dart", "bin/main.dart"]
