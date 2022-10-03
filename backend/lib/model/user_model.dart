@@ -1,8 +1,5 @@
-import 'package:mongo_dart/mongo_dart.dart';
-
 // Complètement useless pour le moment
 class User {
-
   User(this.email, this.password);
 
   factory User.fromJson(Map<String, dynamic> json) {

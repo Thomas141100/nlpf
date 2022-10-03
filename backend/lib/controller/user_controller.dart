@@ -25,17 +25,16 @@ class UserController extends ResourceController {
       @Bind.header("authorization") String authHeader) async {
     if (!await isAuthorized(db, authHeader)) return Response.forbidden();
 
-    var collection = db.collection("users");
-    var result = await collection.find().toList();
+    final collection = db.collection("users");
+    final result = await collection.find().toList();
 
     return Response.ok(result);
   }
 
   @Operation.get('id')
   Future<Response> getUserByID(@Bind.path('id') String id) async {
-    var objectId = ObjectId.fromHexString(id);
-    var collection = db.collection("users");
-    var result = await collection.findOne(where.eq("_id", id));
+    final collection = db.collection("users");
+    final result = await collection.findOne(where.eq("_id", id));
 
     return Response.ok(result);
   }
@@ -46,33 +45,30 @@ class UserController extends ResourceController {
       return Response.badRequest(body: {"error": "No body"});
     }
 
-    var collection = db.collection("users");
-    Map<String, dynamic> user = await request!.body.decode();
-    var inserted = await collection.insert(user);
+    final collection = db.collection("users");
+    final Map<String, dynamic> user = await request!.body.decode();
+    final inserted = await collection.insert(user);
 
     return Response.ok(inserted);
   }
 
   @Operation.put('id')
   Future<Response> updateUser(@Bind.path('id') String id) async {
-    var objectId = ObjectId.fromHexString(id);
     if (request?.body == null || request!.body.isEmpty) {
       return Response.badRequest(body: {"error": "No body"});
     }
 
-    var collection = db.collection("users");
-    Map<String, dynamic> user = await request!.body.decode();
-    var updated = await collection.update(where.eq("_id", id), user);
+    final collection = db.collection("users");
+    final Map<String, dynamic> user = await request!.body.decode();
+    final updated = await collection.update(where.eq("_id", id), user);
 
     return Response.ok(updated);
   }
 
   @Operation.delete('id')
   Future<Response> deleteUser(@Bind.path('id') String id) async {
-    var objectId = ObjectId.fromHexString(id);
-
-    var collection = db.collection("users");
-    var deleted = await collection.remove(where.eq("_id", id));
+    final collection = db.collection("users");
+    final deleted = await collection.remove(where.eq("_id", id));
 
     return Response.ok(deleted);
   }

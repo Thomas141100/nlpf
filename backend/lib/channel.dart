@@ -1,5 +1,5 @@
 import 'package:backend/configuration.dart';
-import 'package:backend/controller/singup.dart';
+import 'package:backend/controller/signup.dart';
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -10,7 +10,7 @@ class Channel extends ApplicationChannel {
 
   @override
   Future prepare() async {
-    var config = ApplicationConfiguration("config.yaml");
+    final config = ApplicationConfiguration("config.yaml");
     db = Db(config.mongoUri);
     await db.open();
     print("Connected to MongoDB");
@@ -22,7 +22,7 @@ class Channel extends ApplicationChannel {
 
     router.route("/users/[:id]").link(() => UserController(db));
 
-    router.route('/singup').link(() => SignupController(db));
+    router.route('/signup').link(() => SignupController(db));
 
     return router;
   }

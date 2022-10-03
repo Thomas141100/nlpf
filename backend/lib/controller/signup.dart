@@ -9,11 +9,11 @@ class SignupController extends ResourceController {
   @Operation.post()
   Future<Response> signup() async {
     // get user info from request body
-    Map<String, dynamic> user = await request!.body.decode();
+    final Map<String, dynamic> user = await request!.body.decode();
 
     // check if the user exists
-    var collection = db.collection("users");
-    var result = await collection.findOne(where.eq("mail", user['mail']));
+    final collection = db.collection("users");
+    final result = await collection.findOne(where.eq("mail", user['mail']));
     if (result != null) {
       return Response.forbidden();
     }
