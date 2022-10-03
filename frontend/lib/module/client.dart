@@ -1,17 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:http/http.dart';
 
 class Client {
-  static final Client _client = Client._internal();
-
-  factory Client() {
-    return _client;
-  }
+  static const String _url = "localhost:42069";
 
   static Future<Response> signup(String mail, String name, String text) async {
-    Uri url = Uri.http('localhost:8080', '/signup');
+    Uri url = Uri.http(_url, '/signup');
     return http.post(
       url,
       headers: {
@@ -23,7 +18,7 @@ class Client {
   }
 
   static Future<Response> signin(String mail, String name) async {
-    Uri url = Uri.http('localhost:8080', '/signin');
+    Uri url = Uri.http(_url, '/signin');
     return http.post(
       url,
       headers: {
