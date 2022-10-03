@@ -14,7 +14,7 @@ class User {
       json['password'] as String,
     );
   }
-  ObjectId id;
+  String id;
   String email;
   String password;
 

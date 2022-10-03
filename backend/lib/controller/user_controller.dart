@@ -21,9 +21,9 @@ class UserController extends ResourceController {
   }
 
   @Operation.get()
-  Future<Response> getAllUsers(@Bind.header("authorization") String authHeader) async {
-    if (!await isAuthorized(db, authHeader))
-      return Response.forbidden();
+  Future<Response> getAllUsers(
+      @Bind.header("authorization") String authHeader) async {
+    if (!await isAuthorized(db, authHeader)) return Response.forbidden();
 
     var collection = db.collection("users");
     var result = await collection.find().toList();
@@ -32,7 +32,8 @@ class UserController extends ResourceController {
   }
 
   @Operation.get('id')
-  Future<Response> getUserByID(@Bind.path('id') ObjectId id) async {
+  Future<Response> getUserByID(@Bind.path('id') String id) async {
+    var objectId = ObjectId.fromHexString(id);
     var collection = db.collection("users");
     var result = await collection.findOne(where.eq("_id", id));
 
@@ -53,7 +54,8 @@ class UserController extends ResourceController {
   }
 
   @Operation.put('id')
-  Future<Response> updateUser(@Bind.path('id') ObjectId id) async {
+  Future<Response> updateUser(@Bind.path('id') String id) async {
+    var objectId = ObjectId.fromHexString(id);
     if (request?.body == null || request!.body.isEmpty) {
       return Response.badRequest(body: {"error": "No body"});
     }
@@ -66,7 +68,9 @@ class UserController extends ResourceController {
   }
 
   @Operation.delete('id')
-  Future<Response> deleteUser(@Bind.path('id') ObjectId id) async {
+  Future<Response> deleteUser(@Bind.path('id') String id) async {
+    var objectId = ObjectId.fromHexString(id);
+
     var collection = db.collection("users");
     var deleted = await collection.remove(where.eq("_id", id));
 
