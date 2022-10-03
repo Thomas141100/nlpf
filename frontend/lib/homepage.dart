@@ -1,5 +1,5 @@
+import 'components/header.dart';
 import 'package:flutter/material.dart';
-import 'login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -42,36 +42,7 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: const Icon(Icons.search),
-              tooltip: 'Show Snackbar',
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
-              },
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () {
-                  Navigator.pushReplacement<void, void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const LoginPage(title: "Login"),
-                    ),
-                  );
-                },
-              )),
-        ],
-      ),
+      appBar: Header(key: ValueKey('header'), title: 'FHT Linkedin - Home'),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
