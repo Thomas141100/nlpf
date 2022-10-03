@@ -1,2 +1,3 @@
 port: 42069
 mongoUri: mongodb://root:example@localhost:27025/test?authSource=admin
+jwtSecret: flyhalf.team

@@ -1,8 +1,8 @@
 import 'package:backend/configuration.dart';
-import 'package:backend/controller/signup.dart';
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
+import 'controller/auth_controller.dart';
 import 'controller/user_controller.dart';
 
 class Channel extends ApplicationChannel {
@@ -19,10 +19,10 @@ class Channel extends ApplicationChannel {
   @override
   Controller get entryPoint {
     final router = Router();
+    router.route("/auth/signup").linkFunction((request) => signup(request, db));
+    router.route("/auth/login").linkFunction((request) => login(request, db));
 
     router.route("/users/[:id]").link(() => UserController(db));
-
-    router.route('/signup').link(() => SignupController(db));
 
     return router;
   }

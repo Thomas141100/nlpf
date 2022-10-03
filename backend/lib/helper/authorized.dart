@@ -1,26 +1,28 @@
-import 'dart:convert';
-
-import 'package:conduit/conduit.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+
+import '../configuration.dart';
+
+final config = ApplicationConfiguration("config.yaml");
 
 // parse the auth header
 Future<bool> isAuthorized(Db db, String authHeader) async {
   final parts = authHeader.split(' ');
-  if (parts == null || parts.length != 2 || parts[0] != 'Basic') {
+  if (parts.length != 2 || parts[0] != 'Bearer') {
     return false;
   }
   return await isValidUsernameAndPassword(db, parts[1]);
 }
 
 // check username and password
-Future<bool> isValidUsernameAndPassword(Db db, String credentials) async {
-  // this user
-  final String decoded = utf8.decode(base64.decode(credentials));
-  final parts = decoded.split(':');
-
-  // check if the user exists
-  var collection = db.collection("users");
-  var result = await collection.findOne(where.eq("mail", parts[0]));
-
-  return result != null && result['password'] == parts[1];
+Future<bool> isValidUsernameAndPassword(Db db, String token) async {
+  try {
+    // Verify a token
+    final jwt = JWT.verify(token, SecretKey(config.jwtSecret));
+    return true;
+  } on JWTExpiredError {
+    return false;
+  } catch (ex) {
+    return false;
+  }
 }

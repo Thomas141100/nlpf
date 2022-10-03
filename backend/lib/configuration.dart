@@ -8,4 +8,5 @@ class ApplicationConfiguration extends Configuration {
 
     late int port;
     late String mongoUri;
+    late String jwtSecret;
 }
