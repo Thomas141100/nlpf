@@ -24,10 +24,7 @@ class _SignupForm extends State<SignupForm> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    // emailController.dispose();
-    // passwordController.dispose();
     passwordConfirmController.dispose();
-    // companyController.dispose();
     super.dispose();
   }
 
