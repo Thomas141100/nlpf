@@ -1,7 +1,5 @@
-import 'dart:io';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'components/signup_form.dart';
 import 'homepage.dart';
 import 'components/header.dart';
 
@@ -38,21 +36,14 @@ class _LoginPage extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
             Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'FHT Production',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
-            Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: const Text(
-                'Sign in',
-                style: TextStyle(fontSize: 20),
+                'FHT Production',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30),
               ),
             ),
             Container(
@@ -105,44 +96,57 @@ class _LoginPage extends State<LoginPage> {
               ),
             ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  child: const Text('Login'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const HomePage(
-                            title: "Post Feed",
-                          ),
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: ElevatedButton(
+                child: const Text('Sign in'),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pushReplacement<void, void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const HomePage(
+                          title: "Post Feed",
                         ),
-                      );
-                    }
-                  },
-                )),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('Does not have account?'),
                 TextButton(
                   child: const Text(
-                    'Sign in',
+                    'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
-                  // example of good communication between frontend and backend
                   onPressed: () async {
-                    var url = Uri.http('localhost:8082', '/singup');
-                    await http.post(
-                      url,
-                      headers: {
-                        "Accept": "application/json",
-                        "content-type": "application/json"
-                      },
-                      body: jsonEncode(
-                          {'mail': 'didier@wanadoo.fr', 'name': 'didier'}),
-                    );
+                    //final response = await Client()
+                    //    .signup(emailController.text, passwordController.text);
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: const SignupForm(),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel')),
+                              // The "Yes" button
+                              TextButton(
+                                  onPressed: () {
+                                    // Close the dialog
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Sign up')),
+                            ],
+                          );
+                        });
                   },
                 )
               ],
