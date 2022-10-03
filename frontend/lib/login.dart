@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'module/client.dart';
 import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
 import 'homepage.dart';
@@ -14,14 +16,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPage extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _signupformKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final signupEmailController = TextEditingController();
+  final signupPasswordController = TextEditingController();
+  final signupCompanyNameController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+    signupCompanyNameController.dispose();
+    signupEmailController.dispose();
+    signupPasswordController.dispose();
     super.dispose();
   }
 
@@ -130,12 +139,19 @@ class _LoginPage extends State<LoginPage> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            content: const SignupForm(),
+                            content: SignupForm(
+                                emailController: signupEmailController,
+                                passwordController: signupPasswordController,
+                                companyController: signupCompanyNameController,
+                                formKey: _signupformKey),
                             actions: [
                               TextButton(
                                 style: TextButton.styleFrom(
                                     foregroundColor: Colors.redAccent),
                                 onPressed: () {
+                                  signupEmailController.clear();
+                                  signupPasswordController.clear();
+                                  signupCompanyNameController.clear();
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text('Cancel'),
@@ -143,9 +159,19 @@ class _LoginPage extends State<LoginPage> {
 
                               // The "Yes" button
                               TextButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     // Close the dialog
-                                    Navigator.of(context).pop();
+                                    if (_signupformKey.currentState!
+                                        .validate()) {
+                                      Navigator.of(context).pop();
+                                      Client.signup(
+                                          signupEmailController.text,
+                                          signupPasswordController.text,
+                                          signupCompanyNameController.text);
+                                    }
+                                    signupEmailController.clear();
+                                    signupPasswordController.clear();
+                                    signupCompanyNameController.clear();
                                   },
                                   child: const Text('Sign up')),
                             ],

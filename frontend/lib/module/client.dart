@@ -10,7 +10,7 @@ class Client {
     return _client;
   }
 
-  Future<Response> signup(String mail, String name) async {
+  static Future<Response> signup(String mail, String name, String text) async {
     Uri url = Uri.http('localhost:8080', '/signup');
     return http.post(
       url,
@@ -22,7 +22,7 @@ class Client {
     );
   }
 
-  Future<Response> signin(String mail, String name) async {
+  static Future<Response> signin(String mail, String name) async {
     Uri url = Uri.http('localhost:8080', '/signin');
     return http.post(
       url,
