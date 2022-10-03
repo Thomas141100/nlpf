@@ -1,7 +1,7 @@
-import 'dart:io';
-import 'dart:convert';
+import 'dart:developer';
+import 'module/client.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'components/signup_form.dart';
 import 'homepage.dart';
 import 'components/header.dart';
 
@@ -16,14 +16,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPage extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _signupformKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final signupEmailController = TextEditingController();
+  final signupPasswordController = TextEditingController();
+  final signupCompanyNameController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+    signupCompanyNameController.dispose();
+    signupEmailController.dispose();
+    signupPasswordController.dispose();
     super.dispose();
   }
 
@@ -38,21 +45,14 @@ class _LoginPage extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
             Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'FHT Production',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
-            Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: const Text(
-                'Sign in',
-                style: TextStyle(fontSize: 20),
+                'FHT Production',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30),
               ),
             ),
             Container(
@@ -105,44 +105,78 @@ class _LoginPage extends State<LoginPage> {
               ),
             ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  child: const Text('Login'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const HomePage(
-                            title: "Post Feed",
-                          ),
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: ElevatedButton(
+                child: const Text('Sign in'),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pushReplacement<void, void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const HomePage(
+                          title: "Post Feed",
                         ),
-                      );
-                    }
-                  },
-                )),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('Does not have account?'),
                 TextButton(
                   child: const Text(
-                    'Sign in',
+                    'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
-                  // example of good communication between frontend and backend
                   onPressed: () async {
-                    var url = Uri.http('localhost:8082', '/singup');
-                    await http.post(
-                      url,
-                      headers: {
-                        "Accept": "application/json",
-                        "content-type": "application/json"
-                      },
-                      body: jsonEncode(
-                          {'mail': 'didier@wanadoo.fr', 'name': 'didier'}),
-                    );
+                    //final response = await Client()
+                    //    .signup(emailController.text, passwordController.text);
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SignupForm(
+                                emailController: signupEmailController,
+                                passwordController: signupPasswordController,
+                                companyController: signupCompanyNameController,
+                                formKey: _signupformKey),
+                            actions: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.redAccent),
+                                onPressed: () {
+                                  signupEmailController.clear();
+                                  signupPasswordController.clear();
+                                  signupCompanyNameController.clear();
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Cancel'),
+                              ),
+
+                              // The "Yes" button
+                              TextButton(
+                                  onPressed: () async {
+                                    // Close the dialog
+                                    if (_signupformKey.currentState!
+                                        .validate()) {
+                                      Navigator.of(context).pop();
+                                      Client.signup(
+                                          signupEmailController.text,
+                                          signupPasswordController.text,
+                                          signupCompanyNameController.text);
+                                    }
+                                    signupEmailController.clear();
+                                    signupPasswordController.clear();
+                                    signupCompanyNameController.clear();
+                                  },
+                                  child: const Text('Sign up')),
+                            ],
+                          );
+                        });
                   },
                 )
               ],
