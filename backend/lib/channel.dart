@@ -3,6 +3,7 @@ import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 import 'controller/auth_controller.dart';
+import 'controller/joboffer_controller.dart';
 import 'controller/user_controller.dart';
 
 class Channel extends ApplicationChannel {
@@ -23,6 +24,7 @@ class Channel extends ApplicationChannel {
     router.route("/auth/login").linkFunction((request) => login(request, db));
 
     router.route("/users/[:id]").link(() => UserController(db));
+    router.route("joboffers/[:id]").link(() => JobOfferController(db));
 
     return router;
   }

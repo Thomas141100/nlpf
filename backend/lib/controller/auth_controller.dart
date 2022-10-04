@@ -18,6 +18,7 @@ Future<Response> signup(Request request, Db db) async {
   }
 
   // sanitize input
+  user['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
   if (!user.containsKey('isCompany')) {
     user['isCompany'] = false;
   }
