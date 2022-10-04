@@ -160,11 +160,33 @@ class _LoginPage extends State<LoginPage> {
                                 onPressed: () async {
                                   // Close the dialog
                                   if (_signupformKey.currentState!.validate()) {
-                                    Navigator.of(context).pop();
-                                    Client.signup(
+                                    var response = await Client.signup(
                                         signupEmailController.text,
                                         signupPasswordController.text,
                                         signupCompanyNameController.text);
+                                    if (response.statusCode == 200) {
+                                      Navigator.of(context).pop();
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const AlertDialog(
+                                              // Retrieve the text the that user has entered by using the
+                                              // TextEditingController.
+                                              content: Text("Account Created"),
+                                            );
+                                          });
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const AlertDialog(
+                                              // Retrieve the text the that user has entered by using the
+                                              // TextEditingController.
+                                              content: Text(
+                                                  "Account Creation Failed"),
+                                            );
+                                          });
+                                    }
                                   }
                                   signupEmailController.clear();
                                   signupPasswordController.clear();
