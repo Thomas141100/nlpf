@@ -26,7 +26,7 @@ class Client {
   }
 
   static Future<Response> signin(String mail, String password) async {
-    Uri url = Uri.http(_url, '/auth/signin');
+    Uri url = Uri.http(_url, '/auth/login');
     try {
       var response = await http.post(
         url,
