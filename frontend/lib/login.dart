@@ -109,16 +109,21 @@ class _LoginPage extends State<LoginPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 child: const Text('Sign in'),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.pushReplacement<void, void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const HomePage(
-                          title: "Post Feed",
+                    var response = await Client.signin(
+                        emailController.text, passwordController.text);
+                    if (response.statusCode == 200) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement<void, void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const HomePage(
+                            title: "Post Feed",
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
                 },
               ),

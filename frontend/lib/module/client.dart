@@ -8,7 +8,7 @@ class Client {
   static const String _url = "localhost:42069";
 
   static Future<Response> signup(
-      String mail, String name, String company) async {
+      String mail, String password, String company) async {
     Uri url = Uri.http(_url, '/auth/signup');
     try {
       return await post(url,
@@ -17,7 +17,7 @@ class Client {
           },
           body: jsonEncode(<String, String>{
             'mail': mail,
-            'name': name,
+            'password': password,
             'company': company,
           }));
     } catch (e) {
@@ -25,25 +25,23 @@ class Client {
     }
   }
 
-  static Future<Response> signin(String mail, String name) async {
+  static Future<Response> signin(String mail, String password) async {
     Uri url = Uri.http(_url, '/auth/signin');
     try {
       var response = await http.post(
         url,
         headers: {
-          "Accept": "application/json",
-          "content-type": "application/json",
+          "content-type": "application/json; charset=UTF-8",
         },
-        body: jsonEncode({'mail': mail, 'name': name}),
+        body: jsonEncode(<String, String>{'mail': mail, 'password': password}),
       );
-      storage.write(key: "token", value: getToken(response));
       return response;
     } catch (e) {
       return Response("", 500);
     }
   }
 
-  static Future<Response> getUser(String mail, String id, String token) async {
+  static Future<Response> getUser(String mail, String id) async {
     Uri url = Uri.http(_url, '/users/$id');
     try {
       var response = await http.get(
@@ -51,7 +49,7 @@ class Client {
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
-          "Authorization": "Bearer $token",
+          "Authorization": await storage.read(key: "token") ?? "",
         },
       );
       return response;
@@ -60,10 +58,9 @@ class Client {
     }
   }
 
-  static String getToken(Response response) {
+  static void getToken(Response response) {
     log(response.body);
-    storage.write(key: "token", value: getToken(response));
-    return "";
+    storage.write(key: "token", value: response.headers['authorization']);
   }
 
   Client._internal();
