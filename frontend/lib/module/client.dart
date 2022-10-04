@@ -1,8 +1,8 @@
 import 'dart:developer';
-import 'package:fht_linkedin/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Client {
   static const String _url = "localhost:42069";
@@ -35,6 +35,7 @@ class Client {
         },
         body: jsonEncode(<String, String>{'mail': mail, 'password': password}),
       );
+      await saveToken(response);
       return response;
     } catch (e) {
       return Response("", 500);
@@ -49,7 +50,6 @@ class Client {
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
-          "Authorization": await storage.read(key: "token") ?? "",
         },
       );
       return response;
@@ -58,9 +58,18 @@ class Client {
     }
   }
 
-  static void getToken(Response response) {
+  static Future<bool> saveToken(Response response) async {
     log(response.body);
-    storage.write(key: "token", value: response.headers['authorization']);
+
+    final prefs = await SharedPreferences.getInstance();
+    var token = jsonDecode(response.body)['token'];
+    var result = await prefs.setString("token", token);
+    return result;
+  }
+
+  static Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("token");
   }
 
   Client._internal();

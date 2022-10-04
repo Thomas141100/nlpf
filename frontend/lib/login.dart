@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'module/client.dart';
 import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
