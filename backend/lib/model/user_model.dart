@@ -1,4 +1,3 @@
-// Complètement useless pour le moment
 class User {
   User(this.email, this.password);
 
@@ -11,6 +10,7 @@ class User {
       json['password'] as String,
     );
   }
+
   String id;
   String email;
   String password;

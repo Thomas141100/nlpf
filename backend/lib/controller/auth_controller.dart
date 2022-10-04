@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:conduit/conduit.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -14,23 +12,33 @@ Future<Response> signup(Request request, Db db) async {
 
   // check if the user exists
   final collection = db.collection("users");
-  final result = await collection
-      .findOne(where.eq("mail", user['mail']).excludeFields(['password']));
+  final result = await collection.findOne(where.eq("mail", user['mail']));
   if (result != null) {
     return Response.forbidden();
   }
 
   // add user to database
   await collection.insertOne(user);
+  final inserted = await collection.findOne(where.eq("mail", user['mail']));
+
+  if (inserted == null) {
+    return Response.serverError();
+  }
+
+  final String token = generateToken(inserted);
+
+  inserted.remove('password');
+  inserted['token'] = token;
 
   // send a response
-  return Response.ok('User added');
+  return Response.ok(inserted);
 }
 
-String generateToken(String mail, String password, bool isCompany) {
+String generateToken(Map<String, dynamic> user) {
   final jwt = JWT({
-    'mail': mail,
-    'isCompany': isCompany,
+    'id': user['_id'].toString(),
+    'mail': user['mail'],
+    'isCompany': user['isCompany'],
     'exp': DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch
   });
 
@@ -43,7 +51,7 @@ Future<Response> login(Request request, Db db) async {
 
   // check if the user exists
   final collection = db.collection("users");
-  var result = await collection.findOne(where.eq("mail", user['mail']));
+  final result = await collection.findOne(where.eq("mail", user['mail']));
   if (result == null) {
     return Response.forbidden();
   }
@@ -52,10 +60,7 @@ Future<Response> login(Request request, Db db) async {
     return Response.forbidden();
   }
 
-  print(result);
-
-  String token = generateToken(result['mail'] as String,
-      result['password'] as String, result['isCompany'] as bool);
+  final String token = generateToken(result);
 
   // send a response
   return Response.ok({'token': token});
