@@ -10,21 +10,19 @@ class UserController extends ResourceController {
   final Db db;
 
   @override
-  FutureOr<RequestOrResponse> willProcessRequest(Request res) async {
-    if (request?.raw.headers['authorization']?[0] == null)
+  FutureOr<RequestOrResponse> willProcessRequest(Request req) async {
+    if (req.raw.headers['authorization']?[0] == null)
       return Response.unauthorized();
+
     // check if the user is authorized
-    if (!await isAuthorized(db, request!.raw.headers['authorization']![0]))
+    if (!await isAuthorized(db, req.raw.headers['authorization']![0]))
       return Response.forbidden();
 
-    return res;
+    return req;
   }
 
   @Operation.get()
-  Future<Response> getAllUsers(
-      @Bind.header("authorization") String authHeader) async {
-    if (!await isAuthorized(db, authHeader)) return Response.forbidden();
-
+  Future<Response> getAllUsers() async {
     final collection = db.collection("users");
     final result = await collection.find().toList();
 
@@ -45,8 +43,13 @@ class UserController extends ResourceController {
       return Response.badRequest(body: {"error": "No body"});
     }
 
-    final collection = db.collection("users");
     final Map<String, dynamic> user = await request!.body.decode();
+
+    if (!user.containsKey('isCompany')) {
+      user['isCompany'] = false;
+    }
+
+    final collection = db.collection("users");
     final inserted = await collection.insert(user);
 
     return Response.ok(inserted);

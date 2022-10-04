@@ -17,6 +17,11 @@ Future<Response> signup(Request request, Db db) async {
     return Response.forbidden();
   }
 
+  // sanitize input
+  if (!user.containsKey('isCompany')) {
+    user['isCompany'] = false;
+  }
+
   // add user to database
   await collection.insertOne(user);
   final inserted = await collection.findOne(where.eq("mail", user['mail']));
@@ -36,7 +41,7 @@ Future<Response> signup(Request request, Db db) async {
 
 String generateToken(Map<String, dynamic> user) {
   final jwt = JWT({
-    'id': user['_id'].toString(),
+    'id': user['_id'],
     'mail': user['mail'],
     'isCompany': user['isCompany'],
     'exp': DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch
