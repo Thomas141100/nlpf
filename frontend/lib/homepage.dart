@@ -1,5 +1,6 @@
 import 'components/header.dart';
 import 'package:flutter/material.dart';
+import 'components/createJobOffer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -20,6 +21,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _jobOfferformKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final tagsController = TextEditingController();
+  final companyNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    titleController.dispose();
+    descriptionController.dispose();
+    tagsController.dispose();
+    companyNameController.dispose();
+    super.dispose();
+  }
+
   int _counter = 0;
 
   void _incrementCounter() {
@@ -74,8 +91,52 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: CreateJobOffer(
+                  titleController: titleController,
+                  descriptionController: descriptionController,
+                  tagsController: tagsController,
+                  companyNameController: companyNameController,
+                  formKey: _jobOfferformKey,
+                ),
+                actions: [
+                  TextButton(
+                    style:
+                        TextButton.styleFrom(foregroundColor: Colors.redAccent),
+                    onPressed: () {
+                      titleController.clear();
+                      descriptionController.clear();
+                      tagsController.clear();
+                      companyNameController.clear();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+
+                  // The "Yes" button
+                  TextButton(
+                    onPressed: () async {
+                      if (_jobOfferformKey.currentState!.validate()) {
+                        Navigator.of(context).pop();
+                        // Client
+                      }
+                      titleController.clear();
+                      descriptionController.clear();
+                      tagsController.clear();
+                      companyNameController.clear();
+                    },
+                    child: const Text('Sign up'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        tooltip: 'Post a JobOffer',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

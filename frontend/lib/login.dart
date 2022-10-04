@@ -133,8 +133,6 @@ class _LoginPage extends State<LoginPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () async {
-                    //final response = await Client()
-                    //    .signup(emailController.text, passwordController.text);
                     showDialog(
                         context: context,
                         builder: (context) {
@@ -159,21 +157,21 @@ class _LoginPage extends State<LoginPage> {
 
                               // The "Yes" button
                               TextButton(
-                                  onPressed: () async {
-                                    // Close the dialog
-                                    if (_signupformKey.currentState!
-                                        .validate()) {
-                                      Navigator.of(context).pop();
-                                      Client.signup(
-                                          signupEmailController.text,
-                                          signupPasswordController.text,
-                                          signupCompanyNameController.text);
-                                    }
-                                    signupEmailController.clear();
-                                    signupPasswordController.clear();
-                                    signupCompanyNameController.clear();
-                                  },
-                                  child: const Text('Sign up')),
+                                onPressed: () async {
+                                  // Close the dialog
+                                  if (_signupformKey.currentState!.validate()) {
+                                    Navigator.of(context).pop();
+                                    Client.signup(
+                                        signupEmailController.text,
+                                        signupPasswordController.text,
+                                        signupCompanyNameController.text);
+                                  }
+                                  signupEmailController.clear();
+                                  signupPasswordController.clear();
+                                  signupCompanyNameController.clear();
+                                },
+                                child: const Text('Sign up'),
+                              ),
                             ],
                           );
                         });
