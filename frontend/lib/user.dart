@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key, required this.title});
@@ -21,6 +24,63 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  XFile? image;
+
+  final ImagePicker picker = ImagePicker();
+
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
+  }
+
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: const Text('Please choose media to select'),
+            content: Container(
+              height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button, user can upload image from gallery
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.gallery);
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(Icons.image),
+                        Text('From Gallery'),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.camera);
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(Icons.camera),
+                        Text('From Camera'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -44,21 +104,36 @@ class _UserPageState extends State<UserPage> {
                 child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/inesxaxelle.jpg',
-                  height: 200,
-                  width: 300,
-                ),
-                TextButton(
-                  child: const Text(
-                    'Upload Profile Picture',
-                    style: TextStyle(fontSize: 20),
-                  ),
+              children: [
+                ElevatedButton(
                   onPressed: () {
-                    //signup screen
+                    myAlert();
                   },
+                  child: const Text('Upload Photo'),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //if image not null show the image
+                //if image null show text
+                image != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            //to show image, you type like this.
+                            image!.path,
+                            fit: BoxFit.cover,
+                            width: 300,
+                            height: 300,
+                          ),
+                        ),
+                      )
+                    : const Text(
+                        "No Image",
+                        style: TextStyle(fontSize: 20),
+                      )
               ],
             )),
             Expanded(
