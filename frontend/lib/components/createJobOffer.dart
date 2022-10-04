@@ -2,35 +2,30 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class CreateJobOffer extends StatefulWidget {
-  const CreateJobOffer({super.key});
+  final titleController;
+  final descriptionController;
+  final tagsController;
+  final companyNameController;
+  final formKey;
+
+  const CreateJobOffer(
+      {this.titleController = TextEditingController,
+      this.descriptionController = TextEditingController,
+      this.tagsController = TextEditingController,
+      this.companyNameController = TextEditingController,
+      this.formKey = FormState,
+      super.key});
 
   @override
   State<CreateJobOffer> createState() => _CreateJobOffer();
 }
 
 class _CreateJobOffer extends State<CreateJobOffer> {
-  final _formKey = GlobalKey<FormState>();
-
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final tagsController = TextEditingController();
-  final companyNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    titleController.dispose();
-    descriptionController.dispose();
-    tagsController.dispose();
-    companyNameController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: ListView(
+      key: widget.formKey,
+      child: Column(
         children: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -52,7 +47,7 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
-                        controller: titleController,
+                        controller: widget.titleController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'titre de l\'annconce',
@@ -68,7 +63,7 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
-                        controller: companyNameController,
+                        controller: widget.companyNameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'nom de l\'entreprise',
@@ -105,7 +100,7 @@ class _CreateJobOffer extends State<CreateJobOffer> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
-              controller: descriptionController,
+              controller: widget.descriptionController,
               keyboardType: TextInputType.multiline,
               maxLines: 10,
               decoration: const InputDecoration(
@@ -119,41 +114,6 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                 return null;
               },
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    textStyle: const TextStyle(
-                        fontSize: 30, fontWeight: FontWeight.bold)),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    textStyle: const TextStyle(
-                        fontSize: 30, fontWeight: FontWeight.bold)),
-                child: const Text(
-                  'Post',
-                  style: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  //signup screen
-                },
-              )
-            ],
           ),
         ],
       ),

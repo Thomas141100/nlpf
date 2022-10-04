@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
-  var emailController;
-  var passwordController;
-  var companyController;
-  var formKey;
+  final emailController;
+  final passwordController;
+  final companyController;
+  final formKey;
 
-  SignupForm(
+  const SignupForm(
       {this.emailController = TextEditingController,
       this.passwordController = TextEditingController,
       this.companyController = TextEditingController,
