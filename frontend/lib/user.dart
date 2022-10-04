@@ -66,17 +66,103 @@ class _UserPageState extends State<UserPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  const Text(
-                    "Totty",
-                    style: TextStyle(height: 2),
-                  ),
-                  const Text(
-                    "Boy",
-                    style: TextStyle(height: 2),
-                  ),
-                  const Text(
-                    "tottyboy@gmail.com",
-                    style: TextStyle(height: 2),
+                  Row(
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 100,
+                              child: const Text(
+                                'Nom : ',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 100,
+                              child: const Text(
+                                'Prenom : ',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 100,
+                              child: const Text(
+                                'Mail : ',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.right,
+                              ),
+                            )
+                          ]),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: const Text(
+                                'Boy',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: const Text(
+                                'Boy',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: const Text(
+                                'Boy',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ]),
+                      /*Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text(
+                              'Mail :',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: const Text(
+                                'tottyboy@gmail.com',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ]),*/
+                    ],
                   ),
                   const SizedBox(
                     height: 100,
