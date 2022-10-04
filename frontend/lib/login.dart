@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'module/client.dart';
 import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
@@ -109,16 +108,21 @@ class _LoginPage extends State<LoginPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 child: const Text('Sign in'),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.pushReplacement<void, void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const HomePage(
-                          title: "Post Feed",
+                    var response = await Client.signin(
+                        emailController.text, passwordController.text);
+                    if (response.statusCode == 200) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement<void, void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const HomePage(
+                            title: "Post Feed",
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
                 },
               ),
@@ -160,11 +164,33 @@ class _LoginPage extends State<LoginPage> {
                                 onPressed: () async {
                                   // Close the dialog
                                   if (_signupformKey.currentState!.validate()) {
-                                    Navigator.of(context).pop();
-                                    Client.signup(
+                                    var response = await Client.signup(
                                         signupEmailController.text,
                                         signupPasswordController.text,
                                         signupCompanyNameController.text);
+                                    if (response.statusCode == 200) {
+                                      Navigator.of(context).pop();
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const AlertDialog(
+                                              // Retrieve the text the that user has entered by using the
+                                              // TextEditingController.
+                                              content: Text("Account Created"),
+                                            );
+                                          });
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const AlertDialog(
+                                              // Retrieve the text the that user has entered by using the
+                                              // TextEditingController.
+                                              content: Text(
+                                                  "Account Creation Failed"),
+                                            );
+                                          });
+                                    }
                                   }
                                   signupEmailController.clear();
                                   signupPasswordController.clear();
