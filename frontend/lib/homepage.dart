@@ -3,6 +3,7 @@ import 'module/client.dart';
 import 'components/header.dart';
 import 'package:flutter/material.dart';
 import 'components/createJobOffer.dart';
+import 'models/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   final descriptionController = TextEditingController();
   final tagsController = TextEditingController();
   final companyNameController = TextEditingController();
-  String? _token;
+  User? _currentUser;
 
   @override
   void dispose() {
@@ -40,8 +41,20 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void setCurrentUser() async {
+    User? user = await Client.getCurrentUser();
+    print("user: $user");
+    user ??= {} as User;
+    setState(() {
+      _currentUser = user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_currentUser == null) {
+      setCurrentUser();
+    }
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
