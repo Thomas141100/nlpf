@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
 import 'homepage.dart';
 import 'components/header.dart';
-import 'package:form_validator/form_validator.dart';
+import 'module/validators.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -20,13 +20,7 @@ class _LoginPage extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _signupformKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
-  final emailValidator = ValidationBuilder().email().maxLength(50).build();
   final passwordController = TextEditingController();
-  final passwordValidator = ValidationBuilder()
-      .regExp(RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"),
-          "Password must have a minimum eight characters, at least one letter and one number")
-      .maxLength(50)
-      .build();
   final signupEmailController = TextEditingController();
   final signupPasswordController = TextEditingController();
   final signupCompanyNameController = TextEditingController();
@@ -71,7 +65,7 @@ class _LoginPage extends State<LoginPage> {
                   border: OutlineInputBorder(),
                   labelText: 'email',
                 ),
-                validator: emailValidator,
+                validator: Validators.emailValidator(),
               ),
             ),
             Container(
@@ -83,7 +77,7 @@ class _LoginPage extends State<LoginPage> {
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
-                validator: passwordValidator,
+                validator: Validators.passwordValidator(),
               ),
             ),
             TextButton(

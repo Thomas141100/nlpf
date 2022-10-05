@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/module/validators.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
@@ -50,12 +51,7 @@ class _SignupForm extends State<SignupForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Email',
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+                validator: Validators.emailValidator(),
               ),
             ),
             Container(
@@ -67,12 +63,7 @@ class _SignupForm extends State<SignupForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+                validator: Validators.passwordValidator(),
               ),
             ),
             Container(
@@ -112,17 +103,11 @@ class _SignupForm extends State<SignupForm> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: TextFormField(
                   controller: widget.companyController,
-                  obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Company name',
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+                  validator: Validators.generalValidator(),
                 ),
               )
           ],
