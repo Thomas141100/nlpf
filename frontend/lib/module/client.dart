@@ -18,6 +18,7 @@ class Client {
           body: jsonEncode(<String, String>{
             'mail': mail,
             'password': password,
+            'isCompany': company == '' ? 'false' : 'true',
             'company': company,
           }));
     } catch (e) {
