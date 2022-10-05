@@ -217,26 +217,6 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ),
                           ]),
-                      /*Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              'Mail :',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(3.0),
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black)),
-                              child: const Text(
-                                'tottyboy@gmail.com',
-                                style: TextStyle(fontSize: 20),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ]),*/
                     ],
                   ),
                   const SizedBox(
