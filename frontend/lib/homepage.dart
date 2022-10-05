@@ -3,9 +3,10 @@ import 'module/client.dart';
 import 'components/header.dart';
 import 'package:flutter/material.dart';
 import 'components/createJobOffer.dart';
+import 'models/user.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -15,8 +16,6 @@ class HomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-  final String title;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   final descriptionController = TextEditingController();
   final tagsController = TextEditingController();
   final companyNameController = TextEditingController();
-  String? _token;
+  User? _currentUser;
 
   @override
   void dispose() {
@@ -40,8 +39,19 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void setCurrentUser() async {
+    User? user = await Client.getCurrentUser();
+    user ??= {} as User;
+    setState(() {
+      _currentUser = user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_currentUser == null) {
+      setCurrentUser();
+    }
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -49,7 +59,9 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: Header(title: 'Home'),
+      appBar: Header(
+          title:
+              'Home ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
