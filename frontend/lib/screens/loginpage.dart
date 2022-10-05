@@ -3,11 +3,11 @@ import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 
-import 'module/client.dart';
+import '../module/client.dart';
 import 'package:flutter/material.dart';
-import 'components/signup_form.dart';
-import 'components/header.dart';
-import 'module/validators.dart';
+import '../components/signup_form.dart';
+import '../components/header.dart';
+import '../module/validators.dart';
 
 void defaultLoginHandler(
     BuildContext context, String email, String password) async {
