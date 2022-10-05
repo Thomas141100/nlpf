@@ -66,7 +66,7 @@ class Client {
     Uri url = Uri.http(_url, '/joboffers');
     var token = await getToken();
     try {
-      var response = await http.post(
+      var response = await post(
         url,
         headers: {
           "Accept": "application/json",

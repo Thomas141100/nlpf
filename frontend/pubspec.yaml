@@ -40,7 +40,7 @@ dependencies:
     form_validator: ^1.0.2
     dart_jsonwebtoken: ^2.4.2
     auto_route: ^3.0.4
-    image_picker:
+    image_picker: ^0.8.5
 dev_dependencies:
     flutter_test:
         sdk: flutter

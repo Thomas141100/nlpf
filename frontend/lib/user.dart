@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
-  const UserPage({super.key, required this.title});
+  const UserPage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,9 +14,6 @@ class UserPage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-  final String title;
-
   @override
   State<UserPage> createState() => _UserPageState();
 }
@@ -81,7 +76,6 @@ class _UserPageState extends State<UserPage> {
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -90,7 +84,7 @@ class _UserPageState extends State<UserPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    
+
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
