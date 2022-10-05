@@ -1,17 +1,28 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:fht_linkedin/main.dart';
+import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 
 import 'module/client.dart';
 import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
-import 'homepage.dart';
 import 'components/header.dart';
 import 'module/validators.dart';
 
+void defaultLoginHandler(
+    BuildContext context, String email, String password) async {
+  var response = await Client.signin(email, password);
+  if (response.statusCode == 200) {
+    showSnackBar(context, "User Connected");
+
+    AutoRouter.of(context).push(const HomeRoute());
+  }
+}
+
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-
-  final String title;
-
+  final Function(BuildContext context, String email, String password)
+      _onLoginCallback;
+  const LoginPage({super.key}) : _onLoginCallback = defaultLoginHandler;
   @override
   State<LoginPage> createState() => _LoginPage();
 }
@@ -103,21 +114,9 @@ class _LoginPage extends State<LoginPage> {
                 child: const Text('Sign in'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    var response = await Client.signin(
-                        emailController.text, passwordController.text);
-                    if (response.statusCode == 200) {
-                      showSnackBar(context, "User Connected");
-
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const HomePage(
-                            title: "Post Feed",
-                          ),
-                        ),
-                      );
-                    }
+                    MyApp.of(context).authService.authenticated = true;
+                    widget._onLoginCallback(
+                        context, emailController.text, passwordController.text);
                   }
                 },
               ),

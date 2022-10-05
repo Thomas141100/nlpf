@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../login.dart';
 import '../module/client.dart';
 
 class Header extends StatefulWidget with PreferredSizeWidget {
@@ -44,14 +44,9 @@ class _Header extends State<Header> {
                   ? IconButton(
                       icon: const Icon(Icons.logout),
                       onPressed: () {
-                        Navigator.pushReplacement<void, void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const LoginPage(title: "Login"),
-                          ),
-                        );
                         Client.removeToken();
+                        AutoRouter.of(context)
+                            .removeUntil((route) => route.name == "LoginRoute");
                         showSnackBar(context, "User disconnected");
                       },
                     )
