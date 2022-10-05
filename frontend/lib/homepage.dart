@@ -1,5 +1,5 @@
 import 'package:fht_linkedin/utils/utils.dart';
-
+import 'module/client.dart';
 import 'components/header.dart';
 import 'package:flutter/material.dart';
 import 'components/createJobOffer.dart';
@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -91,11 +92,30 @@ class _HomePageState extends State<HomePage> {
                   TextButton(
                     onPressed: () async {
                       if (_jobOfferformKey.currentState!.validate()) {
-                        Navigator.of(context).pop();
-                        showSnackBar(context, "Post Created");
-
                         // Client
+                        var response = await Client.sendJobOffer(
+                          titleController.text,
+                          descriptionController.text,
+                          tagsController.text,
+                          companyNameController.text,
+                        );
+                        if (response.statusCode == 200) {
+                          Navigator.of(context).pop();
+                          showSnackBar(context, "JobOffer Created");
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const AlertDialog(
+                                // Retrieve the text the that user has entered by using the
+                                // TextEditingController.
+                                content: Text("JobOffer Creation Failed"),
+                              );
+                            },
+                          );
+                        }
                       }
+
                       titleController.clear();
                       descriptionController.clear();
                       tagsController.clear();
