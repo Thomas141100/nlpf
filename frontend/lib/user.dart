@@ -81,6 +81,7 @@ class _UserPageState extends State<UserPage> {
         });
   }
 
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -89,6 +90,7 @@ class _UserPageState extends State<UserPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
@@ -187,7 +189,7 @@ class _UserPageState extends State<UserPage> {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
                               child: const Text(
-                                'Boy',
+                                'totty',
                                 style: TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
@@ -211,7 +213,7 @@ class _UserPageState extends State<UserPage> {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
                               child: const Text(
-                                'Boy',
+                                'tottyboy@gmail.com',
                                 style: TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
