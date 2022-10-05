@@ -1,4 +1,4 @@
-abstract class User {
+class User {
   String email = "";
   String? firstname;
   String? lastname;

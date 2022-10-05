@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
 
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
-    print("user: $user");
     user ??= {} as User;
     setState(() {
       _currentUser = user;
@@ -62,7 +61,9 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: Header(title: 'Home'),
+      appBar: Header(
+          title:
+              'Home ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

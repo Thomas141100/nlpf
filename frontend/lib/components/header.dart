@@ -1,6 +1,7 @@
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../login.dart';
+import '../module/client.dart';
 
 class Header extends StatefulWidget with PreferredSizeWidget {
   var displayLogout = true;
@@ -50,6 +51,7 @@ class _Header extends State<Header> {
                                 const LoginPage(title: "Login"),
                           ),
                         );
+                        Client.removeToken();
                         showSnackBar(context, "User disconnected");
                       },
                     )
