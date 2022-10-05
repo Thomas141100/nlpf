@@ -24,7 +24,7 @@ class Channel extends ApplicationChannel {
     router.route("/auth/login").linkFunction((request) => login(request, db));
 
     router.route("/users/[:id]").link(() => UserController(db));
-    router.route("joboffers/[:id]").link(() => JobOfferController(db));
+    router.route("/joboffers/[:id]").link(() => JobOfferController(db));
 
     return router;
   }

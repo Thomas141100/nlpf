@@ -74,10 +74,11 @@ class JobOfferController extends ResourceController {
 
     final objectId = ObjectId.fromHexString(id);
     final Map<String, dynamic> jobOffer = await request!.body.decode();
+    final query = {"\$set": jobOffer};
 
     final collection = db.collection("joboffers");
     final updated =
-        await collection.updateOne(where.eq("_id", objectId), jobOffer);
+        await collection.updateOne(where.eq("_id", objectId), query);
 
     return Response.ok(updated.document);
   }
