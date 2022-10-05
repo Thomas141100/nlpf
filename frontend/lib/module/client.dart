@@ -98,6 +98,11 @@ class Client {
     return prefs.getString("token");
   }
 
+  static void removeToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
+  }
+
   static String getJsonFromJWT(String token) {
     var splittedToken = token.split('.');
     if (splittedToken.length != 3) {
@@ -107,14 +112,18 @@ class Client {
     return utf8.decode(base64Url.decode(normalizedSource));
   }
 
-  static Future<User?> getCurrentUser() async {
+  static getCurrentUser() async {
     var token = await getToken();
     var userId = jsonDecode(getJsonFromJWT(token!))['id'];
     var response = await getUser(userId);
     if (response.statusCode != 200 || response.body.isEmpty) {
       return null;
     }
-    return jsonDecode(response.body);
+    var jsonMap = jsonDecode(response.body);
+    User currentUser = User();
+    currentUser.email = jsonMap['mail'];
+    currentUser.isCompany = jsonMap['isCompany'];
+    return currentUser;
   }
 
   Client._internal();
