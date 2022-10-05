@@ -27,7 +27,7 @@ Future<bool> isValidUsernameAndPassword(Db db, String token) async {
   }
 }
 
-Map<String, dynamic> getPayloadFromHeader(String authHeader) {
+Map<String, dynamic> getPayload(String authHeader) {
   final token = authHeader.split(' ')[1];
   final jwt = JWT.verify(token, SecretKey(config.jwtSecret));
   return jwt.payload as Map<String, dynamic>;
