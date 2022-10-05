@@ -22,9 +22,23 @@ class JobOfferController extends ResourceController {
   }
 
   @Operation.get()
-  Future<Response> getAllJobOffers() async {
+  Future<Response> getAllJobOffers(
+      {@Bind.query("title") String? title,
+      @Bind.query("company") String? company,
+      @Bind.query("tags") String? tags}) async {
     final collection = db.collection("joboffers");
-    final result = await collection.find().toList();
+
+    var query = where;
+    if (title != null)
+      query = query.match("title", title, caseInsensitive: true);
+    if (company != null)
+      query = query.match("company", company, caseInsensitive: true);
+    if (tags != null) {
+      final tagList = tags.split(",");
+      query = query.all("tags", tagList);
+    }
+
+    final result = await collection.find(query).toList();
 
     return Response.ok(result);
   }

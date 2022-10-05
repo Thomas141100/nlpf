@@ -20,8 +20,9 @@ class Channel extends ApplicationChannel {
   @override
   Controller get entryPoint {
     final router = Router();
-    router.route("/auth/signup").linkFunction((request) => signup(request, db));
-    router.route("/auth/login").linkFunction((request) => login(request, db));
+    // router.route("/auth/signup").linkFunction((request) => signup(request, db));
+    // router.route("/auth/login").linkFunction((request) => login(request, db));
+    router.route("/auth/[:action]").link(() => MyAuthController(db));
 
     router.route("/users/[:id]").link(() => UserController(db));
     router.route("/joboffers/[:id]").link(() => JobOfferController(db));

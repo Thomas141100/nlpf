@@ -6,68 +6,90 @@ import '../configuration.dart';
 
 final config = ApplicationConfiguration("config.yaml");
 
-Future<Response> signup(Request request, Db db) async {
-  // get user info from request body
-  final Map<String, dynamic> user = await request.body.decode();
+class MyAuthController extends ResourceController {
+  MyAuthController(this.db);
 
-  // check if the user exists
-  final collection = db.collection("users");
-  final result = await collection.findOne(where.eq("mail", user['mail']));
-  if (result != null) {
-    return Response.forbidden();
+  final Db db;
+
+  @Operation.post("action")
+  Future<Response> action(@Bind.path("action") String action) {
+    if (request == null) {
+      return Future.value(Response.badRequest(body: {"error": "No body"}));
+    }
+
+    switch (action) {
+      case "signup":
+        return signup(request!);
+      case "login":
+        return login(request!);
+      default:
+        return Future.value(Response.notFound());
+    }
   }
 
-  // sanitize input
-  user['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-  if (!user.containsKey('isCompany')) {
-    user['isCompany'] = false;
+  Future<Response> signup(Request request) async {
+    // get user info from request body
+    final Map<String, dynamic> user = await request.body.decode();
+
+    // check if the user exists
+    final collection = db.collection("users");
+    final result = await collection.findOne(where.eq("mail", user['mail']));
+    if (result != null) {
+      return Response.forbidden();
+    }
+
+    // sanitize input
+    user['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    if (!user.containsKey('isCompany')) {
+      user['isCompany'] = false;
+    }
+
+    // add user to database
+    await collection.insertOne(user);
+    final inserted = await collection.findOne(where.eq("mail", user['mail']));
+
+    if (inserted == null) {
+      return Response.serverError();
+    }
+
+    final String token = generateToken(inserted);
+
+    inserted.remove('password');
+    inserted['token'] = token;
+
+    // send a response
+    return Response.ok(inserted);
   }
 
-  // add user to database
-  await collection.insertOne(user);
-  final inserted = await collection.findOne(where.eq("mail", user['mail']));
+  String generateToken(Map<String, dynamic> user) {
+    final jwt = JWT({
+      'id': user['_id'],
+      'mail': user['mail'],
+      'isCompany': user['isCompany'],
+      'exp': DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch
+    });
 
-  if (inserted == null) {
-    return Response.serverError();
+    return jwt.sign(SecretKey(config.jwtSecret));
   }
 
-  final String token = generateToken(inserted);
+  Future<Response> login(Request request) async {
+    // get user info from request body
+    final Map<String, dynamic> user = await request.body.decode();
 
-  inserted.remove('password');
-  inserted['token'] = token;
+    // check if the user exists
+    final collection = db.collection("users");
+    final result = await collection.findOne(where.eq("mail", user['mail']));
+    if (result == null) {
+      return Response.forbidden();
+    }
 
-  // send a response
-  return Response.ok(inserted);
-}
+    if (result['password'] != user['password']) {
+      return Response.forbidden();
+    }
 
-String generateToken(Map<String, dynamic> user) {
-  final jwt = JWT({
-    'id': user['_id'],
-    'mail': user['mail'],
-    'isCompany': user['isCompany'],
-    'exp': DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch
-  });
+    final String token = generateToken(result);
 
-  return jwt.sign(SecretKey(config.jwtSecret));
-}
-
-Future<Response> login(Request request, Db db) async {
-  // get user info from request body
-  final Map<String, dynamic> user = await request.body.decode();
-
-  // check if the user exists
-  final collection = db.collection("users");
-  final result = await collection.findOne(where.eq("mail", user['mail']));
-  if (result == null) {
-    return Response.forbidden();
+    // send a response
+    return Response.ok({'token': token});
   }
-
-  if (result['password'] != user['password']) {
-    return Response.forbidden();
-  }
-
-  final String token = generateToken(result);
-
-  // send a response
-  return Response.ok({'token': token});
 }
