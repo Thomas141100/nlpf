@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../login.dart';
 
@@ -49,6 +50,7 @@ class _Header extends State<Header> {
                                 const LoginPage(title: "Login"),
                           ),
                         );
+                        showSnackBar(context, "User disconnected");
                       },
                     )
                   : null),

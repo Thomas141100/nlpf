@@ -1,3 +1,5 @@
+import 'package:fht_linkedin/utils/utils.dart';
+
 import 'module/client.dart';
 import 'package:flutter/material.dart';
 import 'components/signup_form.dart';
@@ -110,6 +112,8 @@ class _LoginPage extends State<LoginPage> {
                     var response = await Client.signin(
                         emailController.text, passwordController.text);
                     if (response.statusCode == 200) {
+                      showSnackBar(context, "User Connected");
+
                       // ignore: use_build_context_synchronously
                       Navigator.pushReplacement<void, void>(
                         context,
@@ -166,16 +170,8 @@ class _LoginPage extends State<LoginPage> {
                                         signupPasswordController.text,
                                         signupCompanyNameController.text);
                                     if (response.statusCode == 200) {
+                                      showSnackBar(context, "User Created");
                                       Navigator.of(context).pop();
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const AlertDialog(
-                                              // Retrieve the text the that user has entered by using the
-                                              // TextEditingController.
-                                              content: Text("Account Created"),
-                                            );
-                                          });
                                     } else {
                                       showDialog(
                                           context: context,
