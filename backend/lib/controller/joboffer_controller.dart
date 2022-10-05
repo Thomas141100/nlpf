@@ -31,8 +31,10 @@ class JobOfferController extends ResourceController {
 
   @Operation.get('id')
   Future<Response> getJobOfferByID(@Bind.path('id') String id) async {
+    final objectId = ObjectId.fromHexString(id);
+
     final collection = db.collection("joboffers");
-    final result = await collection.findOne(where.eq("_id", id));
+    final result = await collection.findOne(where.eq("_id", objectId));
 
     return Response.ok(result);
   }
@@ -51,9 +53,10 @@ class JobOfferController extends ResourceController {
     }
 
     final collection = db.collection("joboffers");
-    final inserted = await collection.insert(jobOffer);
+    final inserted = await collection.insertOne(jobOffer);
 
-    return Response.ok(inserted);
+    print(inserted.document);
+    return Response.ok(inserted.document);
   }
 
   @Operation.put('id')
@@ -62,19 +65,22 @@ class JobOfferController extends ResourceController {
       return Response.badRequest(body: {"error": "No body"});
     }
 
+    final objectId = ObjectId.fromHexString(id);
     final Map<String, dynamic> jobOffer = await request!.body.decode();
 
     final collection = db.collection("joboffers");
-    final updated = await collection.update(where.eq("_id", id), jobOffer);
+    final updated = await collection.updateOne(where.eq("_id", objectId), jobOffer);
 
-    return Response.ok(updated);
+    return Response.ok(updated.document);
   }
 
   @Operation.delete('id')
   Future<Response> deleteUser(@Bind.path('id') String id) async {
-    final collection = db.collection("joboffers");
-    final deleted = await collection.remove(where.eq("_id", id));
+    final objectId = ObjectId.fromHexString(id);
 
-    return Response.ok(deleted);
+    final collection = db.collection("joboffers");
+    final deleted = await collection.deleteOne(where.eq("_id", objectId));
+
+    return Response.ok(deleted.document);
   }
 }
