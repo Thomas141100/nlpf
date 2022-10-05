@@ -1,6 +1,7 @@
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
+import 'package:fht_linkedin/components/post.dart';
 import 'package:flutter/material.dart';
 import '../components/createJobOffer.dart';
 import '../models/user.dart';
