@@ -1,7 +1,8 @@
+import 'package:fht_linkedin/utils/utils.dart';
+
 import 'components/header.dart';
 import 'package:flutter/material.dart';
 import 'components/createJobOffer.dart';
-import 'module/client.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -91,6 +92,8 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () async {
                       if (_jobOfferformKey.currentState!.validate()) {
                         Navigator.of(context).pop();
+                        showSnackBar(context, "Post Created");
+
                         // Client
                       }
                       titleController.clear();
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                       tagsController.clear();
                       companyNameController.clear();
                     },
-                    child: const Text('Sign up'),
+                    child: const Text('Post'),
                   ),
                 ],
               );
