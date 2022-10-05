@@ -1,5 +1,6 @@
-import 'homepage.dart';
+import 'package:fht_linkedin/user.dart';
 import 'package:flutter/material.dart';
+import 'homepage.dart';
 import 'login.dart';
 
 void main() {
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const LoginPage(title: "Login"),
-        '/home': (context) => const HomePage(title: 'Home')
+        '/home': (context) => const HomePage(title: 'Home'),
+        '/user': (context) => const UserPage(title: "User")
       },
     );
   }
