@@ -24,7 +24,7 @@ class UserController extends ResourceController {
   @Operation.get()
   Future<Response> getAllUsers() async {
     final collection = db.collection("users");
-    final result = await collection.find().toList();
+    final result = await collection.find(where.excludeFields(['password'])).toList();
 
     return Response.ok(result);
   }
@@ -34,7 +34,8 @@ class UserController extends ResourceController {
     final objectId = ObjectId.fromHexString(id);
 
     final collection = db.collection("users");
-    final result = await collection.findOne(where.eq("_id", objectId));
+    final result = await collection
+        .findOne(where.eq("_id", objectId).excludeFields(['password']));
 
     return Response.ok(result);
   }

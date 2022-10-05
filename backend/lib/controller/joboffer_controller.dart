@@ -45,17 +45,24 @@ class JobOfferController extends ResourceController {
       return Response.badRequest(body: {"error": "No body"});
     }
 
+    final user = getPayload(request!.raw.headers['authorization']![0]);
+    if (user['isCompany'] == false) {
+      return Response.forbidden();
+    }
+
     final Map<String, dynamic> jobOffer = await request!.body.decode();
     if (!jobOffer.containsKey('employer')) {
-      var user =
-          getPayloadFromHeader(request!.raw.headers['authorization']![0]);
       jobOffer['employer'] = user['id'];
     }
 
-    final collection = db.collection("joboffers");
-    final inserted = await collection.insertOne(jobOffer);
+    final jobOfferCollection = db.collection("joboffers");
+    final inserted = await jobOfferCollection.insertOne(jobOffer);
 
-    print(inserted.document);
+    final objectId = ObjectId.fromHexString(user['id'] as String);
+    final userCollection = db.collection("users");
+    final result = await userCollection.updateOne(where.eq("_id", objectId),
+        modify.addToSet("jobOffers", inserted.document!['_id']));
+
     return Response.ok(inserted.document);
   }
 
@@ -69,7 +76,8 @@ class JobOfferController extends ResourceController {
     final Map<String, dynamic> jobOffer = await request!.body.decode();
 
     final collection = db.collection("joboffers");
-    final updated = await collection.updateOne(where.eq("_id", objectId), jobOffer);
+    final updated =
+        await collection.updateOne(where.eq("_id", objectId), jobOffer);
 
     return Response.ok(updated.document);
   }
