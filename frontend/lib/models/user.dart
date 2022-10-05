@@ -4,4 +4,5 @@ class User {
   String? lastname;
   bool isCompany = false;
   String? companyName;
+  List<String>? jobOffers;
 }
