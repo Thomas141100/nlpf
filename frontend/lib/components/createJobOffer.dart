@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fht_linkedin/module/validators.dart';
 
 class CreateJobOffer extends StatefulWidget {
   final titleController;
@@ -52,12 +53,7 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                           border: OutlineInputBorder(),
                           labelText: 'titre de l\'annconce',
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                        validator: Validators.generalValidator(),
                       ),
                     ),
                     Container(
@@ -68,12 +64,7 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                           border: OutlineInputBorder(),
                           labelText: 'nom de l\'entreprise',
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                        validator: Validators.generalValidator(),
                       ),
                     ),
                   ],

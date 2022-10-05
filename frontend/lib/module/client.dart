@@ -58,6 +58,31 @@ class Client {
     }
   }
 
+  static Future<Response> sendJobOffer(
+      String title, String description, String tags, String companyname) async {
+    Uri url = Uri.http(_url, '/joboffers');
+    var token = await getToken();
+    try {
+      var response = await http.post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{
+          'title': title,
+          'employers': companyname,
+          'description': description,
+          'tags': tags
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
   static Future<bool> saveToken(Response response) async {
     log(response.body);
 
