@@ -23,4 +23,26 @@ class Validators {
   static String? Function(String?) generalValidator() {
     return ValidationBuilder().minLength(1).maxLength(25).build();
   }
+
+  static firstnamelValidator() {
+    if (kDebugMode) {
+      return ValidationBuilder().minLength(1).maxLength(50).build();
+    }
+    return ValidationBuilder()
+        .regExp(RegExp(r"^([A-Z])[a-z]+(-)?[a-z]+$"),
+            "Names must contains only letters")
+        .maxLength(50)
+        .build();
+  }
+
+  static lastnamelValidator() {
+     if (kDebugMode) {
+      return ValidationBuilder().minLength(1).maxLength(50).build();
+    }
+    return ValidationBuilder()
+        .regExp(RegExp(r"^([A-Z])[a-z]+(-)?[a-z]+$"),
+            "Names must contains only letters")
+        .maxLength(50)
+        .build();
+  }
 }

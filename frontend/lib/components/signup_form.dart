@@ -2,13 +2,18 @@ import 'package:fht_linkedin/module/validators.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
+  final TextEditingController? firstnameController;
+  final TextEditingController? lastnameController;
   final emailController;
   final passwordController;
   final companyController;
   final formKey;
 
   const SignupForm(
-      {this.emailController = TextEditingController,
+      {
+      this.firstnameController,
+      this.lastnameController ,
+      this.emailController = TextEditingController,
       this.passwordController = TextEditingController,
       this.companyController = TextEditingController,
       this.formKey = FormState,
@@ -20,12 +25,16 @@ class SignupForm extends StatefulWidget {
 
 class _SignupForm extends State<SignupForm> {
   final passwordConfirmController = TextEditingController();
+  final firstnameConfirmController = TextEditingController();
+  final lastnameConfirmController = TextEditingController();
   bool isCompany = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     passwordConfirmController.dispose();
+    lastnameConfirmController.dispose();
+    firstnameConfirmController.dispose();
     super.dispose();
   }
 
@@ -41,6 +50,28 @@ class _SignupForm extends State<SignupForm> {
               child: const Text(
                 'Sign up',
                 style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                controller: widget.firstnameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Firstname',
+                ),
+                //validator: Validators.firstnamelValidator(),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                controller: widget.lastnameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Lastname',
+                ),
+                validator: Validators.lastnamelValidator(),
               ),
             ),
             Container(

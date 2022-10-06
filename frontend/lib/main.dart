@@ -4,11 +4,11 @@ import 'package:fht_linkedin/routes/route_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
   static MyAppState of(BuildContext context) =>
       context.findAncestorStateOfType<MyAppState>()!;
 
