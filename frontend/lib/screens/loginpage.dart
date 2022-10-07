@@ -52,6 +52,23 @@ class _LoginPage extends State<LoginPage> {
     super.dispose();
   }
 
+  void clearSignUpForm() {
+    signupCompanyNameController.clear();
+    signupEmailController.clear();
+    signupFirstnameController.clear();
+    signupLastNameController.clear();
+    signupPasswordController.clear();
+  }
+
+  User userFromSignUpForm() {
+    return User.withoutId(
+        signupFirstnameController.text,
+        signupLastNameController.text,
+        signupEmailController.text,
+        signupCompanyNameController.text.isNotEmpty,
+        signupCompanyNameController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,11 +170,7 @@ class _LoginPage extends State<LoginPage> {
                                 style: TextButton.styleFrom(
                                     foregroundColor: Colors.redAccent),
                                 onPressed: () {
-                                  signupEmailController.clear();
-                                  signupPasswordController.clear();
-                                  signupCompanyNameController.clear();
-                                  signupFirstnameController.clear();
-                                  signupLastNameController.clear();
+                                  clearSignUpForm();
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text('Cancel'),
@@ -166,31 +179,20 @@ class _LoginPage extends State<LoginPage> {
                               // The "Yes" button
                               TextButton(
                                 onPressed: () async {
-                                  User newUser = User.withoutId(
-                                      signupFirstnameController.text,
-                                      signupLastNameController.text,
-                                      signupEmailController.text,
-                                      signupCompanyNameController
-                                          .text.isNotEmpty,
-                                      signupCompanyNameController.text);
                                   // Close the dialog
                                   if (_signupformKey.currentState!.validate()) {
+                                    User newUser = userFromSignUpForm();
                                     var response = await Client.signup(
                                         newUser, signupPasswordController.text);
                                     if (response.statusCode == 200) {
+                                      clearSignUpForm();
                                       showSnackBar(context, "User Created");
                                       Navigator.of(context).pop();
                                     } else {
                                       showSnackBar(
-                                          context, "Account creation failed",
+                                          context, "User creation failed",
                                           isError: true);
                                     }
-                                  } else {
-                                    signupEmailController.clear();
-                                    signupPasswordController.clear();
-                                    signupCompanyNameController.clear();
-                                    signupFirstnameController.clear();
-                                    signupLastNameController.clear();
                                   }
                                 },
                                 child: const Text('Sign up'),
