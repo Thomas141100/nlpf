@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
+import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 
@@ -35,6 +36,8 @@ class _LoginPage extends State<LoginPage> {
   final signupEmailController = TextEditingController();
   final signupPasswordController = TextEditingController();
   final signupCompanyNameController = TextEditingController();
+  final signupFirstnameController = TextEditingController();
+  final signupLastNameController = TextEditingController();
 
   @override
   void dispose() {
@@ -44,6 +47,8 @@ class _LoginPage extends State<LoginPage> {
     signupCompanyNameController.dispose();
     signupEmailController.dispose();
     signupPasswordController.dispose();
+    signupFirstnameController.dispose();
+    signupLastNameController.dispose();
     super.dispose();
   }
 
@@ -136,10 +141,13 @@ class _LoginPage extends State<LoginPage> {
                         builder: (context) {
                           return AlertDialog(
                             content: SignupForm(
-                                emailController: signupEmailController,
-                                passwordController: signupPasswordController,
-                                companyController: signupCompanyNameController,
-                                formKey: _signupformKey),
+                              emailController: signupEmailController,
+                              passwordController: signupPasswordController,
+                              companyController: signupCompanyNameController,
+                              firstnameController: signupFirstnameController,
+                              lastnameController: signupLastNameController,
+                              formKey: _signupformKey,
+                            ),
                             actions: [
                               TextButton(
                                 style: TextButton.styleFrom(
@@ -148,6 +156,8 @@ class _LoginPage extends State<LoginPage> {
                                   signupEmailController.clear();
                                   signupPasswordController.clear();
                                   signupCompanyNameController.clear();
+                                  signupFirstnameController.clear();
+                                  signupLastNameController.clear();
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text('Cancel'),
@@ -156,31 +166,32 @@ class _LoginPage extends State<LoginPage> {
                               // The "Yes" button
                               TextButton(
                                 onPressed: () async {
+                                  User newUser = User(
+                                      signupFirstnameController.text,
+                                      signupLastNameController.text,
+                                      signupEmailController.text,
+                                      signupCompanyNameController
+                                          .text.isNotEmpty,
+                                      signupCompanyNameController.text);
                                   // Close the dialog
                                   if (_signupformKey.currentState!.validate()) {
                                     var response = await Client.signup(
-                                        signupEmailController.text,
-                                        signupPasswordController.text,
-                                        signupCompanyNameController.text);
+                                        newUser, signupPasswordController.text);
                                     if (response.statusCode == 200) {
                                       showSnackBar(context, "User Created");
                                       Navigator.of(context).pop();
                                     } else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const AlertDialog(
-                                              // Retrieve the text the that user has entered by using the
-                                              // TextEditingController.
-                                              content: Text(
-                                                  "Account Creation Failed"),
-                                            );
-                                          });
+                                      showSnackBar(
+                                          context, "Account creation failed",
+                                          isError: true);
                                     }
+                                  } else {
+                                    signupEmailController.clear();
+                                    signupPasswordController.clear();
+                                    signupCompanyNameController.clear();
+                                    signupFirstnameController.clear();
+                                    signupLastNameController.clear();
                                   }
-                                  signupEmailController.clear();
-                                  signupPasswordController.clear();
-                                  signupCompanyNameController.clear();
                                 },
                                 child: const Text('Sign up'),
                               ),
