@@ -22,21 +22,20 @@ class JobOfferCandidacyController extends ResourceController {
   }
 
   @Operation.get('offerId')
-  Future<Response> getAllCandidacies(
-      @Bind.path('offerId') String offerId) async {
-    final collection = db.collection("candidacies");
-
+  Future<Response> getAllCandidacies(@Bind.path('offerId') String offerId) async {
     var query = where.eq("offer", ObjectId.fromHexString(offerId));
 
-    final result = await collection.find(query).toList();
+    final candidacyCollection = db.collection("candidacies");
+    final result = await candidacyCollection.find(query).toList();
 
     for (final candidacy in result) {
       final userCollection = db.collection("users");
       final user = await userCollection.findOne(where
           .excludeFields(["password", "candidacies"])
-          .eq("_id", ObjectId.fromHexString(candidacy["candidate"] as String)));
+          .eq("_id", candidacy["candidate"]));
       candidacy["candidate"] = user;
     }
+
     return Response.ok(result);
   }
 
@@ -55,7 +54,7 @@ class JobOfferCandidacyController extends ResourceController {
     candidate['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
     if (!candidate.containsKey('candidate')) {
-      candidate['candidate'] = user['id'];
+      candidate['candidate'] = ObjectId.fromHexString(user['id'] as String);
     }
     if (!candidate.containsKey('offer')) {
       candidate['offer'] = ObjectId.fromHexString(offerId);

@@ -1,24 +1,23 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 class User {
-  User(this.email, this.password);
+  User();
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      throw const FormatException('Null JSON in User constructor');
-    }
-    return User(
-      json['email'] as String,
-      json['password'] as String,
-    );
-  }
+  late ObjectId? id;
+  late String? mail;
+  late String? password;
+  late bool? isCompany;
+  late int? creationDate;
+  late List<ObjectId>? candidacies;
 
-  String id;
-  String email;
-  String password;
-
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
-      'email': email,
+      '_id': id,
+      'mail': mail,
       'password': password,
+      'isCompany': isCompany,
+      'creationDate': creationDate,
+      'candidacies': candidacies,
     };
   }
 }

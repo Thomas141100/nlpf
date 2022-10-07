@@ -4,6 +4,8 @@ import 'package:backend/helper/authorized.dart';
 import 'package:conduit/conduit.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
+import '../model/user_model.dart';
+
 class UserController extends ResourceController {
   UserController(this.db);
 
