@@ -1,4 +1,5 @@
 class JobOffer {
+  String _id = "";
   String title = "";
   String employer = "";
   String companyName = "";

@@ -1,4 +1,5 @@
 class User {
+  String _id = "";
   String email = "";
   String? firstname;
   String? lastname;
