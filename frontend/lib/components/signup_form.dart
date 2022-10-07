@@ -55,6 +55,7 @@ class _SignupForm extends State<SignupForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Firstname',
                 ),
+                validator: Validators.firstnamelValidator(),
               ),
             ),
             Container(
@@ -101,7 +102,7 @@ class _SignupForm extends State<SignupForm> {
                   labelText: 'Confirm password',
                 ),
                 validator: (value) {
-                  if (value != widget.passwordController.text) {
+                  if (value == "" || value != widget.passwordController.text) {
                     return 'Please make sure your passwords match';
                   }
                   return null;
