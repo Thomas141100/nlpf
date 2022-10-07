@@ -12,6 +12,9 @@ class User {
 
   User.empty() : this("", "", "", "", false, "");
 
+  User.withoutId(firstname, lastname, email, isCompany, companyName)
+      : this("", firstname, lastname, email, isCompany, companyName);
+
   @override
   String toString() {
     return '$firstname $lastname has email $email';

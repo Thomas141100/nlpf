@@ -166,7 +166,7 @@ class _LoginPage extends State<LoginPage> {
                               // The "Yes" button
                               TextButton(
                                 onPressed: () async {
-                                  User newUser = User(
+                                  User newUser = User.withoutId(
                                       signupFirstnameController.text,
                                       signupLastNameController.text,
                                       signupEmailController.text,
