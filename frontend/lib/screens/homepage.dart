@@ -1,6 +1,7 @@
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/jobofferscreen.dart';
+import 'package:fht_linkedin/utils/constants.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   User? _currentUser;
   List<JobOffer>? _jobOffers;
+  int _columnRatio = 1;
 
   @override
   void dispose() {
@@ -56,6 +58,26 @@ class _HomePageState extends State<HomePage> {
     } else {
       showSnackBar(context, "Cette offre a été supprimée");
       setJobOffers();
+    }
+  }
+
+  void updateGridColumRatio(double dimens) {
+    int columnRatio;
+    if (dimens <= kMobileBreakpoint) {
+      columnRatio = 1;
+    } else if (dimens > kMobileBreakpoint && dimens <= kTabletBreakpoint) {
+      columnRatio = 2;
+    } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
+      columnRatio = 3;
+    } else {
+      columnRatio = 4;
+    }
+    print(
+        'update: colRation $columnRatio, _colRatio $_columnRatio, dimens $dimens');
+    if (columnRatio != _columnRatio) {
+      setState(() {
+        _columnRatio = columnRatio;
+      });
     }
   }
 
@@ -104,6 +126,7 @@ class _HomePageState extends State<HomePage> {
     } else if (_currentUser!.isCompany && _jobOffers == null) {
       setJobOffers();
     }
+    updateGridColumRatio(MediaQuery.of(context).size.width);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -114,17 +137,20 @@ class _HomePageState extends State<HomePage> {
       appBar: Header(
           title:
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.firstname}' : ''}'),
-      body:
-          _currentUser != null && _currentUser!.isCompany && _jobOffers != null
+      body: LayoutBuilder(
+        builder: (context, dimens) {
+          return _currentUser != null &&
+                  _currentUser!.isCompany &&
+                  _jobOffers != null
               ? GridView.count(
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  crossAxisCount: 3,
+                  crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
               : const Center(
                   child: Text('toto'),
-                ),
+                );
+        },
+      ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
           ? FloatingActionButton(
               onPressed: () {

@@ -23,11 +23,21 @@ class OfferCard extends Card {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(40),
         onTap: onTapHandle,
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
+        child: SizedBox(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
           ListTile(
             leading: const Icon(Icons.album),
             title: Text(title),
-            subtitle: Text(description),
+            subtitle: Text(companyName),
+            mouseCursor: MouseCursor.uncontrolled,
+          ),
+          Container(
+            alignment: AlignmentDirectional.topStart,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              description,
+              softWrap: false,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -38,7 +48,7 @@ class OfferCard extends Card {
               const SizedBox(width: 8),
             ],
           )
-        ]),
+        ])),
       ),
     );
   }
