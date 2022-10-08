@@ -1,10 +1,11 @@
-import 'dart:developer';
-
+import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/utils.dart';
 
 class Client {
   static const String _url = "localhost:42069";
@@ -61,6 +62,34 @@ class Client {
       return response;
     } catch (e) {
       return Response("", 500);
+    }
+  }
+
+  static Future<List<JobOffer>> getAllOffers() async {
+    Uri url = Uri.http(_url, '/joboffers');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      var decodedJson = jsonDecode(body);
+      List<JobOffer> offersList = [];
+      for (var jobOffer in decodedJson) {
+        offersList.add(convertJson2JobOffer(jobOffer));
+      }
+      return offersList;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
     }
   }
 
