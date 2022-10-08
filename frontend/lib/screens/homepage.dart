@@ -1,8 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
+import 'package:fht_linkedin/components/search.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -69,11 +69,11 @@ class _HomePageState extends State<HomePage> {
     if (dimens <= kMobileBreakpoint) {
       columnRatio = 1;
     } else if (dimens > kMobileBreakpoint && dimens <= kTabletBreakpoint) {
-      columnRatio = 2;
+      columnRatio = 1;
     } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
-      columnRatio = 3;
+      columnRatio = 2;
     } else {
-      columnRatio = 4;
+      columnRatio = 3;
     }
     if (columnRatio != _columnRatio) {
       setState(() {
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          return _currentUser != null &&
+          Widget bodyWidget = _currentUser != null &&
                   _currentUser!.isCompany &&
                   _jobOffers != null
               ? GridView.count(
@@ -150,6 +150,15 @@ class _HomePageState extends State<HomePage> {
               : const Center(
                   child: Text('toto'),
                 );
+          return Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+            child: Row(
+              children: [
+                const Flexible(flex: 1, child: Search("search")),
+                Flexible(flex: 4, child: bodyWidget)
+              ],
+            ),
+          );
         },
       ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
