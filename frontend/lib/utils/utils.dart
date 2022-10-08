@@ -18,7 +18,7 @@ JobOffer convertJson2JobOffer(Map<dynamic, dynamic> json) {
       json['_id'].toString(),
       json['title'].toString(),
       json['employer'].toString(),
-      json['employers'].toString(),
+      json['companyname'].toString(),
       null,
       [json['tags']],
       json['description']);

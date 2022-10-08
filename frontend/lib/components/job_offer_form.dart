@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/validators.dart';
 
-class CreateJobOffer extends StatefulWidget {
-  final titleController;
-  final descriptionController;
-  final tagsController;
-  final companyNameController;
-  final formKey;
+class JobOfferForm extends StatefulWidget {
+  final String formTitle;
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final TextEditingController tagsController;
+  final TextEditingController companyNameController;
+  final GlobalKey<FormState> formKey;
+  final bool enableInput;
 
-  const CreateJobOffer(
-      {this.titleController = TextEditingController,
-      this.descriptionController = TextEditingController,
-      this.tagsController = TextEditingController,
-      this.companyNameController = TextEditingController,
-      this.formKey = FormState,
-      super.key});
+  const JobOfferForm({
+    required this.formTitle,
+    required this.titleController,
+    required this.descriptionController,
+    required this.tagsController,
+    required this.companyNameController,
+    required this.formKey,
+    this.enableInput = false,
+    super.key,
+  });
 
   @override
-  State<CreateJobOffer> createState() => _CreateJobOffer();
+  State<JobOfferForm> createState() => _CreateJobOffer();
 }
 
-class _CreateJobOffer extends State<CreateJobOffer> {
+class _CreateJobOffer extends State<JobOfferForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -30,9 +35,9 @@ class _CreateJobOffer extends State<CreateJobOffer> {
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
-            child: const Text(
-              'Creation d\'une offre d\'emploi',
-              style: TextStyle(
+            child: Text(
+              widget.formTitle,
+              style: const TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.w500,
                   fontSize: 30),
@@ -50,21 +55,22 @@ class _CreateJobOffer extends State<CreateJobOffer> {
                         controller: widget.titleController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'titre de l\'annconce',
+                          labelText: 'Titre de l\'annonce',
                         ),
                         validator: Validators.generalValidator(),
+                        enabled: widget.enableInput,
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
-                        controller: widget.companyNameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'nom de l\'entreprise',
-                        ),
-                        validator: Validators.generalValidator(),
-                      ),
+                          controller: widget.companyNameController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Nom de l\'entreprise',
+                          ),
+                          validator: Validators.generalValidator(),
+                          enabled: widget.enableInput),
                     ),
                   ],
                 ),
@@ -90,20 +96,20 @@ class _CreateJobOffer extends State<CreateJobOffer> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
-              controller: widget.descriptionController,
-              keyboardType: TextInputType.multiline,
-              maxLines: 10,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'general informations',
-              ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
+                controller: widget.descriptionController,
+                keyboardType: TextInputType.multiline,
+                maxLines: 10,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Description',
+                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Renseignez ce champs';
+                  }
+                  return null;
+                },
+                enabled: widget.enableInput),
           ),
         ],
       ),

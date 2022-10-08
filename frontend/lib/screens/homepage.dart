@@ -5,7 +5,6 @@ import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
 import 'package:flutter/material.dart';
-import '../components/create_job_offer.dart';
 import '../models/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -87,12 +86,20 @@ class _HomePageState extends State<HomePage> {
                             description: jobOffer.description ?? "",
                             companyName: jobOffer.companyName,
                             onTapHandle: () {
-                              print('tap');
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => JobOfferDialog(
+                                        jobOffer: jobOffer,
+                                      ));
                             },
                             firstButton: TextButton(
                               onPressed: () {
-                                print(
-                                    'onPressed update btn is not yet implemented');
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => JobOfferDialog(
+                                          isEdditing: true,
+                                          jobOffer: jobOffer,
+                                        ));
                               },
                               child: const Text('Modifier'),
                             ),
@@ -114,7 +121,9 @@ class _HomePageState extends State<HomePage> {
                   barrierDismissible: false,
                   context: context,
                   builder: (context) {
-                    return JobOfferCreationAlert();
+                    return JobOfferDialog(
+                      isCreating: true,
+                    );
                   },
                 );
               },
