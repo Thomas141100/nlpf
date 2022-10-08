@@ -14,7 +14,7 @@ class MyAuthController extends ResourceController {
   @Operation.post("action")
   Future<Response> action(@Bind.path("action") String action) {
     if (request == null) {
-      return Future.value(Response.badRequest(body: {"error": "No body"}));
+      return Future.value(Response.badRequest(body: {"error": "Pas de body"}));
     }
 
     switch (action) {
@@ -35,7 +35,7 @@ class MyAuthController extends ResourceController {
     final collection = db.collection("users");
     final result = await collection.findOne(where.eq("mail", user['mail']));
     if (result != null) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "L'utilisateur existe déjà 🤪"});
     }
 
     // sanitize input
@@ -80,11 +80,11 @@ class MyAuthController extends ResourceController {
     final collection = db.collection("users");
     final result = await collection.findOne(where.eq("mail", user['mail']));
     if (result == null) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "Mauvais identifiants 😡"});
     }
 
     if (result['password'] != user['password']) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "Mauvais identifiants 😡"});
     }
 
     final String token = generateToken(result);

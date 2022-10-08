@@ -67,6 +67,8 @@ class JobOfferController extends ResourceController {
     final Map<String, dynamic> jobOffer = await request!.body.decode();
     if (!jobOffer.containsKey('employer')) {
       jobOffer['employer'] = user['id'];
+    }
+    if (!jobOffer.containsKey('company')) {
       jobOffer['company'] = user['companyName'];
     }
 

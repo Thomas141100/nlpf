@@ -42,7 +42,7 @@ class JobOfferCandidacyController extends ResourceController {
   @Operation.post('offerId')
   Future<Response> addCandidacy(@Bind.path('offerId') String offerId) async {
     if (request?.body == null || request!.body.isEmpty) {
-      return Response.badRequest(body: {"error": "No body"});
+      return Response.badRequest(body: {"error": "Pas de corps 🥲"});
     }
 
     final user = getPayload(request!.raw.headers['authorization']![0]);
