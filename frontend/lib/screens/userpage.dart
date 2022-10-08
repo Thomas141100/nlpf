@@ -1,21 +1,11 @@
-import 'package:auto_route/annotations.dart';
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
-import 'package:fht_linkedin/qcm/form.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
   @override
   State<UserPage> createState() => _UserPageState();
 }
@@ -24,6 +14,7 @@ class _UserPageState extends State<UserPage> {
   XFile? image;
 
   final ImagePicker picker = ImagePicker();
+  bool ismcqUp = false;
 
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
@@ -86,7 +77,6 @@ class _UserPageState extends State<UserPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
@@ -244,16 +234,6 @@ class _UserPageState extends State<UserPage> {
                       },
                     ),
                   ),
-                  ElevatedButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.green),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: ((context) => const MyForm()),
-                        );
-                      },
-                      child: const Text('Certification QCM')),
                 ],
               ),
             )

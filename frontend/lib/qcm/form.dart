@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import './quiz.dart';
 import './result.dart';
 
@@ -13,6 +12,8 @@ class MyForm extends StatefulWidget {
 }
 
 class _FormState extends State<MyForm> {
+  final String mcqID = '';
+  final int maxScore = 50;
   final _questions = const [
     {
       'questionText': 'Q1. Who created Flutter?',
@@ -98,7 +99,7 @@ class _FormState extends State<MyForm> {
                   questionIndex: _questionIndex,
                   questions: _questions,
                 )
-              : Result(_totalScore, _resetQuiz),
+              : Result(mcqID, maxScore, _totalScore, _resetQuiz),
         ),
       ],
     );

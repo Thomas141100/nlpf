@@ -1,30 +1,30 @@
-// ignore_for_file: avoid_print
-
+import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
+import 'package:fht_linkedin/utils/utils.dart';
 
 class Result extends StatelessWidget {
   final int resultScore;
   final Function resetHandler;
+  final String mcqId;
+  final int maxScore;
 
-  const Result(this.resultScore, this.resetHandler, {Key? key})
+  const Result(this.mcqId, this.maxScore, this.resultScore, this.resetHandler,
+      {Key? key})
       : super(key: key);
 
 //Remark Logic
   String get resultPhrase {
     String resultText;
-    if (resultScore >= 41) {
-      resultText = 'You are awesome!';
-      print(resultScore);
-    } else if (resultScore >= 31) {
-      resultText = 'Pretty likeable!';
-      print(resultScore);
-    } else if (resultScore >= 21) {
-      resultText = 'You need to work more!';
-    } else if (resultScore >= 1) {
-      resultText = 'You need to work hard!';
+    if (resultScore >= 3 * (maxScore / 4)) {
+      resultText = 'Félicitation !';
+    } else if (resultScore >= 2 * (maxScore / 4)) {
+      resultText = 'Vraiment pas mal';
+    } else if (resultScore >= (maxScore / 4)) {
+      resultText = 'Assez bien';
+    } else if (resultScore >= 0) {
+      resultText = 'Rien de bien fou';
     } else {
-      resultText = 'This is a poor score!';
-      print(resultScore);
+      resultText = 'Dur dur';
     }
     return resultText;
   }
@@ -39,24 +39,42 @@ class Result extends StatelessWidget {
           children: <Widget>[
             Text(
               resultPhrase,
-              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
               textAlign: TextAlign.center,
             ), //Text
             Text(
               'Score ' '$resultScore',
-              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
               textAlign: TextAlign.center,
-            ), //Text
+            ),
             TextButton(
-              onPressed: () => {
-                resetHandler(),
-                Navigator.of(context).pop(),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                textStyle: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () async {
+                var response = await Client.savemcq(mcqId, resultScore);
+                if (response.statusCode == 200) {
+                  showSnackBar(context, "mcq sauvegardé");
+                  Navigator.of(context).pop();
+                } else {
+                  showSnackBar(context, "Une erreur est survenu :[",
+                      isError: true);
+                }
+                Navigator.of(context).pop();
+                resetHandler();
               },
               child: Container(
                 color: Colors.blue,
                 padding: const EdgeInsets.all(14),
                 child: const Text(
-                  'Page utilisateur',
+                  'Retour',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
