@@ -1,5 +1,6 @@
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
+import 'package:fht_linkedin/screens/jobofferscreen.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -24,21 +25,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _jobOfferformKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final tagsController = TextEditingController();
-  final companyNameController = TextEditingController();
   User? _currentUser;
   List<JobOffer>? _jobOffers;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    titleController.dispose();
-    descriptionController.dispose();
-    tagsController.dispose();
-    companyNameController.dispose();
     super.dispose();
   }
 
@@ -122,66 +114,7 @@ class _HomePageState extends State<HomePage> {
                   barrierDismissible: false,
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
-                      content: CreateJobOffer(
-                        titleController: titleController,
-                        descriptionController: descriptionController,
-                        tagsController: tagsController,
-                        companyNameController: companyNameController,
-                        formKey: _jobOfferformKey,
-                      ),
-                      actions: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              foregroundColor: Colors.redAccent),
-                          onPressed: () {
-                            titleController.clear();
-                            descriptionController.clear();
-                            tagsController.clear();
-                            companyNameController.clear();
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel'),
-                        ),
-
-                        // The "Yes" button
-                        TextButton(
-                          onPressed: () async {
-                            if (_jobOfferformKey.currentState!.validate()) {
-                              // Client
-                              var response = await Client.sendJobOffer(
-                                titleController.text,
-                                descriptionController.text,
-                                tagsController.text,
-                                companyNameController.text,
-                              );
-                              if (response.statusCode == 200) {
-                                Navigator.of(context).pop();
-                                showSnackBar(context, "JobOffer Created");
-                                setJobOffers();
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AlertDialog(
-                                      // Retrieve the text the that user has entered by using the
-                                      // TextEditingController.
-                                      content: Text("JobOffer Creation Failed"),
-                                    );
-                                  },
-                                );
-                              }
-                            }
-
-                            titleController.clear();
-                            descriptionController.clear();
-                            tagsController.clear();
-                            companyNameController.clear();
-                          },
-                          child: const Text('Post'),
-                        ),
-                      ],
-                    );
+                    return JobOfferCreationAlert();
                   },
                 );
               },
