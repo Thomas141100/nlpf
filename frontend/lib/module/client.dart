@@ -78,7 +78,7 @@ class Client {
         },
         body: jsonEncode(<String, String>{
           'title': title,
-          'employers': companyname,
+          'companyname': companyname,
           'description': description,
           'tags': tags
         }),

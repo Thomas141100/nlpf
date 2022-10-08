@@ -1,11 +1,9 @@
+import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
-import 'package:fht_linkedin/components/post.dart';
-import 'package:fht_linkedin/components/projectProgressCard.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter/material.dart';
-import '../components/createJobOffer.dart';
+import '../components/create_job_offer.dart';
 import '../models/user.dart';
 
 class HomePage extends StatefulWidget {
