@@ -59,6 +59,44 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  List<OfferCard> _buildOfferGridTileList(int max, int pageNumber) {
+    if (max * pageNumber > _jobOffers!.length) {
+      max = _jobOffers!.length;
+    }
+    return List.generate(max, (index) {
+      var jobOffer = _jobOffers![index];
+      return OfferCard(
+          title: jobOffer.title,
+          description: jobOffer.description ?? "",
+          companyName: jobOffer.companyName,
+          onTapHandle: () {
+            showDialog(
+                context: context,
+                builder: (context) => JobOfferDialog(
+                      jobOffer: jobOffer,
+                    ));
+          },
+          firstButton: TextButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => JobOfferDialog(
+                        isEdditing: true,
+                        jobOffer: jobOffer,
+                        updateJobOffersList: setJobOffers,
+                      ));
+            },
+            child: const Text('Modifier'),
+          ),
+          secondButton: TextButton(
+            child: const Text('Supprimer'),
+            onPressed: () {
+              deleteJobOffers(jobOffer.getId());
+            },
+          ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_currentUser == null) {
@@ -78,40 +116,12 @@ class _HomePageState extends State<HomePage> {
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.firstname}' : ''}'),
       body:
           _currentUser != null && _currentUser!.isCompany && _jobOffers != null
-              ? ListView(
-                  children: _jobOffers
-                      ?.map((jobOffer) => OfferCard(
-                            key: ValueKey(jobOffer.getId()),
-                            title: jobOffer.title,
-                            description: jobOffer.description ?? "",
-                            companyName: jobOffer.companyName,
-                            onTapHandle: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => JobOfferDialog(
-                                        jobOffer: jobOffer,
-                                      ));
-                            },
-                            firstButton: TextButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => JobOfferDialog(
-                                          isEdditing: true,
-                                          jobOffer: jobOffer,
-                                          updateJobOffersList: setJobOffers,
-                                        ));
-                              },
-                              child: const Text('Modifier'),
-                            ),
-                            secondButton: TextButton(
-                              child: const Text('Supprimer'),
-                              onPressed: () {
-                                deleteJobOffers(jobOffer.getId());
-                              },
-                            ),
-                          ))
-                      .toList() as List<Widget>)
+              ? GridView.count(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  crossAxisCount: 3,
+                  padding: const EdgeInsets.all(20),
+                  children: _buildOfferGridTileList(10, 1))
               : const Center(
                   child: Text('toto'),
                 ),

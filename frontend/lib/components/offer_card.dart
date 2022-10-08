@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OfferCard extends StatelessWidget {
+class OfferCard extends Card {
   final String title;
   final String description;
   final String companyName;
@@ -30,7 +30,7 @@ class OfferCard extends StatelessWidget {
             subtitle: Text(description),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               firstButton,
               const SizedBox(width: 8),
