@@ -281,6 +281,8 @@ class Client {
     var jsonMap = jsonDecode(response.body);
     User currentUser = User.empty();
     currentUser.email = jsonMap['mail'];
+    currentUser.firstname = jsonMap['firstname'];
+    currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
     return currentUser;
   }

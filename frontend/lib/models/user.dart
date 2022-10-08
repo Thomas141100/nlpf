@@ -15,6 +15,10 @@ class User {
   User.withoutId(firstname, lastname, email, isCompany, companyName)
       : this("", firstname, lastname, email, isCompany, companyName);
 
+  bool isEmptyUser() {
+    return firstname == "" && lastname == "" && email == "";
+  }
+
   @override
   String toString() {
     return '$firstname $lastname has email $email';

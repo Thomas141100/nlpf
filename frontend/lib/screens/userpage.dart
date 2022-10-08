@@ -189,18 +189,10 @@ class _UserPageState extends State<UserPage> {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
                               child: Text(
-                                _currentUser.toString(), //to be changed
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(3.0),
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black)),
-                              child: Text(
-                                _currentUser!.firstname,
-                                style: TextStyle(fontSize: 20),
+                                _currentUser != null
+                                    ? _currentUser!.firstname
+                                    : 'NC',
+                                style: const TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -211,8 +203,24 @@ class _UserPageState extends State<UserPage> {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
                               child: Text(
-                                _currentUser!.email,
-                                style: TextStyle(fontSize: 20),
+                                _currentUser != null
+                                    ? _currentUser!.lastname
+                                    : 'NC',
+                                style: const TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: Text(
+                                _currentUser != null
+                                    ? _currentUser!.email
+                                    : 'NC',
+                                style: const TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
                             ),
