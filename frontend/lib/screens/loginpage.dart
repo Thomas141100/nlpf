@@ -77,11 +77,11 @@ class _LoginPage extends State<LoginPage> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
+        child: Column(
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10, 80, 10, 10),
               child: const Text(
                 'FHT Production',
                 style: TextStyle(
@@ -91,6 +91,7 @@ class _LoginPage extends State<LoginPage> {
               ),
             ),
             Container(
+              width: 600,
               padding: const EdgeInsets.all(10),
               child: TextFormField(
                 controller: emailController,
@@ -102,6 +103,7 @@ class _LoginPage extends State<LoginPage> {
               ),
             ),
             Container(
+              width: 600,
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextFormField(
                 obscureText: true,
