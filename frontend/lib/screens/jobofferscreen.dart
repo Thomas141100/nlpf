@@ -14,12 +14,14 @@ class JobOfferDialog extends AlertDialog {
   final bool isEdditing;
   final bool isCreating;
   final JobOffer? jobOffer;
+  final updateJobOffersList;
 
   JobOfferDialog(
       {super.key,
       this.isEdditing = false,
       this.isCreating = false,
-      this.jobOffer});
+      this.jobOffer,
+      this.updateJobOffersList});
 
   void clearInputs() {
     titleController.clear();
@@ -55,6 +57,7 @@ class JobOfferDialog extends AlertDialog {
             if (response.statusCode == 200) {
               clearInputs();
               Navigator.of(context).pop();
+              updateJobOffersList();
               showSnackBar(context, "L'offre a été créée");
             } else {
               showSnackBar(context, "La création de l'offre a échoué",
@@ -78,7 +81,8 @@ class JobOfferDialog extends AlertDialog {
             if (response.statusCode == 200) {
               clearInputs();
               Navigator.of(context).pop();
-              showSnackBar(context, "JobOffer Created");
+              updateJobOffersList();
+              showSnackBar(context, "L'offre a été mise à jour");
             } else {
               showSnackBar(context, "La mise à jour de l'offre a échoué",
                   isError: true);

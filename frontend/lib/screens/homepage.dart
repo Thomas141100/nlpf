@@ -99,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) => JobOfferDialog(
                                           isEdditing: true,
                                           jobOffer: jobOffer,
+                                          updateJobOffersList: setJobOffers,
                                         ));
                               },
                               child: const Text('Modifier'),
@@ -123,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) {
                     return JobOfferDialog(
                       isCreating: true,
+                      updateJobOffersList: setJobOffers,
                     );
                   },
                 );
