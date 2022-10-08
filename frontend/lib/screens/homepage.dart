@@ -79,9 +79,27 @@ class _HomePageState extends State<HomePage> {
               ? ListView(
                   children: _jobOffers
                       ?.map((jobOffer) => OfferCard(
+                            key: ValueKey(jobOffer.getId()),
                             title: jobOffer.title,
                             description: jobOffer.description ?? "",
                             companyName: jobOffer.companyName,
+                            onTapHandle: () {
+                              print('tap');
+                            },
+                            firstButton: TextButton(
+                              onPressed: () {
+                                print(
+                                    'onPressed update btn is not yet implemented');
+                              },
+                              child: const Text('Modifier'),
+                            ),
+                            secondButton: TextButton(
+                              child: const Text('Supprimer'),
+                              onPressed: () {
+                                print(
+                                    'onPressed delete btn is not yet implemented');
+                              },
+                            ),
                           ))
                       .toList() as List<Widget>)
               : const Center(
