@@ -1,5 +1,7 @@
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
+import 'package:fht_linkedin/models/user.dart';
+import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,6 +15,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   XFile? image;
 
+  User? _currentUser;
   final ImagePicker picker = ImagePicker();
   bool ismcqUp = false;
 
@@ -21,6 +24,14 @@ class _UserPageState extends State<UserPage> {
 
     setState(() {
       image = img;
+    });
+  }
+
+  void setCurrentUser() async {
+    User? user = await Client.getCurrentUser();
+    user ??= {} as User;
+    setState(() {
+      _currentUser = user;
     });
   }
 
@@ -77,6 +88,9 @@ class _UserPageState extends State<UserPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    if (_currentUser == null) {
+      setCurrentUser();
+    }
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
@@ -174,8 +188,18 @@ class _UserPageState extends State<UserPage> {
                               width: 200,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
-                              child: const Text(
-                                'totty',
+                              child: Text(
+                                _currentUser.toString(), //to be changed
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              child: Text(
+                                _currentUser!.firstname,
                                 style: TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
@@ -186,20 +210,8 @@ class _UserPageState extends State<UserPage> {
                               width: 200,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black)),
-                              child: const Text(
-                                'Boy',
-                                style: TextStyle(fontSize: 20),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(3.0),
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black)),
-                              child: const Text(
-                                'tottyboy@gmail.com',
+                              child: Text(
+                                _currentUser!.email,
                                 style: TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
