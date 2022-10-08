@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/components/search.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -62,16 +63,7 @@ class _HomePageState extends State<HomePage> {
       appBar: Header(
           title:
               'Home ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              "TOTO",
-            ),
-          ],
-        ),
-      ),
+      body: const Search('search'),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
           ? FloatingActionButton(
               onPressed: () {
