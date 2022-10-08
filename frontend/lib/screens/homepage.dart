@@ -3,6 +3,7 @@ import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
+import 'package:fht_linkedin/components/search.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -212,19 +213,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
-      body: LayoutBuilder(
-        builder: (context, dimens) {
-          return _currentUser != null && _jobOffers != null
-              ? GridView.count(
-                  crossAxisCount: _columnRatio,
-                  padding: const EdgeInsets.all(20),
-                  children: _buildOfferGridTileList(10, 1))
-              : const Center(
-                  child: Text('Loading...'),
-                );
-        },
-      ),
+              'Home ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
+      body: const Search('search'),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
           ? FloatingActionButton(
               onPressed: () {
