@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 
 class OfferCard extends StatelessWidget {
-  const OfferCard({super.key});
+  var title = "";
+  var description = "";
+  var companyName = "";
+
+  OfferCard(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.companyName});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('An Offer Card'),
-          subtitle: Text('This is an offer card'),
+        ListTile(
+          leading: const Icon(Icons.album),
+          title: Text(title),
+          subtitle: Text(description),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

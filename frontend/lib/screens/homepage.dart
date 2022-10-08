@@ -1,4 +1,5 @@
 import 'package:fht_linkedin/components/offer_card.dart';
+import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   final tagsController = TextEditingController();
   final companyNameController = TextEditingController();
   User? _currentUser;
+  List<JobOffer>? _jobOffers;
 
   @override
   void dispose() {
@@ -48,10 +50,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void setJobOffers() async {
+    var offers = await Client.getAllOffers();
+    setState(() {
+      _jobOffers = offers;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_currentUser == null) {
       setCurrentUser();
+    } else if (_currentUser!.isCompany && _jobOffers == null) {
+      setJobOffers();
     }
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -63,16 +74,19 @@ class _HomePageState extends State<HomePage> {
       appBar: Header(
           title:
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.firstname}' : ''}'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              "TOTO",
-            ),
-          ],
-        ),
-      ),
+      body:
+          _currentUser != null && _currentUser!.isCompany && _jobOffers != null
+              ? ListView(
+                  children: _jobOffers
+                      ?.map((jobOffer) => OfferCard(
+                            title: jobOffer.title,
+                            description: jobOffer.description ?? "",
+                            companyName: jobOffer.companyName,
+                          ))
+                      .toList() as List<Widget>)
+              : const Center(
+                  child: Text('toto'),
+                ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
           ? FloatingActionButton(
               onPressed: () {
