@@ -57,6 +57,17 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void deleteJobOffers(String jobOfferId) async {
+    var response = await Client.deleteJobOffer(jobOfferId);
+    if (response.statusCode == 500) {
+      showSnackBar(context, "Une erreur est survenue lors de la supression",
+          isError: true);
+    } else {
+      showSnackBar(context, "Cette offre a été supprimée");
+      setJobOffers();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_currentUser == null) {
@@ -96,8 +107,7 @@ class _HomePageState extends State<HomePage> {
                             secondButton: TextButton(
                               child: const Text('Supprimer'),
                               onPressed: () {
-                                print(
-                                    'onPressed delete btn is not yet implemented');
+                                deleteJobOffers(jobOffer.getId());
                               },
                             ),
                           ))

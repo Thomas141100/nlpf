@@ -65,6 +65,8 @@ class Client {
     }
   }
 
+  /////////////////Functions relative to the jobOffer part /////////
+
   static Future<List<JobOffer>> getAllOffers() async {
     Uri url = Uri.http(_url, '/joboffers');
     try {
@@ -111,6 +113,24 @@ class Client {
           'description': description,
           'tags': tags
         }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> deleteJobOffer(String jobOfferId) async {
+    Uri url = Uri.http(_url, '/joboffers/$jobOfferId');
+    var token = await getToken();
+    try {
+      var response = await delete(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
       );
       return response;
     } catch (e) {
