@@ -3,6 +3,7 @@ import 'package:fht_linkedin/components/header.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: const Text('Please choose media to select'),
+            title: const Text('Selectionnez un fichier multimedia'),
             content: SizedBox(
               height: MediaQuery.of(context).size.height / 6,
               child: Column(
@@ -56,7 +57,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children: const [
                         Icon(Icons.image),
-                        Text('From Gallery'),
+                        Text('Depuis la galerie de photos'),
                       ],
                     ),
                   ),
@@ -69,7 +70,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children: const [
                         Icon(Icons.camera),
-                        Text('From Camera'),
+                        Text('Prendre une photo'),
                       ],
                     ),
                   ),
@@ -108,11 +109,10 @@ class _UserPageState extends State<UserPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    myAlert();
-                  },
-                  child: const Text('Upload Photo'),
-                ),
+                    onPressed: () {
+                      myAlert();
+                    },
+                    child: const Icon(Icons.photo_camera)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -133,7 +133,7 @@ class _UserPageState extends State<UserPage> {
                         ),
                       )
                     : const Text(
-                        "No Image",
+                        "Actuellement aucune photo de profil",
                         style: TextStyle(fontSize: 20),
                       )
               ],
@@ -230,29 +230,31 @@ class _UserPageState extends State<UserPage> {
                   const SizedBox(
                     height: 100,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.red),
-                      child: const Text(
-                        'Delete Account',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                  TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.red),
+                    child: Column(
+                      children: const [
+                        Icon(Icons.remove_circle, color: Colors.white),
+                        Text(
+                          'Supprimer le compte',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: ((context) => const ConfirmationDialog(
-                                  key: ValueKey(
-                                      'confirmation_dialog_user_delete'),
-                                  title: "Confirmation Dialog",
-                                  message:
-                                      "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
-                                )));
-                      },
+                      ],
                     ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: ((context) => const ConfirmationDialog(
+                                key:
+                                    ValueKey('confirmation_dialog_user_delete'),
+                                title: "Confirmation Dialog",
+                                message:
+                                    "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
+                              )));
+                    },
                   ),
                 ],
               ),
