@@ -39,7 +39,7 @@ class _UserPageState extends State<UserPage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: const Text('Please choose media to select'),
-            content: Container(
+            content: SizedBox(
               height: MediaQuery.of(context).size.height / 6,
               child: Column(
                 children: [
@@ -91,7 +91,7 @@ class _UserPageState extends State<UserPage> {
         title: 'FHT Linkedin - User',
         // displayLogout: false,
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Row(
           mainAxisSize: MainAxisSize.max,

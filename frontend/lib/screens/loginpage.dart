@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
+import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 
@@ -35,6 +36,8 @@ class _LoginPage extends State<LoginPage> {
   final signupEmailController = TextEditingController();
   final signupPasswordController = TextEditingController();
   final signupCompanyNameController = TextEditingController();
+  final signupFirstnameController = TextEditingController();
+  final signupLastNameController = TextEditingController();
 
   @override
   void dispose() {
@@ -44,7 +47,26 @@ class _LoginPage extends State<LoginPage> {
     signupCompanyNameController.dispose();
     signupEmailController.dispose();
     signupPasswordController.dispose();
+    signupFirstnameController.dispose();
+    signupLastNameController.dispose();
     super.dispose();
+  }
+
+  void clearSignUpForm() {
+    signupCompanyNameController.clear();
+    signupEmailController.clear();
+    signupFirstnameController.clear();
+    signupLastNameController.clear();
+    signupPasswordController.clear();
+  }
+
+  User userFromSignUpForm() {
+    return User.withoutId(
+        signupFirstnameController.text,
+        signupLastNameController.text,
+        signupEmailController.text,
+        signupCompanyNameController.text.isNotEmpty,
+        signupCompanyNameController.text);
   }
 
   @override
@@ -136,18 +158,19 @@ class _LoginPage extends State<LoginPage> {
                         builder: (context) {
                           return AlertDialog(
                             content: SignupForm(
-                                emailController: signupEmailController,
-                                passwordController: signupPasswordController,
-                                companyController: signupCompanyNameController,
-                                formKey: _signupformKey),
+                              emailController: signupEmailController,
+                              passwordController: signupPasswordController,
+                              companyController: signupCompanyNameController,
+                              firstnameController: signupFirstnameController,
+                              lastnameController: signupLastNameController,
+                              formKey: _signupformKey,
+                            ),
                             actions: [
                               TextButton(
                                 style: TextButton.styleFrom(
                                     foregroundColor: Colors.redAccent),
                                 onPressed: () {
-                                  signupEmailController.clear();
-                                  signupPasswordController.clear();
-                                  signupCompanyNameController.clear();
+                                  clearSignUpForm();
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text('Cancel'),
@@ -158,29 +181,19 @@ class _LoginPage extends State<LoginPage> {
                                 onPressed: () async {
                                   // Close the dialog
                                   if (_signupformKey.currentState!.validate()) {
+                                    User newUser = userFromSignUpForm();
                                     var response = await Client.signup(
-                                        signupEmailController.text,
-                                        signupPasswordController.text,
-                                        signupCompanyNameController.text);
+                                        newUser, signupPasswordController.text);
                                     if (response.statusCode == 200) {
+                                      clearSignUpForm();
                                       showSnackBar(context, "User Created");
                                       Navigator.of(context).pop();
                                     } else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const AlertDialog(
-                                              // Retrieve the text the that user has entered by using the
-                                              // TextEditingController.
-                                              content: Text(
-                                                  "Account Creation Failed"),
-                                            );
-                                          });
+                                      showSnackBar(
+                                          context, "User creation failed",
+                                          isError: true);
                                     }
                                   }
-                                  signupEmailController.clear();
-                                  signupPasswordController.clear();
-                                  signupCompanyNameController.clear();
                                 },
                                 child: const Text('Sign up'),
                               ),

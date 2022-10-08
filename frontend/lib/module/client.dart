@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fht_linkedin/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
@@ -7,8 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Client {
   static const String _url = "localhost:42069";
 
-  static Future<Response> signup(
-      String mail, String password, String company) async {
+  static Future<Response> signup(User newUser, String password) async {
     Uri url = Uri.http(_url, '/auth/signup');
     try {
       return await post(url,
@@ -16,10 +17,12 @@ class Client {
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: jsonEncode(<String, String>{
-            'mail': mail,
+            'firstname': newUser.firstname,
+            'lastname': newUser.lastname,
+            'mail': newUser.email,
             'password': password,
-            'isCompany': company == '' ? 'false' : 'true',
-            'company': company,
+            'isCompany': newUser.isCompany.toString(),
+            'company': newUser.companyName ?? '',
           }));
     } catch (e) {
       return Response("", 500);
@@ -120,9 +123,9 @@ class Client {
       return null;
     }
     var jsonMap = jsonDecode(response.body);
-    User currentUser = User();
+    User currentUser = User.empty();
     currentUser.email = jsonMap['mail'];
-    currentUser.isCompany = jsonMap['isCompany'];
+    currentUser.isCompany = jsonMap['isCompany'] == "true";
     return currentUser;
   }
 

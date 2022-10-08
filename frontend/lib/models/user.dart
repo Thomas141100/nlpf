@@ -1,9 +1,22 @@
 class User {
-  String _id = "";
-  String email = "";
-  String? firstname;
-  String? lastname;
-  bool isCompany = false;
+  String _id;
+  String email;
+  String firstname;
+  String lastname;
+  bool isCompany;
   String? companyName;
   List<String>? jobOffers;
+
+  User(this._id, this.firstname, this.lastname, this.email, this.isCompany,
+      this.companyName);
+
+  User.empty() : this("", "", "", "", false, "");
+
+  User.withoutId(firstname, lastname, email, isCompany, companyName)
+      : this("", firstname, lastname, email, isCompany, companyName);
+
+  @override
+  String toString() {
+    return '$firstname $lastname has email $email';
+  }
 }

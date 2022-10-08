@@ -2,16 +2,20 @@ import 'package:fht_linkedin/module/validators.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
-  final emailController;
-  final passwordController;
-  final companyController;
-  final formKey;
+  var firstnameController = TextEditingController();
+  var lastnameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var companyController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
-  const SignupForm(
-      {this.emailController = TextEditingController,
-      this.passwordController = TextEditingController,
-      this.companyController = TextEditingController,
-      this.formKey = FormState,
+  SignupForm(
+      {required this.firstnameController,
+      required this.lastnameController,
+      required this.emailController,
+      required this.passwordController,
+      required this.companyController,
+      required this.formKey,
       super.key = const ValueKey("signup_form")});
 
   @override
@@ -41,6 +45,28 @@ class _SignupForm extends State<SignupForm> {
               child: const Text(
                 'Sign up',
                 style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                controller: widget.firstnameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Firstname',
+                ),
+                validator: Validators.firstnamelValidator(),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                controller: widget.lastnameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Lastname',
+                ),
+                validator: Validators.lastnamelValidator(),
               ),
             ),
             Container(
@@ -76,9 +102,7 @@ class _SignupForm extends State<SignupForm> {
                   labelText: 'Confirm password',
                 ),
                 validator: (value) {
-                  if (value == null ||
-                      value.isEmpty ||
-                      value != widget.passwordController.text) {
+                  if (value == "" || value != widget.passwordController.text) {
                     return 'Please make sure your passwords match';
                   }
                   return null;
@@ -109,7 +133,7 @@ class _SignupForm extends State<SignupForm> {
                   ),
                   validator: Validators.generalValidator(),
                 ),
-              )
+              ),
           ],
         ),
       ),
