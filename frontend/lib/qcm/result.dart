@@ -32,32 +32,38 @@ class Result extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            resultPhrase,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ), //Text
-          Text(
-            'Score ' '$resultScore',
-            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ), //Text
-          TextButton(
-            onPressed: () => resetHandler(),
-            child: Container(
-              color: Colors.blue,
-              padding: const EdgeInsets.all(14),
-              child: const Text(
-                'Restart Quiz',
-                style: TextStyle(color: Colors.white),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              resultPhrase,
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ), //Text
+            Text(
+              'Score ' '$resultScore',
+              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ), //Text
+            TextButton(
+              onPressed: () => {
+                resetHandler(),
+                Navigator.of(context).pop(),
+              },
+              child: Container(
+                color: Colors.blue,
+                padding: const EdgeInsets.all(14),
+                child: const Text(
+                  'Page utilisateur',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          ),
-        ], //<Widget>[]
-      ), //Column
-    ); //Center
+          ],
+        ),
+      ),
+    );
   }
 }

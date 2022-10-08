@@ -1,5 +1,7 @@
+import 'package:auto_route/annotations.dart';
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
+import 'package:fht_linkedin/qcm/form.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -218,27 +220,40 @@ class _UserPageState extends State<UserPage> {
                   const SizedBox(
                     height: 100,
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.red),
-                    child: const Text(
-                      'Delete Account',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextButton(
+                      style: TextButton.styleFrom(backgroundColor: Colors.red),
+                      child: const Text(
+                        'Delete Account',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: ((context) => const ConfirmationDialog(
+                                  key: ValueKey(
+                                      'confirmation_dialog_user_delete'),
+                                  title: "Confirmation Dialog",
+                                  message:
+                                      "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
+                                )));
+                      },
                     ),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: ((context) => const ConfirmationDialog(
-                                key:
-                                    ValueKey('confirmation_dialog_user_delete'),
-                                title: "Confirmation Dialog",
-                                message:
-                                    "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
-                              )));
-                    },
                   ),
+                  ElevatedButton(
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.green),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: ((context) => const MyForm()),
+                        );
+                      },
+                      child: const Text('Certification QCM')),
                 ],
               ),
             )
