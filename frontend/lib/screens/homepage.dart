@@ -130,6 +130,7 @@ class _HomePageState extends State<HomePage> {
                               if (response.statusCode == 200) {
                                 Navigator.of(context).pop();
                                 showSnackBar(context, "JobOffer Created");
+                                setJobOffers();
                               } else {
                                 showDialog(
                                   context: context,
