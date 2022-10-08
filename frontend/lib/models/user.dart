@@ -19,6 +19,8 @@ class User {
     return firstname == "" && lastname == "" && email == "";
   }
 
+  String getId() => _id;
+
   @override
   String toString() {
     return '$firstname $lastname has email $email';
