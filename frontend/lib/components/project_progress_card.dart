@@ -8,7 +8,8 @@ class ProjectProgressCard extends StatefulWidget {
   final String projectName;
   final String percentComplete;
   final IconData icon;
-  ProjectProgressCard({
+  const ProjectProgressCard({
+    super.key,
     required this.color,
     required this.progressIndicatorColor,
     required this.percentComplete,
@@ -35,14 +36,14 @@ class _ProjectProgressCardState extends State<ProjectProgressCard> {
         });
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 275),
+        duration: const Duration(milliseconds: 275),
         height: hovered ? 350.0 : 345.0,
         width: hovered ? 500.0 : 495.0,
         decoration: BoxDecoration(
             color: hovered ? widget.color : Colors.white,
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: [
-              BoxShadow(
+              const BoxShadow(
                 color: Colors.black12,
                 blurRadius: 20.0,
                 spreadRadius: 5.0,
@@ -51,51 +52,49 @@ class _ProjectProgressCardState extends State<ProjectProgressCard> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 18.0,
                   ),
                   Container(
                     height: 30.0,
                     width: 30.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      color: hovered ? Colors.white : Colors.black,
+                    ),
                     child: Icon(
                       widget.icon,
                       color: !hovered ? Colors.white : Colors.black,
                       size: 16.0,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      color: hovered ? Colors.white : Colors.black,
-                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 13.0,
                   ),
-                  Container(
-                    child: Text(
-                      widget.projectName,
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.0,
-                        color: hovered ? Colors.white : Colors.black,
-                      ),
+                  Text(
+                    widget.projectName,
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0,
+                      color: hovered ? Colors.white : Colors.black,
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 18.0,
                   ),
-                  Container(
+                  SizedBox(
                     height: 13.0,
                     width: 13.0,
                     child: Icon(
@@ -104,30 +103,28 @@ class _ProjectProgressCardState extends State<ProjectProgressCard> {
                       color: hovered ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8.0,
                   ),
-                  Container(
-                    child: Text(
-                      '5 members',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20.0,
-                        color: hovered ? Colors.white : Colors.black,
-                      ),
+                  Text(
+                    '5 members',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20.0,
+                      color: hovered ? Colors.white : Colors.black,
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5.0,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 18.0,
                   ),
-                  Container(
+                  SizedBox(
                     height: 13.0,
                     width: 13.0,
                     child: Icon(
@@ -136,23 +133,21 @@ class _ProjectProgressCardState extends State<ProjectProgressCard> {
                       color: hovered ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8.0,
                   ),
-                  Container(
-                    child: Text(
-                      '15 Nov 2019',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 10.0,
-                        color: hovered ? Colors.white : Colors.black,
-                      ),
+                  Text(
+                    '15 Nov 2019',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 10.0,
+                      color: hovered ? Colors.white : Colors.black,
                     ),
                   ),
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 8.0, left: 135.0),
+                margin: const EdgeInsets.only(top: 8.0, left: 135.0),
                 child: Text(
                   widget.percentComplete,
                   style: GoogleFonts.quicksand(
@@ -163,20 +158,20 @@ class _ProjectProgressCardState extends State<ProjectProgressCard> {
                 ),
               ),
               AnimatedContainer(
-                duration: Duration(milliseconds: 275),
-                margin: EdgeInsets.only(top: 5.0),
+                duration: const Duration(milliseconds: 275),
+                margin: const EdgeInsets.only(top: 5.0),
                 height: 6.0,
                 width: 160.0,
                 decoration: BoxDecoration(
                   color: hovered
                       ? widget.progressIndicatorColor
-                      : Color(0xffF5F6FA),
+                      : const Color(0xffF5F6FA),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 275),
+                    duration: const Duration(milliseconds: 275),
                     height: 6.0,
                     width:
                         (double.parse(widget.percentComplete.substring(0, 1)) /
