@@ -2,12 +2,10 @@ import 'package:fht_linkedin/mcq/form.dart';
 import 'package:fht_linkedin/mcq/manage_csv.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import '../components/header.dart';
 import 'dart:html' as html;
 import 'dart:convert';
 
 import '../models/mcq.dart';
-import '../utils/utils.dart';
 
 class Check extends StatefulWidget {
   final MCQ? mcq;
