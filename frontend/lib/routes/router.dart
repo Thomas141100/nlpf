@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/screens/loginpage.dart';
-import 'package:fht_linkedin/routes/route_guard.dart';
+import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/screens/userpage.dart';
 
 import '../screens/homepage.dart';
@@ -12,10 +12,10 @@ import '../screens/homepage.dart';
         page: HomePage,
         name: 'HomeRoute',
         path: '/home',
-        guards: [RouteGuard],
+        guards: [AuthGuard],
         initial: true),
     AutoRoute(
-        page: UserPage, name: 'UserRoute', path: '/user', guards: [RouteGuard])
+        page: UserPage, name: 'UserRoute', path: '/user', guards: [AuthGuard])
   ],
 )
 class $AppRouter {}

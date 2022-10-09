@@ -7,7 +7,6 @@ import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import 'package:flutter/material.dart';
 import '../components/signup_form.dart';
-import '../components/header.dart';
 import '../module/validators.dart';
 
 void defaultLoginHandler(
@@ -39,6 +38,8 @@ class _LoginPage extends State<LoginPage> {
   final signupFirstnameController = TextEditingController();
   final signupLastNameController = TextEditingController();
 
+  bool isLoggedIn = false;
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -50,6 +51,21 @@ class _LoginPage extends State<LoginPage> {
     signupFirstnameController.dispose();
     signupLastNameController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    autoLogin();
+  }
+
+  void autoLogin() async {
+    final String? userId = await Client.getToken();
+
+    if (userId != null) {
+      MyApp.of(context).authService.authenticated = true;
+      AutoRouter.of(context).replaceNamed('/home');
+    }
   }
 
   void clearSignUpForm() {
@@ -123,9 +139,11 @@ class _LoginPage extends State<LoginPage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                            'Veuillez vous connecter',
-                            style: TextStyle(fontSize: 15),
+                          Text(
+                            isLoggedIn
+                                ? 'Vous êtes connecté'
+                                : 'Veuillez vous connecter',
+                            style: const TextStyle(fontSize: 15),
                           ),
                           const SizedBox(
                             height: 15,

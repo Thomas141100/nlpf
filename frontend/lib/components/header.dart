@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../module/client.dart';
@@ -47,10 +48,11 @@ class _Header extends State<Header> {
                   ? IconButton(
                       icon: const Icon(Icons.logout),
                       onPressed: () {
+                        MyApp.of(context).authService.authenticated = false;
                         Client.removeToken();
+                        showSnackBar(context, "Utilisateur déconnecté");
                         AutoRouter.of(context)
                             .removeUntil((route) => route.name == "LoginRoute");
-                        showSnackBar(context, "User disconnected");
                       },
                     )
                   : null),
