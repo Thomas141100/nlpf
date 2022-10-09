@@ -26,7 +26,6 @@ class _Search extends State<Search> {
       filter.addCompanyName(_companyController.text);
     }
     if (_tagsController.text != "") filter.addTag(_tagsController.text);
-    print(filter);
   }
 
   final filters = ["Le plus récent", "Le plus recherché", "Le moins recherché"];
@@ -81,7 +80,7 @@ class _Search extends State<Search> {
                     foregroundColor: const Color.fromARGB(255, 242, 235, 233),
                     backgroundColor: const Color.fromARGB(255, 124, 62, 102),
                   ),
-                  child: const Text('Rechercher'),
+                  child: const Text("Rechercher"),
                 ),
               ),
               const Padding(
