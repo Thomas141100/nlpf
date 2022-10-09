@@ -28,7 +28,9 @@ class _Header extends State<Header> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "FHT Linkedin${widget.title.isNotEmpty ? " - ${widget.title}" : ""}"),
+            "FHT Linkedin${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",
+            style: const TextStyle(color: Color.fromARGB(255, 242, 235, 233))),
+        backgroundColor: const Color.fromARGB(255, 36, 58, 115),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

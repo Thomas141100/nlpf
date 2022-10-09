@@ -13,7 +13,7 @@ class _Search extends State<Search> {
     selectedValue = filters[0];
   }
 
-  final filters = ["Le plus récent", "Le plus postulé", "Le moins postulé"];
+  final filters = ["Le plus récent", "Le plus recherché", "Le moins recherché"];
   String? selectedValue;
 
   @override
@@ -25,16 +25,11 @@ class _Search extends State<Search> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            //width: 300,
-            padding: const EdgeInsets.all(10),
-            /*decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 4),
-                borderRadius: BorderRadius.circular(12),
-              ),*/
             child: Column(
               children: [
-                Container(
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
                     'Recherche',
                     style: TextStyle(
                         color: Color.fromARGB(255, 124, 62, 102),
@@ -59,7 +54,20 @@ class _Search extends State<Search> {
                     icon: const Icon(Icons.tag,
                         color: Color.fromARGB(255, 124, 62, 102))),
                 Container(
-                  child: const Text(
+                  height: 50,
+                  margin: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 242, 235, 233),
+                      backgroundColor: const Color.fromARGB(255, 124, 62, 102),
+                    ),
+                    child: const Text('Rechercher'),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
                     'Trier par',
                     style: TextStyle(
                         color: Color.fromARGB(255, 124, 62, 102),
@@ -81,6 +89,11 @@ class _Search extends State<Search> {
                       selectedValue = value;
                     });
                   },
+                  dropdownColor: const Color.fromARGB(255, 242, 235, 233),
+                  iconEnabledColor: const Color.fromARGB(255, 124, 62, 102),
+                  underline: Container(
+                      height: 1,
+                      color: const Color.fromARGB(240, 124, 62, 102)),
                 ),
               ],
             ),
