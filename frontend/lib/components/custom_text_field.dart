@@ -14,18 +14,22 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextField extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      cursorColor: const Color.fromARGB(255, 124, 62, 102),
-      decoration: InputDecoration(
-          labelText: widget.input,
-          labelStyle: const TextStyle(
-              color: Color.fromARGB(255, 124, 62, 102), fontSize: 16),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Color.fromARGB(255, 124, 62, 102)),
-          ),
-          enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color.fromARGB(255, 124, 62, 102))),
-          icon: widget.icon),
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: TextField(
+        cursorColor: const Color.fromARGB(255, 124, 62, 102),
+        decoration: InputDecoration(
+            labelText: widget.input,
+            labelStyle: const TextStyle(
+                color: Color.fromARGB(255, 124, 62, 102), fontSize: 16),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color.fromARGB(255, 124, 62, 102)),
+            ),
+            enabledBorder: const UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Color.fromARGB(255, 124, 62, 102))),
+            icon: widget.icon),
+      ),
     );
   }
 }
