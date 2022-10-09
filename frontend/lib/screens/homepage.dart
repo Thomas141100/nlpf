@@ -1,6 +1,6 @@
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
-import 'package:fht_linkedin/screens/jobofferscreen.dart';
+import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
@@ -72,8 +72,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       columnRatio = 4;
     }
-    print(
-        'update: colRation $columnRatio, _colRatio $_columnRatio, dimens $dimens');
     if (columnRatio != _columnRatio) {
       setState(() {
         _columnRatio = columnRatio;
