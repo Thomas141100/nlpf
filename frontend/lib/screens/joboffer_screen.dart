@@ -4,6 +4,7 @@ import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../components/joboffer_form.dart';
+import '../models/mcq.dart';
 
 class JobOfferDialog extends AlertDialog {
   final _jobOfferformKey = GlobalKey<FormState>();
@@ -32,6 +33,8 @@ class JobOfferDialog extends AlertDialog {
 
   @override
   Widget build(BuildContext context) {
+    MCQ mcq = MCQ.empty();
+
     List<Widget>? actions = [];
     if (isEdditing || isCreating) {
       actions.add(TextButton(
@@ -53,6 +56,7 @@ class JobOfferDialog extends AlertDialog {
               descriptionController.text,
               tagsController.text,
               companyNameController.text,
+              mcq,
             );
             if (response.statusCode == 200) {
               clearInputs();
@@ -123,6 +127,7 @@ class JobOfferDialog extends AlertDialog {
         descriptionController: descriptionController,
         tagsController: tagsController,
         companyNameController: companyNameController,
+        mcq: mcq,
         formKey: _jobOfferformKey,
         formTitle: formTitle,
         enableInput: isCreating || isEdditing,

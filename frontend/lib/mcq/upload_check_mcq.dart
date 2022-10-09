@@ -6,10 +6,12 @@ import '../components/header.dart';
 import 'dart:html' as html;
 import 'dart:convert';
 
+import '../models/mcq.dart';
 import '../utils/utils.dart';
 
 class Check extends StatefulWidget {
-  const Check({super.key});
+  final MCQ mcq;
+  const Check({super.key, required this.mcq});
 
   @override
   State<Check> createState() => _Check();
@@ -17,7 +19,7 @@ class Check extends StatefulWidget {
 
 class _Check extends State<Check> {
   bool importedCSV = false;
-  ManageCSV mcq = ManageCSV();
+  ManageCSV manageCSV = ManageCSV();
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,9 @@ class _Check extends State<Check> {
                           builder: (context) {
                             return AlertDialog(
                               content: MCQForm(
-                                  mcqID: mcq.mcqID,
-                                  maxScore: mcq.maxScore,
-                                  questions: mcq.questions),
+                                  mcqID: manageCSV.mcqID,
+                                  maxScore: manageCSV.maxScore,
+                                  questions: manageCSV.questions),
                             );
                           },
                         );
@@ -82,7 +84,10 @@ class _Check extends State<Check> {
       //decode bytes back to utf8
       String csvString = utf8.decode(csvFile.files.single.bytes!);
       setState(() {
-        importedCSV = mcq.parseCsv(csvString);
+        importedCSV = manageCSV.parseCsv(csvString);
+        widget.mcq.maxScore = manageCSV.maxScore;
+        widget.mcq.expextedScore = manageCSV.expextedScore;
+        widget.mcq.questions = manageCSV.questions;
       });
     }
   }
