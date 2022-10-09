@@ -3,7 +3,7 @@ import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-import '../components/job_offer_form.dart';
+import '../components/joboffer_form.dart';
 
 class JobOfferDialog extends AlertDialog {
   final _jobOfferformKey = GlobalKey<FormState>();
