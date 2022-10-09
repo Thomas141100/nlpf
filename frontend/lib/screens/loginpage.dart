@@ -15,7 +15,7 @@ void defaultLoginHandler(
   if (response.statusCode == 200) {
     showSnackBar(context, "User Connected");
 
-    AutoRouter.of(context).push(const HomeRoute());
+    AutoRouter.of(context).replaceNamed('/home');
   }
 }
 
