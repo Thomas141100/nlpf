@@ -130,7 +130,7 @@ class Client {
     }
   }
 
-  static Future<Response> savemcq(String id, int resultScore) async {
+  static Future<Response> saveMCQ(String id, int resultScore) async {
     Uri url = Uri.http(_url, '/joboffers/$id/mcq');
     var token = await getToken();
     try {

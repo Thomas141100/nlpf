@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
+              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.firstname}' : ''}'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
