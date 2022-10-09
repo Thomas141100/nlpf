@@ -75,25 +75,29 @@ class _Search extends State<Search> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                DropdownButton(
-                  value: selectedValue,
-                  items: filters
-                      .map((e) => DropdownMenuItem<String>(
-                            key: ValueKey(e),
-                            value: e,
-                            child: Text(e),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value;
-                    });
-                  },
-                  dropdownColor: const Color.fromARGB(255, 242, 235, 233),
-                  iconEnabledColor: const Color.fromARGB(255, 124, 62, 102),
-                  underline: Container(
-                      height: 1,
-                      color: const Color.fromARGB(240, 124, 62, 102)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20, left: 20),
+                  child: DropdownButton(
+                    value: selectedValue,
+                    items: filters
+                        .map((e) => DropdownMenuItem<String>(
+                              key: ValueKey(e),
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    isExpanded: true,
+                    dropdownColor: const Color.fromARGB(255, 242, 235, 233),
+                    iconEnabledColor: const Color.fromARGB(255, 124, 62, 102),
+                    underline: Container(
+                        height: 1,
+                        color: const Color.fromARGB(240, 124, 62, 102)),
+                  ),
                 ),
               ],
             ),
