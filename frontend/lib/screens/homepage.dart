@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
@@ -147,8 +146,18 @@ class _HomePageState extends State<HomePage> {
                 ));
       },
       firstButton: TextButton(
-        onPressed: () {
-          showSnackBar(context, "Not Yet Implemented");
+        onPressed: () async {
+          // showSnackBar(context, "Not Yet Implemented");
+          try {
+            var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
+            if (response.statusCode == 200) {
+              showSnackBar(context, "Candidature envoyée");
+            } else {
+              throw ErrorDescription("Failed to candidate");
+            }
+          } catch (e) {
+            showSnackBar(context, "Une erreur est survenue", isError: true);
+          }
         },
         child: const Text('Postuler'),
       ),

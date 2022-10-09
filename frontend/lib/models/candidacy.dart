@@ -16,4 +16,6 @@ class JobOfferCandidacy {
   User candidate = User.empty();
   String offer = "";
   int creationDate = 0;
+
+  String getId() => _id;
 }

@@ -252,6 +252,25 @@ class Client {
     }
   }
 
+  static Future<Response> addCandidacy2JobOffer(String id) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/candidacies');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{"test": "nothing"}),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
   /////////////////Functions relative to the mcq/certification part /////////
 
   static Future<Response> postmcq(
