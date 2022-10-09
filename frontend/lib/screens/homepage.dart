@@ -84,10 +84,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextButton.styleFrom(
                               foregroundColor: Colors.redAccent),
                           onPressed: () {
-                            titleController.clear();
-                            descriptionController.clear();
-                            tagsController.clear();
-                            companyNameController.clear();
+                            dispose();
                             Navigator.of(context).pop();
                           },
                           child: const Text('Cancel'),
