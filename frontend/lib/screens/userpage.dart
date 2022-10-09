@@ -3,7 +3,6 @@ import 'package:fht_linkedin/components/header.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -20,6 +19,13 @@ class _UserPageState extends State<UserPage> {
   final ImagePicker picker = ImagePicker();
   bool ismcqUp = false;
 
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
+
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
 
@@ -33,6 +39,11 @@ class _UserPageState extends State<UserPage> {
     user ??= {} as User;
     setState(() {
       _currentUser = user;
+      if (user != null) {
+        _firstnameController.text = user.firstname;
+        _lastnameController.text = user.lastname;
+        _emailController.text = user.email;
+      }
     });
   }
 
@@ -95,9 +106,7 @@ class _UserPageState extends State<UserPage> {
     if (_currentUser == null) {
       setCurrentUser();
     }
-    String _firstname = _currentUser != null ? _currentUser!.firstname : 'NC';
-    String _lastname = _currentUser != null ? _currentUser!.lastname : 'NC';
-    String _email = _currentUser != null ? _currentUser!.email : 'NC';
+
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
@@ -114,14 +123,6 @@ class _UserPageState extends State<UserPage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        myAlert();
-                      },
-                      child: const Icon(Icons.photo_camera)),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   //if image not null show the image
                   //if image null show text
                   image != null
@@ -197,10 +198,10 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
-                                //controller:
-                                decoration: InputDecoration(
-                                    border: const OutlineInputBorder(),
-                                    labelText: _firstname),
+                                controller: _firstnameController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Prénom"),
                               ),
                             )),
                         Container(
@@ -208,10 +209,10 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
-                                //controller:
-                                decoration: InputDecoration(
-                                    border: const OutlineInputBorder(),
-                                    labelText: _lastname),
+                                controller: _lastnameController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Nom'),
                               ),
                             )),
                         Container(
@@ -219,10 +220,10 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
-                                //controller:
-                                decoration: InputDecoration(
-                                    border: const OutlineInputBorder(),
-                                    labelText: _email),
+                                controller: _emailController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Email'),
                               ),
                             )),
                       ]),
