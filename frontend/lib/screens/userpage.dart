@@ -54,10 +54,10 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: const Text('Selectionnez un fichier multimedia'),
+            title: const Text('Selectionner un fichier multimedia'),
             content: SizedBox(
-              height: MediaQuery.of(context).size.height / 13,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   ElevatedButton(
                     //if user click this button, user can upload image from gallery
