@@ -127,7 +127,7 @@ class JobOfferDialog extends AlertDialog {
         descriptionController: descriptionController,
         tagsController: tagsController,
         companyNameController: companyNameController,
-        mcq: mcq,
+        mcq: isCreating ? mcq : jobOffer!.mcq as MCQ,
         formKey: _jobOfferformKey,
         formTitle: formTitle,
         enableInput: isCreating || isEdditing,

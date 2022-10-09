@@ -5,7 +5,7 @@ import './result.dart';
 class MCQForm extends StatefulWidget {
   final String mcqID;
   final int maxScore;
-  final List<Map<String, Object>> questions;
+  final List<Map<String, Object>>? questions;
   const MCQForm(
       {Key? key,
       required this.mcqID,
@@ -46,11 +46,11 @@ class _FormState extends State<MCQForm> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: _questionIndex < widget.questions.length
+          child: _questionIndex < widget.questions!.length
               ? Quiz(
                   answerQuestion: _answerQuestion,
                   questionIndex: _questionIndex,
-                  questions: widget.questions,
+                  questions: widget.questions as List<Map<String, Object>>,
                 )
               : Result(widget.mcqID, widget.maxScore, _totalScore, _resetQuiz),
         ),

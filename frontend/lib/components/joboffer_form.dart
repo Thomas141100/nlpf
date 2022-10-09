@@ -12,7 +12,7 @@ class JobOfferForm extends StatefulWidget {
   final TextEditingController companyNameController;
   final GlobalKey<FormState> formKey;
   final bool enableInput;
-  final MCQ mcq;
+  final MCQ? mcq;
 
   const JobOfferForm({
     required this.formTitle,
@@ -118,7 +118,7 @@ class _CreateJobOffer extends State<JobOfferForm> {
           ),
           Container(
             padding: const EdgeInsets.all(10),
-            child: Check(mcq: widget.mcq),
+            child: Check(mcq: widget.mcq, enableInput: widget.enableInput),
           ),
         ],
       ),
