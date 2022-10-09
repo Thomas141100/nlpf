@@ -42,9 +42,10 @@ class _FormState extends State<MCQForm> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(30, 80, 30, 0),
+          padding: const EdgeInsets.all(8.0),
           child: _questionIndex < widget.questions.length
               ? Quiz(
                   answerQuestion: _answerQuestion,

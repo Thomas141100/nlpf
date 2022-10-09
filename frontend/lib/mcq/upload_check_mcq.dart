@@ -3,7 +3,10 @@ import 'package:fht_linkedin/mcq/manage_csv.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import '../components/header.dart';
+import 'dart:html' as html;
 import 'dart:convert';
+
+import '../utils/utils.dart';
 
 class Check extends StatefulWidget {
   const Check({super.key});
@@ -18,45 +21,54 @@ class _Check extends State<Check> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Header(
-        key: const ValueKey('header'),
-        title: 'FHT Linkedin - Check',
-        // displayLogout: false,
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
-              onPressed: importCSV,
-              child: const Text("Open file picker"),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(5.0),
+          child: ElevatedButton(
+            onPressed: downloadFile,
+            child: const Text("Télécharger le template CSV"),
           ),
-          Container(
-            padding: const EdgeInsets.all(20.0),
-            child: TextButton(
-              onPressed: importedCSV
-                  ? () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MCQForm(
-                              mcqID: mcq.mcqID,
-                              maxScore: mcq.maxScore,
-                              questions: mcq.questions),
-                        ),
-                      );
-                    }
-                  : null,
-              child: const Text(
-                "Test Form",
-                style: TextStyle(color: Colors.black),
+        ),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: ElevatedButton(
+                onPressed: importCSV,
+                child: const Text("Open file picker"),
               ),
             ),
-          ),
-        ],
-      ),
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              child: ElevatedButton(
+                onPressed: importedCSV
+                    ? () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: MCQForm(
+                                  mcqID: mcq.mcqID,
+                                  maxScore: mcq.maxScore,
+                                  questions: mcq.questions),
+                            );
+                          },
+                        );
+                      }
+                    : null,
+                child: Text(
+                  importedCSV
+                      ? "Tester le QCM"
+                      : "Veuillez importer un fichier CSV",
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -73,5 +85,12 @@ class _Check extends State<Check> {
         importedCSV = mcq.parseCsv(csvString);
       });
     }
+  }
+
+  void downloadFile() {
+    String url = "../assets/csv/template_quizz.csv";
+    html.AnchorElement anchorElement = html.AnchorElement(href: url);
+    anchorElement.download = url;
+    anchorElement.click();
   }
 }
