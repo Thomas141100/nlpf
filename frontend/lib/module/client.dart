@@ -1,10 +1,11 @@
-import 'dart:developer';
-
+import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/utils.dart';
 
 class Client {
   static const String _url = "localhost:42069";
@@ -64,6 +65,77 @@ class Client {
     }
   }
 
+  static Future<Response> deleteUser(String id) async {
+    Uri url = Uri.http(_url, '/users/$id');
+    try {
+      var token = await getToken();
+      var response = await delete(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> updateUser(User user) async {
+    Uri url = Uri.http(_url, '/users/${user.id}');
+    try {
+      var token = await getToken();
+      var response = await put(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          'mail': user.email,
+          'firstname': user.firstname,
+          'lastname': user.lastname
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  /////////////////Functions relative to the jobOffer part /////////
+
+  static Future<List<JobOffer>> getAllOffers() async {
+    Uri url = Uri.http(_url, '/joboffers');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      var decodedJson = jsonDecode(body);
+      List<JobOffer> offersList = [];
+      for (var jobOffer in decodedJson) {
+        offersList.add(convertJson2JobOffer(jobOffer));
+      }
+      return offersList;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
   static Future<Response> sendJobOffer(
       String title, String description, String tags, String companyname) async {
     Uri url = Uri.http(_url, '/joboffers');
@@ -78,7 +150,7 @@ class Client {
         },
         body: jsonEncode(<String, String>{
           'title': title,
-          'employers': companyname,
+          'companyname': companyname,
           'description': description,
           'tags': tags
         }),
@@ -88,6 +160,131 @@ class Client {
       return Response("", 500);
     }
   }
+
+  static Future<Response> updateJobOffer(String id, String title,
+      String description, String tags, String companyname) async {
+    Uri url = Uri.http(_url, '/joboffers/$id');
+    var token = await getToken();
+    try {
+      var response = await put(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{
+          'title': title,
+          'companyname': companyname,
+          'description': description,
+          'tags': tags
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> deleteJobOffer(String jobOfferId) async {
+    Uri url = Uri.http(_url, '/joboffers/$jobOfferId');
+    var token = await getToken();
+    try {
+      var response = await delete(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  /////////////////Functions relative to the mcq/certification part /////////
+
+  static Future<Response> postmcq(
+      String id, List<Map<String, Object>> mcq) async {
+    Uri url = Uri.http(_url, '/joboffers/$id');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(mcq),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> getmcq(
+      String id, List<Map<String, Object>> mcq) async {
+    Uri url = Uri.http(_url, '/joboffers/$id');
+    var token = await getToken();
+    try {
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> saveMCQ(String id, int resultScore) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{
+          'score': resultScore.toString(),
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> getUsermcq(String id) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+/////////////////Functions relative to the token management /////////
 
   static Future<bool> saveToken(Response response) async {
     final prefs = await SharedPreferences.getInstance();
@@ -125,7 +322,10 @@ class Client {
     var jsonMap = jsonDecode(response.body);
     User currentUser = User.empty();
     currentUser.email = jsonMap['mail'];
+    currentUser.firstname = jsonMap['firstname'];
+    currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
+    currentUser.setId(jsonMap['_id']);
     return currentUser;
   }
 

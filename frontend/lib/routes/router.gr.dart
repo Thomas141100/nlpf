@@ -17,15 +17,15 @@ import 'package:flutter/material.dart' as _i5;
 import '../screens/homepage.dart' as _i2;
 import '../screens/loginpage.dart' as _i1;
 import '../screens/userpage.dart' as _i3;
-import 'route_guard.dart' as _i6;
+import 'auth_guard.dart' as _i6;
 
 class AppRouter extends _i4.RootStackRouter {
   AppRouter({
     _i5.GlobalKey<_i5.NavigatorState>? navigatorKey,
-    required this.routeGuard,
+    required this.authGuard,
   }) : super(navigatorKey);
 
-  final _i6.RouteGuard routeGuard;
+  final _i6.AuthGuard authGuard;
 
   @override
   final Map<String, _i4.PageFactory> pagesMap = {
@@ -58,12 +58,12 @@ class AppRouter extends _i4.RootStackRouter {
         _i4.RouteConfig(
           HomeRoute.name,
           path: '/home',
-          guards: [routeGuard],
+          guards: [authGuard],
         ),
         _i4.RouteConfig(
           UserRoute.name,
           path: '/user',
-          guards: [routeGuard],
+          guards: [authGuard],
         ),
       ];
 }

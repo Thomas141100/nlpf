@@ -3,6 +3,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 import '../configuration.dart';
+import '../helper/authorized.dart';
 
 final config = ApplicationConfiguration("config.yaml");
 
@@ -12,9 +13,9 @@ class MyAuthController extends ResourceController {
   final Db db;
 
   @Operation.post("action")
-  Future<Response> action(@Bind.path("action") String action) {
+  Future<Response> action(@Bind.path("action") String action) async {
     if (request == null) {
-      return Future.value(Response.badRequest(body: {"error": "No body"}));
+      return Future.value(Response.badRequest(body: {"error": "Pas de body"}));
     }
 
     switch (action) {
@@ -22,8 +23,10 @@ class MyAuthController extends ResourceController {
         return signup(request!);
       case "login":
         return login(request!);
+      case "check":
+        return check(request!);
       default:
-        return Future.value(Response.notFound());
+        return Response.notFound();
     }
   }
 
@@ -35,7 +38,7 @@ class MyAuthController extends ResourceController {
     final collection = db.collection("users");
     final result = await collection.findOne(where.eq("mail", user['mail']));
     if (result != null) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "L'utilisateur existe déjà 🤪"});
     }
 
     // sanitize input
@@ -80,16 +83,27 @@ class MyAuthController extends ResourceController {
     final collection = db.collection("users");
     final result = await collection.findOne(where.eq("mail", user['mail']));
     if (result == null) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "Mauvais identifiants 😡"});
     }
 
     if (result['password'] != user['password']) {
-      return Response.forbidden();
+      return Response.forbidden(body: {"error": "Mauvais identifiants 😡"});
     }
 
     final String token = generateToken(result);
 
     // send a response
     return Response.ok({'token': token});
+  }
+
+  Future<Response> check(Request request) async {
+    if (request.raw.headers['authorization']?[0] == null)
+      return Response.unauthorized();
+
+    // check if the user is authorized
+    if (!await isAuthorized(db, request.raw.headers['authorization']![0]))
+      return Response.forbidden();
+
+    return Response.ok({"message": "Authorized"});
   }
 }

@@ -31,6 +31,7 @@ class UserCandidacyController extends ResourceController {
     for (final candidacy in result) {
       final offerCollection = db.collection("joboffers");
       final offer = await offerCollection.findOne(where
+          .excludeFields(["candidacies"])
           .eq("_id", candidacy["offer"]));
       candidacy["offer"] = offer;
     }

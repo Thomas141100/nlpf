@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/module/auth.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 
-class RouteGuard extends AutoRedirectGuard {
+class AuthGuard extends AutoRedirectGuard {
   final AuthService authService;
-  RouteGuard(this.authService) {
+  AuthGuard(this.authService) {
     authService.addListener(() {
       if (!authService.authenticated) {
         reevaluate();

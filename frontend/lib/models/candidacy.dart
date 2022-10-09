@@ -1,11 +1,11 @@
 import 'package:fht_linkedin/models/user.dart';
 
-import 'joboffer.dart';
+import 'job_offer.dart';
 
 class UserCandidacy {
   String _id = "";
   String candidate = "";
-  JobOffer offer = JobOffer();
+  JobOffer offer = JobOffer.empty();
   int creationDate = 0;
 }
 

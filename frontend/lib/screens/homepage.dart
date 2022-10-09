@@ -1,9 +1,12 @@
+import 'package:fht_linkedin/components/offer_card.dart';
+import 'package:fht_linkedin/models/job_offer.dart';
+import 'package:fht_linkedin/screens/joboffer_screen.dart';
+import 'package:fht_linkedin/utils/constants.dart';
 import 'package:fht_linkedin/components/search.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
 import 'package:flutter/material.dart';
-import '../components/createJobOffer.dart';
 import '../models/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,20 +26,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _jobOfferformKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final tagsController = TextEditingController();
-  final companyNameController = TextEditingController();
   User? _currentUser;
+  List<JobOffer>? _jobOffers;
+  int _columnRatio = 1;
+
+  var isLoading = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    titleController.dispose();
-    descriptionController.dispose();
-    tagsController.dispose();
-    companyNameController.dispose();
     super.dispose();
   }
 
@@ -48,11 +46,88 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void setJobOffers() async {
+    var offers = await Client.getAllOffers();
+    setState(() {
+      _jobOffers = offers;
+    });
+  }
+
+  void deleteJobOffers(String jobOfferId) async {
+    var response = await Client.deleteJobOffer(jobOfferId);
+    if (response.statusCode == 500) {
+      showSnackBar(context, "Une erreur est survenue lors de la supression",
+          isError: true);
+    } else {
+      showSnackBar(context, "Cette offre a été supprimée");
+      setJobOffers();
+    }
+  }
+
+  void updateGridColumRatio(double dimens) {
+    int columnRatio;
+    if (dimens <= kMobileBreakpoint) {
+      columnRatio = 1;
+    } else if (dimens > kMobileBreakpoint && dimens <= kTabletBreakpoint) {
+      columnRatio = 1;
+    } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
+      columnRatio = 2;
+    } else {
+      columnRatio = 3;
+    }
+    if (columnRatio != _columnRatio) {
+      setState(() {
+        _columnRatio = columnRatio;
+      });
+    }
+  }
+
+  List<OfferCard> _buildOfferGridTileList(int max, int pageNumber) {
+    if (max * pageNumber > _jobOffers!.length) {
+      max = _jobOffers!.length;
+    }
+    return List.generate(max, (index) {
+      var jobOffer = _jobOffers![index];
+      return OfferCard(
+          title: jobOffer.title,
+          description: jobOffer.description ?? "",
+          companyName: jobOffer.companyName,
+          onTapHandle: () {
+            showDialog(
+                context: context,
+                builder: (context) => JobOfferDialog(
+                      jobOffer: jobOffer,
+                    ));
+          },
+          firstButton: TextButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => JobOfferDialog(
+                        isEdditing: true,
+                        jobOffer: jobOffer,
+                        updateJobOffersList: setJobOffers,
+                      ));
+            },
+            child: const Text('Modifier'),
+          ),
+          secondButton: TextButton(
+            child: const Text('Supprimer'),
+            onPressed: () {
+              deleteJobOffers(jobOffer.getId());
+            },
+          ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_currentUser == null) {
       setCurrentUser();
+    } else if (_currentUser!.isCompany && _jobOffers == null) {
+      setJobOffers();
     }
+    updateGridColumRatio(MediaQuery.of(context).size.width);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -62,8 +137,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Home ${_currentUser != null ? ' - ${_currentUser!.email}' : ''}'),
-      body: const Search('search'),
+              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
+      body: LayoutBuilder(
+        builder: (context, dimens) {
+          Widget bodyWidget = _currentUser != null &&
+                  _currentUser!.isCompany &&
+                  _jobOffers != null
+              ? GridView.count(
+                  crossAxisCount: _columnRatio,
+                  padding: const EdgeInsets.all(20),
+                  children: _buildOfferGridTileList(10, 1))
+              : const Center(
+                  child: Text('toto'),
+                );
+          return Row(
+            children: [
+              const Flexible(flex: 1, child: Search("search")),
+              Flexible(flex: 4, child: bodyWidget)
+            ],
+          );
+        },
+      ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
           ? FloatingActionButton(
               onPressed: () {
@@ -71,61 +165,9 @@ class _HomePageState extends State<HomePage> {
                   barrierDismissible: false,
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
-                      content: CreateJobOffer(
-                        titleController: titleController,
-                        descriptionController: descriptionController,
-                        tagsController: tagsController,
-                        companyNameController: companyNameController,
-                        formKey: _jobOfferformKey,
-                      ),
-                      actions: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              foregroundColor: Colors.redAccent),
-                          onPressed: () {
-                            dispose();
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel'),
-                        ),
-
-                        // The "Yes" button
-                        TextButton(
-                          onPressed: () async {
-                            if (_jobOfferformKey.currentState!.validate()) {
-                              // Client
-                              var response = await Client.sendJobOffer(
-                                titleController.text,
-                                descriptionController.text,
-                                tagsController.text,
-                                companyNameController.text,
-                              );
-                              if (response.statusCode == 200) {
-                                Navigator.of(context).pop();
-                                showSnackBar(context, "JobOffer Created");
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AlertDialog(
-                                      // Retrieve the text the that user has entered by using the
-                                      // TextEditingController.
-                                      content: Text("JobOffer Creation Failed"),
-                                    );
-                                  },
-                                );
-                              }
-                            }
-
-                            titleController.clear();
-                            descriptionController.clear();
-                            tagsController.clear();
-                            companyNameController.clear();
-                          },
-                          child: const Text('Post'),
-                        ),
-                      ],
+                    return JobOfferDialog(
+                      isCreating: true,
+                      updateJobOffersList: setJobOffers,
                     );
                   },
                 );

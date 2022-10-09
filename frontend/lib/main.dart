@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/auth.dart';
-import 'package:fht_linkedin/routes/route_guard.dart';
+import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   final authService = AuthService();
-  late final _appRouter = AppRouter(routeGuard: RouteGuard(authService));
+  late final _appRouter = AppRouter(authGuard: AuthGuard(authService));
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
