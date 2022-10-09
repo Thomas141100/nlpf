@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import './quiz.dart';
 import './result.dart';
 
-class MyForm extends StatefulWidget {
+class MCQForm extends StatefulWidget {
   final String mcqID;
   final int maxScore;
   final List<Map<String, Object>> questions;
-  const MyForm(
+  const MCQForm(
       {Key? key,
       required this.mcqID,
       required this.maxScore,
@@ -19,7 +19,7 @@ class MyForm extends StatefulWidget {
   }
 }
 
-class _FormState extends State<MyForm> {
+class _FormState extends State<MCQForm> {
   var _questionIndex = 0;
   var _totalScore = 0;
 

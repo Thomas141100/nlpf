@@ -1,5 +1,5 @@
-import 'package:fht_linkedin/qcm/form.dart';
-import 'package:fht_linkedin/qcm/manage_csv.dart';
+import 'package:fht_linkedin/mcq/form.dart';
+import 'package:fht_linkedin/mcq/manage_csv.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import '../components/header.dart';
@@ -41,7 +41,7 @@ class _Check extends State<Check> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyForm(
+                          builder: (context) => MCQForm(
                               mcqID: mcq.mcqID,
                               maxScore: mcq.maxScore,
                               questions: mcq.questions),
