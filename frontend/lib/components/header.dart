@@ -5,12 +5,14 @@ import '../module/client.dart';
 
 class Header extends StatefulWidget with PreferredSizeWidget {
   var displayLogout = true;
+  var displayProfile = true;
   String title;
 
   Header(
       {super.key = const ValueKey("header"),
       this.title = "",
-      this.displayLogout = true});
+      this.displayLogout = true,
+      this.displayProfile = true});
 
   @override
   State<Header> createState() => _Header();
@@ -29,14 +31,15 @@ class _Header extends State<Header> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: const Icon(Icons.search),
-              tooltip: 'Show Snackbar',
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
-              },
-            ),
+            child: widget.displayProfile
+                ? IconButton(
+                    icon: const Icon(Icons.person),
+                    tooltip: 'Show Snackbar',
+                    onPressed: () {
+                      AutoRouter.of(context).pushNamed("/user");
+                    },
+                  )
+                : null,
           ),
           Padding(
               padding: const EdgeInsets.only(right: 20.0),
