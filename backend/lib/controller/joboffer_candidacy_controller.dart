@@ -23,10 +23,8 @@ class JobOfferCandidacyController extends ResourceController {
 
   @Operation.get('offerId')
   Future<Response> getAllCandidacies(@Bind.path('offerId') String offerId) async {
-    var query = where.eq("offer", ObjectId.fromHexString(offerId));
-
     final candidacyCollection = db.collection("candidacies");
-    final result = await candidacyCollection.find(query).toList();
+    final result = await candidacyCollection.find(where.eq("offer", ObjectId.fromHexString(offerId))).toList();
 
     for (final candidacy in result) {
       final userCollection = db.collection("users");

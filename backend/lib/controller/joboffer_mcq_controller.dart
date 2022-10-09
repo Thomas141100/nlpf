@@ -22,25 +22,18 @@ class JobOfferMCQController extends ResourceController {
   }
 
   @Operation.get('offerId')
-  Future<Response> getAllMCQs(@Bind.path('offerId') String offerId) async {
-    var query = where.eq("offer", ObjectId.fromHexString(offerId));
-
+  Future<Response> getJobOfferMCQ(@Bind.path('offerId') String offerId) async {
     final mcqCollection = db.collection("mcqs");
-    final result = await mcqCollection.find(query).toList();
+    final result = await mcqCollection.findOne(where.eq("offer", ObjectId.fromHexString(offerId)));
 
-    // for (final candidacy in result) {
-    //   final userCollection = db.collection("users");
-    //   final user = await userCollection.findOne(where
-    //       .excludeFields(["password", "candidacies"])
-    //       .eq("_id", candidacy["candidate"]));
-    //   candidacy["candidate"] = user;
-    // }
-
+     if (result == null) {
+      return Response.notFound();
+    }
     return Response.ok(result);
   }
 
   @Operation.post('offerId')
-  Future<Response> addMCQ(@Bind.path('offerId') String offerId) async {
+  Future<Response> addJobOfferMCQ(@Bind.path('offerId') String offerId) async {
     if (request?.body == null || request!.body.isEmpty) {
       return Response.badRequest(body: {"error": "Pas de corps 🥲"});
     }
@@ -52,6 +45,7 @@ class JobOfferMCQController extends ResourceController {
 
     final Map<String, dynamic> mcq = await request!.body.decode();
     mcq['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    mcq['answers'] = [];
 
     if (!mcq.containsKey('offer')) {
       mcq['offer'] = ObjectId.fromHexString(offerId);
