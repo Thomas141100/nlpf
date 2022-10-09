@@ -89,6 +89,88 @@ class Client {
     }
   }
 
+  /////////////////Functions relative to the mcq/certification part /////////
+
+  static Future<Response> postmcq(
+      String id, List<Map<String, Object>> mcq) async {
+    Uri url = Uri.http(_url, '/joboffers/$id');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(mcq),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> getmcq(
+      String id, List<Map<String, Object>> mcq) async {
+    Uri url = Uri.http(_url, '/joboffers/$id');
+    var token = await getToken();
+    try {
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> savemcq(String id, int resultScore) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{
+          'score': resultScore.toString(),
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> getUsermcq(String id) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+/////////////////Functions relative to the token management /////////
+
   static Future<bool> saveToken(Response response) async {
     final prefs = await SharedPreferences.getInstance();
     var token = jsonDecode(response.body)['token'];

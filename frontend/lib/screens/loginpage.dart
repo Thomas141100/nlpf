@@ -75,136 +75,142 @@ class _LoginPage extends State<LoginPage> {
       appBar: Header(
         displayLogout: false,
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
-              child: const Text(
-                'FHT Production',
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'email',
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.fromLTRB(10, 80, 10, 10),
+                child: const Text(
+                  'FHT Production',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30),
                 ),
-                validator: Validators.emailValidator(),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextFormField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-                validator: Validators.passwordValidator(),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const AlertDialog(
-                        // Retrieve the text the that user has entered by using the
-                        // TextEditingController.
-                        content: Text("Get Fucked for now"),
-                      );
-                    });
-              },
-              child: const Text(
-                'Forgot Password',
-              ),
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: ElevatedButton(
-                child: const Text('Sign in'),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    MyApp.of(context).authService.authenticated = true;
-                    widget._onLoginCallback(
-                        context, emailController.text, passwordController.text);
-                  }
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(fontSize: 20),
+              Container(
+                width: 600,
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'email',
                   ),
+                  validator: Validators.emailValidator(),
+                ),
+              ),
+              Container(
+                width: 600,
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: TextFormField(
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                  validator: Validators.passwordValidator(),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const AlertDialog(
+                          // Retrieve the text the that user has entered by using the
+                          // TextEditingController.
+                          content: Text("Get Fucked for now"),
+                        );
+                      });
+                },
+                child: const Text(
+                  'Forgot Password',
+                ),
+              ),
+              Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  child: const Text('Sign in'),
                   onPressed: () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: SignupForm(
-                              emailController: signupEmailController,
-                              passwordController: signupPasswordController,
-                              companyController: signupCompanyNameController,
-                              firstnameController: signupFirstnameController,
-                              lastnameController: signupLastNameController,
-                              formKey: _signupformKey,
-                            ),
-                            actions: [
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                    foregroundColor: Colors.redAccent),
-                                onPressed: () {
-                                  clearSignUpForm();
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Cancel'),
-                              ),
-
-                              // The "Yes" button
-                              TextButton(
-                                onPressed: () async {
-                                  // Close the dialog
-                                  if (_signupformKey.currentState!.validate()) {
-                                    User newUser = userFromSignUpForm();
-                                    var response = await Client.signup(
-                                        newUser, signupPasswordController.text);
-                                    if (response.statusCode == 200) {
-                                      clearSignUpForm();
-                                      showSnackBar(context, "User Created");
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      showSnackBar(
-                                          context, "User creation failed",
-                                          isError: true);
-                                    }
-                                  }
-                                },
-                                child: const Text('Sign up'),
-                              ),
-                            ],
-                          );
-                        });
+                    if (_formKey.currentState!.validate()) {
+                      MyApp.of(context).authService.authenticated = true;
+                      widget._onLoginCallback(context, emailController.text,
+                          passwordController.text);
+                    }
                   },
-                )
-              ],
-            ),
-          ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Does not have account?'),
+                  TextButton(
+                    child: const Text(
+                      'Sign up',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: SignupForm(
+                                emailController: signupEmailController,
+                                passwordController: signupPasswordController,
+                                companyController: signupCompanyNameController,
+                                firstnameController: signupFirstnameController,
+                                lastnameController: signupLastNameController,
+                                formKey: _signupformKey,
+                              ),
+                              actions: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: Colors.redAccent),
+                                  onPressed: () {
+                                    clearSignUpForm();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+
+                                // The "Yes" button
+                                TextButton(
+                                  onPressed: () async {
+                                    // Close the dialog
+                                    if (_signupformKey.currentState!
+                                        .validate()) {
+                                      User newUser = userFromSignUpForm();
+                                      var response = await Client.signup(
+                                          newUser,
+                                          signupPasswordController.text);
+                                      if (response.statusCode == 200) {
+                                        clearSignUpForm();
+                                        showSnackBar(context, "User Created");
+                                        Navigator.of(context).pop();
+                                      } else {
+                                        showSnackBar(
+                                            context, "User creation failed",
+                                            isError: true);
+                                      }
+                                    }
+                                  },
+                                  child: const Text('Sign up'),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -19,4 +19,6 @@ class User {
   String toString() {
     return '$firstname $lastname has email $email';
   }
+
+  String get id => _id;
 }
