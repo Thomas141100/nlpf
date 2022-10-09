@@ -3,7 +3,10 @@ import 'package:fht_linkedin/utils/filters.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
-  const Search(String s, {super.key = const ValueKey("search")});
+  Function({Filter? filters}) searchOffersWithFilters;
+  Search(
+      {super.key = const ValueKey("search"),
+      required this.searchOffersWithFilters});
 
   @override
   State<Search> createState() => _Search();
@@ -20,13 +23,13 @@ class _Search extends State<Search> {
   }
 
   void searchHandle() {
-    Filter filter = Filter();
-    if (_titleController.text != "") filter.addJobTitle(_titleController.text);
+    Filter filters = Filter();
+    if (_titleController.text != "") filters.addJobTitle(_titleController.text);
     if (_companyController.text != "") {
-      filter.addCompanyName(_companyController.text);
+      filters.addCompanyName(_companyController.text);
     }
-    if (_tagsController.text != "") filter.addTag(_tagsController.text);
-    print(filter);
+    if (_tagsController.text != "") filters.addTag(_tagsController.text);
+    widget.searchOffersWithFilters(filters: filters);
   }
 
   final filters = ["Le plus récent", "Le plus recherché", "Le moins recherché"];

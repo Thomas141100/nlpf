@@ -1,5 +1,6 @@
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
+import 'package:fht_linkedin/utils/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -108,8 +109,8 @@ class Client {
 
   /////////////////Functions relative to the jobOffer part /////////
 
-  static Future<List<JobOffer>> getAllOffers() async {
-    Uri url = Uri.http(_url, '/joboffers');
+  static Future<List<JobOffer>> getAllOffers({Filter? filters}) async {
+    Uri url = Uri.http(_url, '/joboffers', filters?.parameters);
     try {
       var token = await getToken();
       var response = await get(
