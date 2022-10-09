@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../module/client.dart';
@@ -13,7 +12,7 @@ class Header extends StatefulWidget with PreferredSizeWidget {
       {super.key = const ValueKey("header"),
       this.title = "",
       this.displayLogout = true,
-      this.displayProfile = true });
+      this.displayProfile = true});
 
   @override
   State<Header> createState() => _Header();
@@ -33,13 +32,14 @@ class _Header extends State<Header> {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: widget.displayProfile
-                  ? IconButton(
-              icon: const Icon(Icons.person),
-              tooltip: 'Show Snackbar',
-              onPressed: () {
-                AutoRouter.of(context).pushNamed("/user");
-              },
-            ) : null,
+                ? IconButton(
+                    icon: const Icon(Icons.person),
+                    tooltip: 'Show Snackbar',
+                    onPressed: () {
+                      AutoRouter.of(context).pushNamed("/user");
+                    },
+                  )
+                : null,
           ),
           Padding(
               padding: const EdgeInsets.only(right: 20.0),

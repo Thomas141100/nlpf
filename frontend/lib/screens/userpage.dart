@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
 import 'package:fht_linkedin/models/user.dart';
@@ -307,12 +308,34 @@ class _UserPageState extends State<UserPage> {
                         onPressed: () {
                           showDialog(
                               context: context,
-                              builder: ((context) => const ConfirmationDialog(
-                                    key: ValueKey(
+                              builder: ((context) => ConfirmationDialog(
+                                    key: const ValueKey(
                                         'confirmation_dialog_user_delete'),
                                     title: "Confirmation Dialog",
                                     message:
                                         "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
+                                    confirmHandle: _currentUser != null
+                                        ? () async {
+                                            var response =
+                                                await Client.deleteUser(
+                                                    _currentUser!.getId());
+                                            if (response.statusCode == 200) {
+                                              Client.removeToken();
+                                              // ignore: use_build_context_synchronously
+                                              AutoRouter.of(context)
+                                                  .removeUntil((route) =>
+                                                      route.name ==
+                                                      "LoginRoute");
+                                              // ignore: use_build_context_synchronously
+                                              showSnackBar(context,
+                                                  "Le compte a été supprimé");
+                                            } else {
+                                              showSnackBar(context,
+                                                  "Une erreur est survenue",
+                                                  isError: true);
+                                            }
+                                          }
+                                        : null,
                                   )));
                         },
                       ),

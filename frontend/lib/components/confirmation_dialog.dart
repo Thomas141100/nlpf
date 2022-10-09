@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class ConfirmationDialog extends StatelessWidget {
   final String title;
   final String message;
+  final Function()? confirmHandle;
   const ConfirmationDialog(
-      {super.key, required this.title, required this.message});
+      {super.key,
+      required this.title,
+      required this.message,
+      this.confirmHandle});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +18,17 @@ class ConfirmationDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
             onPressed: (() {
-              Navigator.pop(context, 'Cancel');
+              Navigator.pop(context, 'Annuler');
             }),
             child: const Text('Cancel')),
         TextButton(
-            onPressed: (() => Navigator.pop(context, 'OK')),
-            child: const Text('Ok')),
+            onPressed: (() {
+              if (confirmHandle != null) {
+                confirmHandle!();
+              }
+              Navigator.pop(context, 'OK');
+            }),
+            child: const Text('Confirmer')),
       ],
     );
   }
