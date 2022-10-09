@@ -65,6 +65,47 @@ class Client {
     }
   }
 
+  static Future<Response> deleteUser(String id) async {
+    Uri url = Uri.http(_url, '/users/$id');
+    try {
+      var token = await getToken();
+      var response = await delete(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> updateUser(User user) async {
+    Uri url = Uri.http(_url, '/users/${user.id}');
+    try {
+      var token = await getToken();
+      var response = await put(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          'mail': user.email,
+          'firstname': user.firstname,
+          'lastname': user.lastname
+        }),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
   /////////////////Functions relative to the jobOffer part /////////
 
   static Future<List<JobOffer>> getAllOffers() async {
@@ -92,24 +133,6 @@ class Client {
       return offersList;
     } catch (e) {
       throw ErrorDescription("Failed to fetch all offers. Code $e");
-    }
-  }
-
-  static Future<Response> deleteUser(String id) async {
-    Uri url = Uri.http(_url, '/users/$id');
-    try {
-      var token = await getToken();
-      var response = await delete(
-        url,
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json",
-          "Authorization": "Bearer $token"
-        },
-      );
-      return response;
-    } catch (e) {
-      return Response("", 500);
     }
   }
 
@@ -302,6 +325,7 @@ class Client {
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
+    currentUser.setId(jsonMap['_id']);
     return currentUser;
   }
 

@@ -2,6 +2,7 @@ import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/header.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
+import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -22,9 +23,8 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController =
-      TextEditingController();
+
+  bool reRender = false;
 
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
@@ -45,6 +45,19 @@ class _UserPageState extends State<UserPage> {
         _emailController.text = user.email;
       }
     });
+  }
+
+  void updateRender() {
+    setState(() {
+      reRender = !reRender;
+    });
+  }
+
+  bool informationsChanged() {
+    if (_currentUser == null) return false;
+    return _currentUser!.firstname != _firstnameController.text ||
+        _currentUser!.lastname != _lastnameController.text ||
+        _currentUser!.email != _emailController.text;
   }
 
   void myAlert() {
@@ -68,7 +81,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children: const [
                         Icon(Icons.image),
-                        Text(' Depuis la galerie de photos'),
+                        Text('Depuis la galerie de photos'),
                       ],
                     ),
                   ),
@@ -84,7 +97,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children: const [
                         Icon(Icons.camera),
-                        Text(' Prendre une photo'),
+                        Text('Prendre une photo'),
                       ],
                     ),
                   ),
@@ -198,6 +211,7 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
+                                onChanged: (_) => updateRender(),
                                 controller: _firstnameController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
@@ -209,6 +223,7 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
+                                onChanged: (_) => updateRender(),
                                 controller: _lastnameController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
@@ -220,6 +235,7 @@ class _UserPageState extends State<UserPage> {
                             child: SizedBox(
                               width: 250,
                               child: TextFormField(
+                                onChanged: (_) => updateRender(),
                                 controller: _emailController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
@@ -232,12 +248,34 @@ class _UserPageState extends State<UserPage> {
                     child: Column(children: [
                       TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 10, 129, 12),
+                          backgroundColor: informationsChanged()
+                              ? const Color.fromARGB(255, 10, 129, 12)
+                              : Colors.grey,
                         ),
-                        onPressed: () {
-                          //FIXME:
-                        },
+                        onPressed: informationsChanged()
+                            ? () async {
+                                try {
+                                  var response = await Client.updateUser(User(
+                                      _currentUser!.id,
+                                      _firstnameController.text,
+                                      _lastnameController.text,
+                                      _emailController.text,
+                                      _currentUser!.isCompany,
+                                      _currentUser!.companyName));
+                                  if (response.statusCode != 200) {
+                                    throw ErrorDescription(
+                                        "Failed to update user");
+                                  }
+                                  showSnackBar(
+                                      context, "Votre profil a été mis à jour");
+                                  setCurrentUser();
+                                } catch (e) {
+                                  showSnackBar(
+                                      context, "La mise à jour a échoué",
+                                      isError: true);
+                                }
+                              }
+                            : null,
                         child: Row(children: const [
                           Icon(Icons.save, color: Colors.white),
                           Text(
@@ -310,7 +348,7 @@ class _UserPageState extends State<UserPage> {
                       backgroundColor: const Color.fromARGB(255, 10, 129, 12),
                     ),
                     onPressed: () {
-                      //FIXME:
+                      showSnackBar(context, "Feature not yet implemented");
                     },
                     child: Row(children: const [
                       Icon(Icons.save, color: Colors.white),
