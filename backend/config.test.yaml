@@ -1,3 +1,0 @@
-port: 42069
-mongoUri: mongodb://root:example@nlpf_mongo:27017/testing?authSource=admin
-jwtSecret: flyhalf.team

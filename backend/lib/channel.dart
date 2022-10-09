@@ -14,8 +14,8 @@ class BackendChannel extends ApplicationChannel {
   late Db db;
 
   @override
-  Future prepare({String? configPath}) async {
-    final config = ApplicationConfiguration(configPath ?? "config.yaml");
+  Future prepare() async {
+    final config = ApplicationConfiguration(options?.configurationFilePath ?? "config.yaml");
     db = Db(config.mongoUri);
     await db.open();
     print("Connected to MongoDB at ${config.mongoUri}");
