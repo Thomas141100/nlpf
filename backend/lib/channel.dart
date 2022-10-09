@@ -10,15 +10,15 @@ import 'controller/joboffer_mcq_controller.dart';
 import 'controller/user_candidacy_controller.dart';
 import 'controller/user_controller.dart';
 
-class Channel extends ApplicationChannel {
+class BackendChannel extends ApplicationChannel {
   late Db db;
 
   @override
-  Future prepare() async {
-    final config = ApplicationConfiguration("config.yaml");
+  Future prepare({String? configPath}) async {
+    final config = ApplicationConfiguration(configPath ?? "config.yaml");
     db = Db(config.mongoUri);
     await db.open();
-    print("Connected to MongoDB");
+    print("Connected to MongoDB at ${config.mongoUri}");
   }
 
   @override

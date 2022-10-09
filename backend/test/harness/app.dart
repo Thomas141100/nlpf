@@ -19,7 +19,7 @@ export 'package:conduit/conduit.dart';
 ///           });
 ///         }
 ///
-class Harness extends TestHarness<Channel> {
+class Harness extends TestHarness<BackendChannel> {
   @override
   Future onSetUp() async {}
 

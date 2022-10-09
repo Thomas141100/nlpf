@@ -1,7 +1,7 @@
 import 'package:backend/backend.dart';
 
 Future main() async {
-  final app = Application<Channel>()
+  final app = Application<BackendChannel>()
     ..options.configurationFilePath = "config.yaml"
     ..options.port = 42069;
 
