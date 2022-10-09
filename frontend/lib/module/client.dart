@@ -168,7 +168,8 @@ class Client {
       var decodedJson = jsonDecode(body);
       List<JobOffer> offersList = [];
       for (var jobOffer in decodedJson) {
-        offersList.add(convertJson2JobOffer(jobOffer));
+        var temp = convertJson2JobOffer(jobOffer);
+        offersList.add(temp);
       }
       return offersList;
     } catch (e) {
@@ -379,7 +380,7 @@ class Client {
     return utf8.decode(base64Url.decode(normalizedSource));
   }
 
-  static getCurrentUser() async {
+  static Future<User?> getCurrentUser() async {
     var token = await getToken();
     var userId = jsonDecode(getJsonFromJWT(token!))['id'];
     var response = await getUser(userId);

@@ -37,6 +37,15 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    Client.getCurrentUser().then((user) {
+      user ??= {} as User;
+      _currentUser = user;
+    });
+    super.initState();
+  }
+
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
     user ??= {} as User;
@@ -134,6 +143,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   OfferCard _buildUserOfferCard(JobOffer jobOffer) {
+    void candidateHandle() async {
+      try {
+        var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
+        if (response.statusCode == 200) {
+          showSnackBar(context, "Candidature envoyée");
+        } else {
+          throw ErrorDescription("Failed to candidate");
+        }
+      } catch (e) {
+        showSnackBar(context, "Une erreur est survenue", isError: true);
+      }
+    }
+
+    jobOffer.candidacies?.forEach((element) {
+      print("$element ${_currentUser!.getId()}");
+    });
+    print(
+        '${jobOffer.candidacies != null} ${jobOffer.candidacies?.contains(_currentUser!.getId())}');
     return OfferCard(
       title: jobOffer.title,
       description: jobOffer.description ?? "",
@@ -147,17 +174,10 @@ class _HomePageState extends State<HomePage> {
       },
       firstButton: TextButton(
         onPressed: () async {
-          // showSnackBar(context, "Not Yet Implemented");
-          try {
-            var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
-            if (response.statusCode == 200) {
-              showSnackBar(context, "Candidature envoyée");
-            } else {
-              throw ErrorDescription("Failed to candidate");
-            }
-          } catch (e) {
-            showSnackBar(context, "Une erreur est survenue", isError: true);
-          }
+          jobOffer.candidacies != null &&
+                  jobOffer.candidacies!.contains(_currentUser!.id)
+              ? null
+              : candidateHandle;
         },
         child: const Text('Postuler'),
       ),
