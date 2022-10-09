@@ -1,25 +1,24 @@
 class Filter {
-  String _companyName = "";
-  String _jobTitle = "";
-  final List<String> _tags = [];
+  Map<String, dynamic> parameters = {};
 
   Filter();
 
-  void addCompanyName(String companyName) => _companyName = companyName;
+  void addCompanyName(dynamic companyName) =>
+      parameters.addEntries([MapEntry("company", companyName)]);
 
-  void addJobTitle(String jobTitle) => _jobTitle = jobTitle;
+  void addJobTitle(String jobTitle) =>
+      parameters.addEntries([MapEntry("title", jobTitle)]);
 
-  void addTag(String tag) => _tags.add(tag);
+  void addTag(String tag) {
+    if (parameters.containsKey("tags")) {
+      parameters.update("tags", (value) => value += ",$tag");
+    } else {
+      parameters.addEntries([MapEntry("tags", tag)]);
+    }
+  }
 
   @override
   String toString() {
-    String queryString = "?";
-    List<String> queryStrings = [];
-    if (_companyName != "") queryStrings.add("company=$_companyName");
-    if (_jobTitle != "") queryStrings.add("title=$_companyName");
-    if (_tags.isNotEmpty) queryStrings.add("tags=${_tags.join(',')}");
-
-    queryString += queryStrings.join("&");
-    return queryString;
+    return parameters.toString();
   }
 }
