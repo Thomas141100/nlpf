@@ -14,7 +14,8 @@ Future main() async {
     final response = await harness.agent?.post("/auth/signup", body: body);
 
     expect(response!.statusCode, 200);
-    expect(response, hasBody(partial({"mail": body['mail'], "isCompany": false})));
+    expect(
+        response, hasBody(partial({"mail": body['mail'], "isCompany": false})));
 
     user = await response.body.decode();
     user['password'] = body['password'];

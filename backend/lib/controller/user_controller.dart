@@ -40,6 +40,9 @@ class UserController extends ResourceController {
     final result = await collection
         .findOne(where.eq("_id", objectId).excludeFields(['password']));
 
+    if (result == null) {
+      return Response.notFound();
+    }
     return Response.ok(result);
   }
 

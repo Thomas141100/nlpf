@@ -50,6 +50,9 @@ class JobOfferController extends ResourceController {
     final collection = db.collection("joboffers");
     final result = await collection.findOne(where.eq("_id", objectId));
 
+    if (result == null) {
+      return Response.notFound();
+    }
     return Response.ok(result);
   }
 
@@ -68,8 +71,8 @@ class JobOfferController extends ResourceController {
     if (!jobOffer.containsKey('employer')) {
       jobOffer['employer'] = user['id'];
     }
-    if (!jobOffer.containsKey('company')) {
-      jobOffer['company'] = user['companyName'];
+    if (!jobOffer.containsKey('companyName')) {
+      jobOffer['companyName'] = user['companyName'];
     }
 
     final jobOfferCollection = db.collection("joboffers");
