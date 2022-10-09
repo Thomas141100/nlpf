@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
@@ -28,6 +29,8 @@ class _HomePageState extends State<HomePage> {
   User? _currentUser;
   List<JobOffer>? _jobOffers;
   int _columnRatio = 1;
+
+  var isLoading = false;
 
   @override
   void dispose() {
@@ -134,7 +137,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.firstname}' : ''}'),
+              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
           return _currentUser != null &&
