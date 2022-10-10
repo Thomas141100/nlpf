@@ -169,10 +169,9 @@ class _HomePageState extends State<HomePage> {
       },
       firstButton: TextButton(
         onPressed: () async {
-          jobOffer.candidacies != null &&
-                  jobOffer.candidacies!.contains(_currentUser!.id)
-              ? null
-              : candidateHandle();
+          jobOffer.candidacies != null && jobOffer.candidacies!.isNotEmpty
+              ? candidateHandle()
+              : null;
         },
         child: const Text('Postuler'),
       ),
