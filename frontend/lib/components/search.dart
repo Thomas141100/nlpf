@@ -1,4 +1,5 @@
 import 'package:fht_linkedin/components/custom_text_field.dart';
+import 'package:fht_linkedin/components/tags.dart';
 import 'package:fht_linkedin/utils/filters.dart';
 import 'package:flutter/material.dart';
 
@@ -70,11 +71,7 @@ class _Search extends State<Search> {
                   input: "Lieu",
                   icon: const Icon(Icons.location_on,
                       color: Color.fromARGB(255, 124, 62, 102))),
-              CustomTextField(
-                  textController: _tagsController,
-                  input: "Tags",
-                  icon: const Icon(Icons.tag,
-                      color: Color.fromARGB(255, 124, 62, 102))),
+              Tags(textController: _tagsController),
               Container(
                 height: 50,
                 margin: const EdgeInsets.all(20),
