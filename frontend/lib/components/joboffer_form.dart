@@ -1,5 +1,8 @@
+import 'package:fht_linkedin/models/mcq.dart';
 import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/validators.dart';
+
+import '../mcq/upload_check_mcq.dart';
 
 class JobOfferForm extends StatefulWidget {
   final String formTitle;
@@ -9,6 +12,7 @@ class JobOfferForm extends StatefulWidget {
   final TextEditingController companyNameController;
   final GlobalKey<FormState> formKey;
   final bool enableInput;
+  final MCQ? mcq;
 
   const JobOfferForm({
     required this.formTitle,
@@ -17,6 +21,7 @@ class JobOfferForm extends StatefulWidget {
     required this.tagsController,
     required this.companyNameController,
     required this.formKey,
+    required this.mcq,
     this.enableInput = false,
     super.key,
   });
@@ -82,8 +87,8 @@ class _CreateJobOffer extends State<JobOfferForm> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       constraints: const BoxConstraints(
-                        minHeight: 200.0,
-                        maxHeight: 400.0,
+                        minHeight: 150.0,
+                        maxHeight: 300.0,
                       ),
                       child: Image.network(
                           'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
@@ -110,6 +115,10 @@ class _CreateJobOffer extends State<JobOfferForm> {
                   return null;
                 },
                 enabled: widget.enableInput),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Check(mcq: widget.mcq, enableInput: widget.enableInput),
           ),
         ],
       ),

@@ -27,8 +27,7 @@ class Quiz extends StatelessWidget {
             Question(
               questions[questionIndex]['questionText'].toString(),
             ),
-            ...(questions[questionIndex]['answers']
-                    as List<Map<String, Object>>)
+            ...(questions[questionIndex]['answers'] as List<dynamic>)
                 .map((answer) {
               return Padding(
                 padding: const EdgeInsets.all(10),

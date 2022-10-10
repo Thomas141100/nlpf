@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/mcq.dart';
 import '../utils/utils.dart';
 
 class Client {
@@ -136,8 +137,8 @@ class Client {
     }
   }
 
-  static Future<Response> sendJobOffer(
-      String title, String description, String tags, String companyname) async {
+  static Future<Response> sendJobOffer(String title, String description,
+      String tags, String companyname, MCQ mcq) async {
     Uri url = Uri.http(_url, '/joboffers');
     var token = await getToken();
     try {
@@ -148,15 +149,23 @@ class Client {
           "content-type": "application/json",
           "authorization": "Bearer $token",
         },
-        body: jsonEncode(<String, String>{
-          'title': title,
-          'companyname': companyname,
-          'description': description,
-          'tags': tags
-        }),
+        body: jsonEncode(
+          {
+            'title': title,
+            'companyname': companyname,
+            'description': description,
+            'tags': tags,
+            'mcq': {
+              'maxScore': mcq.maxScore,
+              'expectedScore': mcq.expextedScore,
+              'questions': mcq.questions,
+            },
+          },
+        ),
       );
       return response;
     } catch (e) {
+      print(e);
       return Response("", 500);
     }
   }

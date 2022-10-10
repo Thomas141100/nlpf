@@ -2,6 +2,7 @@ class ManageCSV {
   String titre = '';
   String mcqID = '';
   int maxScore = 0;
+  int expextedScore = 0;
   List<Map<String, Object>> questions = [];
 
   bool parseCsv(String csv) {
@@ -14,6 +15,7 @@ class ManageCSV {
 
     titre = parsedCsv[0][0];
     maxScore = int.parse(parsedCsv[0][1]);
+    expextedScore = int.parse(parsedCsv[0][2]);
 
     var trimmedCsv = parsedCsv.sublist(1, parsedCsv.length - 1);
 

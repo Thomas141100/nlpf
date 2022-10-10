@@ -62,12 +62,11 @@ class Result extends StatelessWidget {
                 var response = await Client.saveMCQ(mcqId, resultScore);
                 if (response.statusCode == 200) {
                   showSnackBar(context, "mcq sauvegardé");
-                  Navigator.of(context).pop();
-                  resetHandler();
                 } else {
                   showSnackBar(context, "Une erreur est survenu :[",
                       isError: true);
                 }
+                Navigator.of(context).pop();
               },
               child: Container(
                 color: Colors.blue,
