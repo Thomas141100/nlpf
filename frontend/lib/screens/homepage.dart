@@ -95,36 +95,37 @@ class _HomePageState extends State<HomePage> {
     return List.generate(max, (index) {
       var jobOffer = _jobOffers![index];
       return OfferCard(
-        title: jobOffer.title,
-        description: jobOffer.description ?? "",
-        companyName: jobOffer.companyName,
-        onTapHandle: () {
-          showDialog(
-              context: context,
-              builder: (context) => JobOfferDialog(
-                    jobOffer: jobOffer,
-                  ));
-        },
-        firstButton: TextButton(
-          onPressed: () {
+          title: jobOffer.title,
+          description: jobOffer.description ?? "",
+          companyName: jobOffer.companyName,
+          onTapHandle: () {
             showDialog(
                 context: context,
                 builder: (context) => JobOfferDialog(
-                      isEdditing: true,
                       jobOffer: jobOffer,
-                      updateJobOffersList: setJobOffers,
                     ));
           },
-          child: const Text('Modifier'),
-        ),
-        secondButton: TextButton(
-          child: const Text('Supprimer'),
-          onPressed: () {
-            deleteJobOffers(jobOffer.getId());
-          },
-        ),
-        cardHeight: _cardRatio,
-      );
+          firstButton: TextButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => JobOfferDialog(
+                        isEdditing: true,
+                        jobOffer: jobOffer,
+                        updateJobOffersList: setJobOffers,
+                      ));
+            },
+            child: Text('Modifier',
+                style: Theme.of(context).textTheme.labelMedium),
+          ),
+          secondButton: TextButton(
+            child: Text('Supprimer',
+                style: Theme.of(context).textTheme.labelMedium),
+            onPressed: () {
+              deleteJobOffers(jobOffer.getId());
+            },
+          ),
+          cardHeight: _cardRatio);
     });
   }
 
@@ -155,8 +156,9 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
-              : const Center(
-                  child: Text('toto'),
+              : Center(
+                  child: Text('toto',
+                      style: Theme.of(context).textTheme.displayLarge),
                 );
         },
       ),
