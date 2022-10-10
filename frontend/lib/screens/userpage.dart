@@ -5,6 +5,7 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -66,7 +67,24 @@ class _UserPageState extends State<UserPage> {
         _currentUser!.email != _emailController.text;
   }
 
-  _isCompany() {}
+  _isCompany() {
+    if (_currentUser!.isCompany) {
+      return Container(
+          margin: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: 250,
+            child: TextFormField(
+              onChanged: (_) => updateRender(),
+              controller: _companyController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Entreprise'),
+            ),
+          ));
+    }
+    return const SizedBox(
+      height: 2,
+    );
+  }
 
   void myAlert() {
     showDialog(
@@ -78,6 +96,7 @@ class _UserPageState extends State<UserPage> {
             title: Text(
               'Selectionner un fichier multimedia',
               style: Theme.of(context).textTheme.labelMedium,
+              // style: GoogleFonts.allan()
             ),
             content: FittedBox(
               child: Column(
@@ -91,10 +110,11 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.image),
+                        const Icon(Icons.image),
                         Text(
                           'Depuis la galerie de photos',
                           style: Theme.of(context).textTheme.labelMedium,
+                          // style: GoogleFonts.allan()
                         ),
                       ],
                     ),
@@ -110,10 +130,11 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.camera),
+                        const Icon(Icons.camera),
                         Text(
                           'Prendre une photo',
                           style: Theme.of(context).textTheme.labelMedium,
+                          // style: GoogleFonts.allan()
                         ),
                       ],
                     ),
@@ -144,8 +165,8 @@ class _UserPageState extends State<UserPage> {
         ),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         body: Container(
-          margin: EdgeInsets.all(200.0),
-          padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+          margin: const EdgeInsets.all(200.0),
+          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Theme.of(context).primaryColor),
@@ -185,7 +206,7 @@ class _UserPageState extends State<UserPage> {
                                 'Photo de profil',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -194,7 +215,7 @@ class _UserPageState extends State<UserPage> {
                                 height: 300,
                                 width: 300,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(67, 96, 125, 139),
+                                  color: const Color.fromARGB(67, 96, 125, 139),
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -215,7 +236,7 @@ class _UserPageState extends State<UserPage> {
                             },
                             child: Row(
                               children: [
-                                Icon(Icons.upload_file),
+                                const Icon(Icons.upload_file),
                                 Text(
                                   'Choisir un fichier',
                                   style: Theme.of(context).textTheme.labelSmall,
@@ -459,7 +480,7 @@ class _UserPageState extends State<UserPage> {
                                 }
                               },
                               child: Row(children: [
-                                Icon(Icons.save, color: Colors.white),
+                                const Icon(Icons.save, color: Colors.white),
                                 Text(
                                   'Valider le changement',
                                   style: Theme.of(context).textTheme.labelSmall,

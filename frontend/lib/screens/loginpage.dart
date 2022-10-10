@@ -109,11 +109,10 @@ class _LoginPage extends State<LoginPage> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child:
-                    Image.asset(
-                          'images/TLR-Logo.png',
-                          scale: 2,
-                          ),
+                    child: Image.asset(
+                      'images/TLR-Logo.png',
+                      scale: 2,
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -124,7 +123,8 @@ class _LoginPage extends State<LoginPage> {
                     decoration: BoxDecoration(
                         color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Theme.of(context).primaryColor)),
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor)),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -175,16 +175,18 @@ class _LoginPage extends State<LoginPage> {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return  AlertDialog(
+                                    return AlertDialog(
                                       // Retrieve the text the that user has entered by using the
                                       // TextEditingController.
-                                      content: Text("Dommage...", style: Theme.of(context).textTheme.bodyMedium),
+                                      content: Text("Dommage...",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     );
                                   });
                             },
-                            child:  Text(
-                              'Mot de passe oublié', style: Theme.of(context).textTheme.bodySmall
-                            ),
+                            child: Text('Mot de passe oublié',
+                                style: Theme.of(context).textTheme.bodySmall),
                           ),
                           const SizedBox(
                             height: 15,
@@ -193,7 +195,10 @@ class _LoginPage extends State<LoginPage> {
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: ElevatedButton(
-                              child:  Text('Se connecter', style: Theme.of(context).textTheme.headlineSmall),
+                              child: Text('Se connecter',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   MyApp.of(context).authService.authenticated =
@@ -212,11 +217,13 @@ class _LoginPage extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                               Text('Vous n\'avez pas encore de compte ?', style: Theme.of(context).textTheme.labelMedium),
+                              Text('Vous n\'avez pas encore de compte ?',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium),
                               TextButton(
-                                child:  Text(
-                                  'S\'inscrire', style: Theme.of(context).textTheme.labelLarge
-                                ),
+                                child: Text('S\'inscrire',
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge),
                                 onPressed: () async {
                                   showDialog(
                                       context: context,
@@ -237,16 +244,19 @@ class _LoginPage extends State<LoginPage> {
                                           ),
                                           actions: [
                                             TextButton(
-                                              style: TextButton.styleFrom(
-                                                  foregroundColor:
-                                                      Colors.redAccent),
-                                              onPressed: () {
-                                                clearSignUpForm();
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text('Annuler', 
-                                              style: Theme.of(context).textTheme.labelMedium)
-                                            ),
+                                                style: TextButton.styleFrom(
+                                                    foregroundColor:
+                                                        Colors.redAccent),
+                                                onPressed: () {
+                                                  clearSignUpForm();
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('Annuler',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelMedium
+                                                    // style: GoogleFonts.allan()
+                                                    )),
 
                                             // The "Yes" button
                                             TextButton(
@@ -274,8 +284,12 @@ class _LoginPage extends State<LoginPage> {
                                                   }
                                                 }
                                               },
-                                              child:  Text('S\'inscrire', 
-                                              style: Theme.of(context).textTheme.labelLarge),
+                                              child: Text('S\'inscrire',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge
+                                                  // style: GoogleFonts.allan()
+                                                  ),
                                             ),
                                           ],
                                         );
@@ -286,23 +300,35 @@ class _LoginPage extends State<LoginPage> {
                           ),
                         ]),
                   ),
-                SizedBox(
-                  height: 20,
-                ),
-                 Text(
-                      'Vous recherchez du travail ? Traverser la rue !',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    SizedBox(
-                  height: 20,
-                ),
-                 Text(
-                      'Il suffit juste de Traverser la rue !',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Vous recherchez du travail ? Traverser la rue !',
+                    style: Theme.of(context).textTheme.displayLarge,
+                    // const Text(
+                    //       'Vous recherchez du travail ? Traverser la rue !',
+                    //       style: TextStyle(
+                    //           color: Color.fromARGB(255, 0, 0, 0),
+                    //           fontWeight: FontWeight.w500,
+                    //           fontSize: 35),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Il suffit juste de Traverser la rue !',
+                    style: Theme.of(context).textTheme.displayLarge,
+                    // const Text(
+                    //       'Il suffit juste de Traverser la rue !',
+                    //       style:TextStyle(
+                    //           color: Color.fromARGB(255, 0, 0, 0),
+                    //           fontWeight: FontWeight.bold,
+
+                    //           fontSize: 35),
+                  ),
                 ]),
           )),
-          
     );
   }
 }
