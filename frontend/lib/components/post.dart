@@ -26,23 +26,17 @@ class _Post extends State<Post> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child: const Text(
+                    child:  Text(
                       'Titre de l\'annonce',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
+                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child: const Text(
+                    child:  Text(
                       'LOGO',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
+                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                 ],
@@ -55,9 +49,9 @@ class _Post extends State<Post> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child: const Text(
+                    child:  Text(
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                    ),
+                     style: Theme.of(context).textTheme.bodyMedium),
                   ),
                 ],
               ),
@@ -73,10 +67,7 @@ class _Post extends State<Post> {
                       onPressed: () {},
                       child: Text(
                         'J\'aime',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 30),
+                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),
@@ -87,10 +78,7 @@ class _Post extends State<Post> {
                       onPressed: () {},
                       child: Text(
                         'Postuler',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 30),
+                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),
