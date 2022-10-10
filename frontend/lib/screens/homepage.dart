@@ -106,10 +106,10 @@ class _HomePageState extends State<HomePage> {
                         updateJobOffersList: setJobOffers,
                       ));
             },
-            child:  Text('Modifier',  style:Theme.of(context).textTheme.labelMedium),
+            child:  Text('Modifier',  style: Theme.of(context).textTheme.labelMedium),
           ),
           secondButton: TextButton(
-            child:  Text('Supprimer',  style:Theme.of(context).textTheme.labelMedium),
+            child:  Text('Supprimer',  style: Theme.of(context).textTheme.labelMedium),
             onPressed: () {
               deleteJobOffers(jobOffer.getId());
             },
