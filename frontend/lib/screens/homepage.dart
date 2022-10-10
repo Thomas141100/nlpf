@@ -154,8 +154,15 @@ class _HomePageState extends State<HomePage> {
           return Row(
             children: [
               Flexible(
-                  flex: 1,
-                  child: Search(searchOffersWithFilters: setJobOffers)),
+                flex: 1,
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                      child: SizedBox(
+                          height: (MediaQuery.of(context).size.height - 56),
+                          child:
+                              Search(searchOffersWithFilters: setJobOffers))),
+                ),
+              ),
               Flexible(flex: 4, child: bodyWidget)
             ],
           );
