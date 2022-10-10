@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ void showSnackBar(BuildContext context, String message,
 JobOffer convertJson2JobOffer(Map<dynamic, dynamic> json) {
   List<Map<String, Object>> questions = [];
   var arr = json['mcq']?['questions'];
-  arr.forEach((element) {
+  arr?.forEach((element) {
     var questionText = element['questionText'];
     var answers = element['answers'];
     questions.add({
@@ -27,20 +28,28 @@ JobOffer convertJson2JobOffer(Map<dynamic, dynamic> json) {
     });
   });
 
-  MCQ mcq = MCQ(
-    json['mcq']['maxScore'],
-    json['mcq']['expectedScore'],
-    questions,
-  );
+  MCQ? mcq = arr != null
+      ? MCQ(
+          json['mcq']['maxScore'],
+          json['mcq']['expectedScore'],
+          questions,
+        )
+      : null;
 
   var newJobOffer = JobOffer(
       json['_id'].toString(),
       json['title'].toString(),
       json['employer'].toString(),
-      json['companyname'].toString(),
+      json['companyName'].toString(),
       null,
       [json['tags']],
       json['description'],
       mcq);
   return newJobOffer;
+}
+
+UserCandidacy convertJson2UserCandidacy(Map<dynamic, dynamic> json) {
+  var userCandidacy = UserCandidacy(json['_id'], json['candidate'],
+      convertJson2JobOffer(json['offer']), json['creationDate']);
+  return userCandidacy;
 }

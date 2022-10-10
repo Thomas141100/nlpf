@@ -7,6 +7,8 @@ class UserCandidacy {
   String candidate = "";
   JobOffer offer = JobOffer.empty();
   int creationDate = 0;
+
+  UserCandidacy(this._id, this.candidate, this.offer, this.creationDate);
 }
 
 class JobOfferCandidacy {

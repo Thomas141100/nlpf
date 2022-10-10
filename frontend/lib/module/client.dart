@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,6 +64,35 @@ class Client {
       return response;
     } catch (e) {
       return Response("", 500);
+    }
+  }
+
+  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
+      String id) async {
+    Uri url = Uri.http(_url, '/users/$id/candidacies');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      var decodedJson = jsonDecode(body);
+      List<UserCandidacy> candidaciesList = [];
+      for (var userCandidacy in decodedJson) {
+        candidaciesList.add(convertJson2UserCandidacy(userCandidacy));
+      }
+      return candidaciesList;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
     }
   }
 
