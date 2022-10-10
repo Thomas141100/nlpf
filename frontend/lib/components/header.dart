@@ -26,8 +26,9 @@ class _Header extends State<Header> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-            "Traverser la rue !${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",  style: Theme.of(context).textTheme.titleMedium),
+            "Traverser la rue !${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",  style: Theme.of(context).textTheme.headlineLarge, ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

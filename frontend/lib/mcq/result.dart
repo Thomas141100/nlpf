@@ -50,16 +50,16 @@ class Result extends StatelessWidget {
             TextButton(
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.all(16.0),
-                textStyle: const TextStyle(fontSize: 20),
+                textStyle: Theme.of(context).textTheme.labelMedium,
               ),
               onPressed: () async {
                 var response = await Client.saveMCQ(mcqId, resultScore);
                 if (response.statusCode == 200) {
-                  showSnackBar(context, "mcq sauvegardé");
+                  showSnackBar(context, "QCM sauvegardé");
                   Navigator.of(context).pop();
                   resetHandler();
                 } else {
-                  showSnackBar(context, "Une erreur est survenu :[",
+                  showSnackBar(context, "Une erreur est survenue :[",
                       isError: true);
                 }
               },

@@ -49,9 +49,9 @@ class _Check extends State<Check> {
                       );
                     }
                   : null,
-              child: const Text(
+              child: Text(
                 "Test",
-                style: TextStyle(color: Colors.black),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
           ),
