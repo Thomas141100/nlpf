@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       cardRatio = MediaQuery.of(context).size.height / 5;
     } else {
       columnRatio = 4;
-      cardRatio = 350;
+      cardRatio = MediaQuery.of(context).size.height / 5.7;
     }
     if (columnRatio != _columnRatio) {
       setState(() {
