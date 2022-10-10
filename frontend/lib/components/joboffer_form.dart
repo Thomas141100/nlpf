@@ -44,10 +44,7 @@ class _JobOfferForm extends State<JobOfferForm> {
             padding: const EdgeInsets.all(10),
             child: Text(
               widget.formTitle,
-              style: const TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30),
+               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Row(
@@ -112,7 +109,7 @@ class _JobOfferForm extends State<JobOfferForm> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Renseignez ce champs';
+                    return 'Renseignez ce champ';
                   }
                   return null;
                 },

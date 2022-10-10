@@ -35,8 +35,8 @@ class OfferCard extends Card {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
           ListTile(
             leading: const Icon(Icons.album),
-            title: Text(title),
-            subtitle: Text(companyName),
+            title: Text(title,  style: Theme.of(context).textTheme.titleMedium),
+            subtitle: Text(companyName,  style: Theme.of(context).textTheme.titleSmall),
             mouseCursor: MouseCursor.uncontrolled,
           ),
           Container(
@@ -51,6 +51,7 @@ class OfferCard extends Card {
                   child: Text(
                     description,
                     softWrap: true,
+                    style: Theme.of(context).textTheme.bodyMedium
                   ),
                 ),
               ],

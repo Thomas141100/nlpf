@@ -39,18 +39,12 @@ class Result extends StatelessWidget {
           children: <Widget>[
             Text(
               resultPhrase,
-              style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+              style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center,
             ), //Text
             Text(
               'Score ' '$resultScore',
-              style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             TextButton(
@@ -71,9 +65,9 @@ class Result extends StatelessWidget {
               child: Container(
                 color: Colors.blue,
                 padding: const EdgeInsets.all(14),
-                child: const Text(
+                child: Text(
                   'Retour',
-                  style: TextStyle(color: Colors.white),
+                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
             ),
