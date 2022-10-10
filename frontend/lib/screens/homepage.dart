@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   User? _currentUser;
   List<JobOffer>? _jobOffers;
   int _columnRatio = 1;
-
+  double _cardRatio = 200;
   var isLoading = false;
 
   @override
@@ -66,18 +66,24 @@ class _HomePageState extends State<HomePage> {
 
   void updateGridColumRatio(double dimens) {
     int columnRatio;
+    double cardRatio;
     if (dimens <= kMobileBreakpoint) {
       columnRatio = 1;
+      cardRatio = MediaQuery.of(context).size.height / 2.5;
     } else if (dimens > kMobileBreakpoint && dimens <= kTabletBreakpoint) {
       columnRatio = 2;
+      cardRatio = MediaQuery.of(context).size.height / 4;
     } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
       columnRatio = 3;
+      cardRatio = MediaQuery.of(context).size.height / 5;
     } else {
       columnRatio = 4;
+      cardRatio = MediaQuery.of(context).size.height / 5.7;
     }
     if (columnRatio != _columnRatio) {
       setState(() {
         _columnRatio = columnRatio;
+        _cardRatio = cardRatio;
       });
     }
   }
@@ -89,34 +95,36 @@ class _HomePageState extends State<HomePage> {
     return List.generate(max, (index) {
       var jobOffer = _jobOffers![index];
       return OfferCard(
-          title: jobOffer.title,
-          description: jobOffer.description ?? "",
-          companyName: jobOffer.companyName,
-          onTapHandle: () {
+        title: jobOffer.title,
+        description: jobOffer.description ?? "",
+        companyName: jobOffer.companyName,
+        onTapHandle: () {
+          showDialog(
+              context: context,
+              builder: (context) => JobOfferDialog(
+                    jobOffer: jobOffer,
+                  ));
+        },
+        firstButton: TextButton(
+          onPressed: () {
             showDialog(
                 context: context,
                 builder: (context) => JobOfferDialog(
+                      isEdditing: true,
                       jobOffer: jobOffer,
+                      updateJobOffersList: setJobOffers,
                     ));
           },
-          firstButton: TextButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => JobOfferDialog(
-                        isEdditing: true,
-                        jobOffer: jobOffer,
-                        updateJobOffersList: setJobOffers,
-                      ));
-            },
-            child: const Text('Modifier'),
-          ),
-          secondButton: TextButton(
-            child: const Text('Supprimer'),
-            onPressed: () {
-              deleteJobOffers(jobOffer.getId());
-            },
-          ));
+          child: const Text('Modifier'),
+        ),
+        secondButton: TextButton(
+          child: const Text('Supprimer'),
+          onPressed: () {
+            deleteJobOffers(jobOffer.getId());
+          },
+        ),
+        cardHeight: _cardRatio,
+      );
     });
   }
 
