@@ -20,7 +20,7 @@ class ConfirmationDialog extends StatelessWidget {
             onPressed: (() {
               Navigator.pop(context, 'Annuler');
             }),
-            child: const Text('Cancel')),
+            child:  Text('Annuler, ', style: Theme.of(context).textTheme.labelMedium)),
         TextButton(
             onPressed: (() {
               if (confirmHandle != null) {
@@ -28,7 +28,7 @@ class ConfirmationDialog extends StatelessWidget {
               }
               Navigator.pop(context, 'OK');
             }),
-            child: const Text('Confirmer')),
+            child:  Text('Confirmer', style: Theme.of(context).textTheme.labelMedium)),
       ],
     );
   }

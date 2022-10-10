@@ -44,6 +44,9 @@ class MyAppState extends State<MyApp> {
           secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
+          hoverColor: const Color.fromARGB(255, 124, 62, 102),
+          cardColor: const Color.fromARGB(255, 242, 235, 233),
+          highlightColor: const Color.fromARGB(255, 124, 62, 102),
           textTheme: const TextTheme(
             displayLarge: TextStyle(
                 fontWeight: FontWeight.w500,
