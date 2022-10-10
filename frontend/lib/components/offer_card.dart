@@ -7,6 +7,7 @@ class OfferCard extends Card {
   final void Function() onTapHandle;
   final TextButton firstButton;
   final TextButton secondButton;
+  final double cardHeight;
 
   const OfferCard(
       {super.key,
@@ -15,7 +16,8 @@ class OfferCard extends Card {
       required this.companyName,
       required this.onTapHandle,
       required this.firstButton,
-      required this.secondButton});
+      required this.secondButton,
+      required this.cardHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +35,24 @@ class OfferCard extends Card {
           ),
           Container(
             alignment: AlignmentDirectional.topStart,
+            constraints: BoxConstraints(
+              maxHeight: cardHeight,
+            ),
             padding: const EdgeInsets.all(8),
-            child: Text(
-              description,
-              softWrap: false,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    description,
+                    softWrap: true,
+                  ),
+                ),
+              ],
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               firstButton,
               const SizedBox(width: 8),
