@@ -74,8 +74,7 @@ class _UserPageState extends State<UserPage> {
   {
     return Container(
                             margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
+                            child: FittedBox(
                               child: TextFormField(
                                 onChanged: (_) => updateRender(),
                                 controller: _companyController,
@@ -95,8 +94,8 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Selectionner un fichier multimedia', style: GoogleFonts.allan(),),
-            content: SizedBox(
+            title: Text('Selectionner un fichier multimedia', style: Theme.of(context).textTheme.labelMedium,),
+            content: FittedBox(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -109,7 +108,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children:  [
                         Icon(Icons.image),
-                        Text('Depuis la galerie de photos', style: GoogleFonts.allan(),),
+                        Text('Depuis la galerie de photos', style: Theme.of(context).textTheme.labelMedium,),
                       ],
                     ),
                   ),
@@ -125,7 +124,7 @@ class _UserPageState extends State<UserPage> {
                     child: Row(
                       children:  [
                         Icon(Icons.camera),
-                        Text('Prendre une photo', style: GoogleFonts.allan(),),
+                        Text('Prendre une photo', style: Theme.of(context).textTheme.labelMedium,),
                       ],
                     ),
                   ),
@@ -180,7 +179,7 @@ class _UserPageState extends State<UserPage> {
                       : Column(
                         children: <Widget>[
                           //add container here
-                          Text('Photo de profil', style: GoogleFonts.allan(),),
+                          Text('Photo de profil', style: Theme.of(context).textTheme.titleMedium,),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             height: 300,
@@ -190,34 +189,28 @@ class _UserPageState extends State<UserPage> {
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Center(
+                            child:  Center(
                                 child: Text(
                               "Aucune photo de profil",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
                             )),
                           ),
                         ]),
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    width: 180,
+                  FittedBox(
                     child: ElevatedButton(
                         onPressed: () {
                           myAlert();
                         },
                         child: Row(
-                          children: const [
+                          children:  [
                             Icon(Icons.upload_file),
                             Text(
                               'Choisir un fichier',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
+                               style:Theme.of(context).textTheme.labelSmall,
                               ),
-                            ),
                           ],
                         )),
                   ),
@@ -236,7 +229,7 @@ class _UserPageState extends State<UserPage> {
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Modifier mon profil'),
+                        Text('Modifier mon profil', style: Theme.of(context).textTheme.titleMedium),
                         Container(
                             margin: const EdgeInsets.all(15.0),
                             child: SizedBox(
@@ -275,8 +268,7 @@ class _UserPageState extends State<UserPage> {
                               ),
                             )),
                       ]),
-                  SizedBox(
-                    width: 200,
+                  FittedBox(
                     child: Column(children: [
                       TextButton(
                         style: TextButton.styleFrom(
@@ -308,32 +300,27 @@ class _UserPageState extends State<UserPage> {
                                 }
                               }
                             : null,
-                        child: Row(children: const [
+                        child: Row(children:  [
                           Icon(Icons.save, color: Colors.white),
                           Text(
                             ' Valider le changement',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall ,
                           ),
                         ]),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextButton(
+                      FittedBox(
+                      child: TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
-                        child: Row(children: const [
+                        child: Row(children:  [
                           Icon(Icons.remove_circle, color: Colors.white),
                           Text(
                             ' Supprimer le compte',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall
                           ),
                         ]),
                         onPressed: () {
@@ -370,7 +357,8 @@ class _UserPageState extends State<UserPage> {
                                   )));
                         },
                       ),
-                    ]),
+                  )
+                  ]),
                   ),
                 ],
               ),             
@@ -382,7 +370,7 @@ class _UserPageState extends State<UserPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //add container here
-                  Text('Modifier mon mot de passe', style: GoogleFonts.amiko(),),
+                  Text('Modifier mon mot de passe', style: Theme.of(context).textTheme.titleMedium,),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   width: 250,
@@ -401,8 +389,7 @@ class _UserPageState extends State<UserPage> {
                           border: OutlineInputBorder(),
                           labelText: 'Confirmer le mot de passe')),
                 ),
-                SizedBox(
-                  width: 200,
+                FittedBox(
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 10, 129, 12),
@@ -429,15 +416,12 @@ class _UserPageState extends State<UserPage> {
                             isError: true);
                       }
                     },
-                    child: Row(children: const [
+                    child: Row(children:  [
                       Icon(Icons.save, color: Colors.white),
                       Text(
                         'Valider le changement',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
+                        style: Theme.of(context).textTheme.labelSmall,
                         ),
-                      ),
                     ]),
                   ),
                 )

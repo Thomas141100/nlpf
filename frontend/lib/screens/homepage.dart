@@ -211,8 +211,9 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
-              : const Center(
-                  child: Text('Loading...'),
+              : Center(
+                  child: Text('Loading...',
+                      style: Theme.of(context).textTheme.displayLarge),
                 );
         },
       ),

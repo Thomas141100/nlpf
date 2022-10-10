@@ -45,48 +45,50 @@ class MyAppState extends State<MyApp> {
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
           textTheme: const TextTheme(
-              displayLarge: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 35,
-                  color: Color.fromARGB(255, 36, 58, 115)),
-              displayMedium: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 36, 58, 115)),
-              titleLarge: TextStyle(
+            displayLarge: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 35,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              titleMedium: TextStyle(
-                fontSize: 20.0,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              titleSmall: TextStyle(
-                fontSize: 15.0,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              bodyLarge: TextStyle(
-                fontSize: 14,
+                color: Color.fromARGB(255, 36, 58, 115)),
+            displayMedium: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              bodyMedium: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              bodySmall: TextStyle(
-                fontSize: 10,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              labelLarge: TextStyle(
-                fontSize: 20.0,
-                color: Color.fromARGB(255, 36, 58, 115),
-              ),
-              labelMedium: TextStyle(
-                fontSize: 15.0,
-                color: Color.fromARGB(255, 36, 58, 115),
-              )),
+                fontSize: 30,
+                color: Color.fromARGB(255, 36, 58, 115)),
+            titleLarge: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 35,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            titleMedium: TextStyle(
+              fontSize: 20.0,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            titleSmall: TextStyle(
+              fontSize: 15.0,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            bodyLarge: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 12,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            bodySmall: TextStyle(
+              fontSize: 10,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            labelLarge: TextStyle(
+              fontSize: 20.0,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            labelMedium: TextStyle(
+              fontSize: 15.0,
+              color: Color.fromARGB(255, 36, 58, 115),
+            ),
+            labelSmall: TextStyle(fontSize: 15, color: Colors.white),
+          ),
         ),
         routeInformationParser: _appRouter.defaultRouteParser(),
         routerDelegate: _appRouter.delegate());
