@@ -38,6 +38,56 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: const Color.fromARGB(255, 124, 62, 102),
+          secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
+          backgroundColor: const Color.fromARGB(255, 242, 235, 233),
+          fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
+          textTheme: const TextTheme(
+              displayLarge: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 35,
+                  color: Color.fromARGB(255, 36, 58, 115)),
+              displayMedium: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 36, 58, 115)),
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 35,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              titleMedium: TextStyle(
+                fontSize: 20.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              titleSmall: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodyLarge: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodyMedium: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodySmall: TextStyle(
+                fontSize: 10,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              labelLarge: TextStyle(
+                fontSize: 20.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              labelMedium: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              )),
+        ),
         routeInformationParser: _appRouter.defaultRouteParser(),
         routerDelegate: _appRouter.delegate());
   }
