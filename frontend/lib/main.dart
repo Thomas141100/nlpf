@@ -48,9 +48,9 @@ class MyAppState extends State<MyApp> {
           secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
-          hoverColor: const Color.fromARGB(255, 124, 62, 102),
-          cardColor: const Color.fromARGB(255, 242, 235, 233),
+          hoverColor: const Color.fromARGB(255, 36, 58, 115),
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
+          cardColor: const Color.fromARGB(255, 242, 235, 233),
           textTheme: const TextTheme(
             displayLarge: TextStyle(
                           fontWeight: FontWeight.w500,
@@ -60,6 +60,14 @@ class MyAppState extends State<MyApp> {
                           fontWeight: FontWeight.w500,
                           fontSize: 30,
                           color: Color.fromARGB(255, 36, 58, 115)),
+            headlineLarge: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: const Color.fromARGB(255, 242, 235, 233)),
+            headlineMedium: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 36, 58, 115)) ,
           titleLarge: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 35,
