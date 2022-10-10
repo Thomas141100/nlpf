@@ -42,9 +42,9 @@ class _SignupForm extends State<SignupForm> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(10),
-              child: const Text(
+              child:  Text(
                 'Sign up',
-                style: TextStyle(fontSize: 20),
+                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             Container(
@@ -119,7 +119,7 @@ class _SignupForm extends State<SignupForm> {
                     });
                   },
                 ),
-                const Text("I am a company"),
+                Text("I am a company",  style: Theme.of(context).textTheme.labelMedium),
               ],
             ),
             if (isCompany)

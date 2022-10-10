@@ -21,7 +21,7 @@ class _Check extends State<Check> {
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
-        title: 'FHT Linkedin - Check',
+        title: 'FHT Linkedin - Quizz',
         // displayLogout: false,
       ),
       body: Column(
@@ -30,7 +30,7 @@ class _Check extends State<Check> {
             padding: const EdgeInsets.all(20.0),
             child: ElevatedButton(
               onPressed: importCSV,
-              child: const Text("Open file picker"),
+              child:  Text("Choisir un fichier",  style: Theme.of(context).textTheme.labelMedium),
             ),
           ),
           Container(
@@ -50,7 +50,7 @@ class _Check extends State<Check> {
                     }
                   : null,
               child: const Text(
-                "Test Form",
+                "Test",
                 style: TextStyle(color: Colors.black),
               ),
             ),
