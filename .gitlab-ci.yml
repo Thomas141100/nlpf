@@ -6,27 +6,27 @@ stages:
 default:
   image: ubuntu:22.04
 
-# build-backend:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:debug
-#     entrypoint: [""]
-#   script:
-#     - /kaniko/executor
-#       --context "${CI_PROJECT_DIR}/backend"
-#       --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
-#       --destination "${CI_REGISTRY_IMAGE}/backend:latest"
+build-backend:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/backend"
+      --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/backend:latest"
 
-# build-frontend:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:debug
-#     entrypoint: [""]
-#   script:
-#     - /kaniko/executor
-#       --context "${CI_PROJECT_DIR}/frontend"
-#       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
-#       --destination "${CI_REGISTRY_IMAGE}/frontend:latest"
+build-frontend:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/frontend"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/frontend:latest"
 
 deploy:
   stage: deploy
