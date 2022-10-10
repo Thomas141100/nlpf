@@ -61,6 +61,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool userAlreadyCandidate(JobOffer jobOffer) {
+    return _currentUser != null &&
+        jobOffer.candidacies
+            .map((e) => e.candidate)
+            .contains(_currentUser!.getId());
+  }
+
   void deleteJobOffers(String jobOfferId) async {
     var response = await Client.deleteJobOffer(jobOfferId);
     if (response.statusCode == 500) {
@@ -168,11 +175,8 @@ class _HomePageState extends State<HomePage> {
                 ));
       },
       firstButton: TextButton(
-        onPressed: () async {
-          jobOffer.candidacies != null && jobOffer.candidacies!.isNotEmpty
-              ? candidateHandle()
-              : null;
-        },
+        onPressed:
+            userAlreadyCandidate(jobOffer) ? null : () => candidateHandle(),
         child: const Text('Postuler'),
       ),
       cardHeight: _cardRatio,

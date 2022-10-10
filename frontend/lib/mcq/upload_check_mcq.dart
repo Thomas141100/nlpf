@@ -123,7 +123,7 @@ class _Check extends State<Check> {
       setState(() {
         importedCSV = manageCSV.parseCsv(csvString);
         widget.mcq?.maxScore = manageCSV.maxScore;
-        widget.mcq?.expextedScore = manageCSV.expextedScore;
+        widget.mcq?.expectedScore = manageCSV.expectedScore;
         widget.mcq?.questions = manageCSV.questions;
       });
     }

@@ -97,7 +97,7 @@ class Client {
       var decodedJson = jsonDecode(body);
       List<UserCandidacy> candidaciesList = [];
       for (var userCandidacy in decodedJson) {
-        candidaciesList.add(convertJson2UserCandidacy(userCandidacy));
+        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
       }
       return candidaciesList;
     } catch (e) {
@@ -165,13 +165,12 @@ class Client {
       }
       var body = response.body;
       if (body.isEmpty) return List.empty();
-      var decodedJson = jsonDecode(body);
-      List<JobOffer> offersList = [];
-      for (var jobOffer in decodedJson) {
-        var temp = convertJson2JobOffer(jobOffer);
-        offersList.add(temp);
+      List<dynamic> decodedJson = jsonDecode(body);
+      List<JobOffer> jobOffers = List.empty(growable: true);
+      for (Map<dynamic, dynamic> jobOfferJson in decodedJson) {
+        jobOffers.add(JobOffer.fromJson(jobOfferJson));
       }
-      return offersList;
+      return jobOffers;
     } catch (e) {
       throw ErrorDescription("Failed to fetch all offers. Code $e");
     }
@@ -192,12 +191,12 @@ class Client {
         body: jsonEncode(
           {
             'title': title,
-            'companyname': companyname,
+            'companyName': companyname,
             'description': description,
             'tags': tags,
             'mcq': {
               'maxScore': mcq.maxScore,
-              'expectedScore': mcq.expextedScore,
+              'expectedScore': mcq.expectedScore,
               'questions': mcq.questions,
             },
           },
@@ -264,7 +263,7 @@ class Client {
           "content-type": "application/json",
           "authorization": "Bearer $token",
         },
-        body: jsonEncode(<String, String>{"test": "nothing"}),
+        body: jsonEncode(<String, String>{}),
       );
       return response;
     } catch (e) {
