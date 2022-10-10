@@ -5,7 +5,6 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -172,13 +171,13 @@ class _UserPageState extends State<UserPage> {
               border: Border.all(color: Theme.of(context).primaryColor),
               color: Theme.of(context).backgroundColor),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 child: FittedBox(
                   //Expanded(
-                  alignment: Alignment.center,
+                  // alignment: Alignment.center,
                   child: Column(
                     // mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
