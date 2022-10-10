@@ -92,7 +92,11 @@ class MyAppState extends State<MyApp> {
           labelMedium: TextStyle(
                           fontSize: 15.0,
                           color: const Color.fromARGB(255, 36, 58, 115),
-                        )
+                        ),
+                        labelSmall:  TextStyle(
+                          fontSize: 15,
+                          color: Colors.white)
+
               
               ),
         ),
