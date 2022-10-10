@@ -182,7 +182,7 @@ class _LoginPage extends State<LoginPage> {
                                   });
                             },
                             child:  Text(
-                              'Mot de passe oublié', style: Theme.of(context).textTheme.labelSmall
+                              'Mot de passe oublié', style: Theme.of(context).textTheme.bodySmall
                             ),
                           ),
                           const SizedBox(

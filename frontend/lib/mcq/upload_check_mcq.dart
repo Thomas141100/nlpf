@@ -74,7 +74,7 @@ class _Check extends State<Check> {
                     importedCSV
                         ? "Tester le QCM"
                         : "Veuillez importer un fichier CSV",
-                    style: const TextStyle(color: Colors.white),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
               ),
