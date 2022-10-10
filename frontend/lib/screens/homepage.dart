@@ -156,11 +156,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    jobOffer.candidacies?.forEach((element) {
-      print("$element ${_currentUser!.getId()}");
-    });
-    print(
-        '${jobOffer.candidacies != null} ${jobOffer.candidacies?.contains(_currentUser!.getId())}');
     return OfferCard(
       title: jobOffer.title,
       description: jobOffer.description ?? "",
@@ -177,7 +172,7 @@ class _HomePageState extends State<HomePage> {
           jobOffer.candidacies != null &&
                   jobOffer.candidacies!.contains(_currentUser!.id)
               ? null
-              : candidateHandle;
+              : candidateHandle();
         },
         child: const Text('Postuler'),
       ),
