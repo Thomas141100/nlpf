@@ -28,26 +28,15 @@ build-frontend:
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/frontend:latest"
 
-deploy-frontend:
+deploy:
   stage: deploy
   image: docker:latest
   script:
     - echo "${{ secrets.EC2_SSH_KEY }}" > private_key
     - ssh -o StrictHostKeyChecking=no -i private_key ${EC2_URI} &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
       docker pull ${CI_REGISTRY_IMAGE}/frontend:latest &&
-      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &7
-      docker pull ${CI_REGISTRY_IMAGE}/frontend:latest &&
-      ((docker stop frontend && docker rm frontend) || echo "Nothing to stop") &&
-      docker run -d --name frontend -p 80:80 ${CI_REGISTRY_IMAGE}/frontend:latest
-
-deploy-backend:
-  stage: deploy
-  image: docker:latest
-  script:
-    - echo "${{ secrets.EC2_SSH_KEY }}" > private_key
-    - ssh -o StrictHostKeyChecking=no -i private_key ${EC2_URI} &&
       docker pull ${CI_REGISTRY_IMAGE}/backend:latest &&
-      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &7
-      docker pull ${CI_REGISTRY_IMAGE}/backend:latest &&
-      ((docker stop backend && docker rm backend) || echo "Nothing to stop") &&
-      docker run -d --name backend -p 8080:8080 ${CI_REGISTRY_IMAGE}/backend:latest
+      cd nlpf &&
+      git pull "${{ secrets.GITLAB_CLONE }}" &&
+      docker-compose up -d
