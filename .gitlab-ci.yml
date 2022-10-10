@@ -16,8 +16,6 @@ build-backend:
       --context "${CI_PROJECT_DIR}/backend"
       --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/backend:latest"
-  rules:
-    - if: $CI_COMMIT_TAG
 
 build-frontend:
   stage: build
@@ -29,5 +27,3 @@ build-frontend:
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/frontend:latest"
-  rules:
-    - if: $CI_COMMIT_TAG
