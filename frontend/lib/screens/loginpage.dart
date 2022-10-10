@@ -1,9 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/models/user.dart';
-import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../module/client.dart';
 import 'package:flutter/material.dart';
@@ -300,7 +298,7 @@ class _LoginPage extends State<LoginPage> {
                           ),
                         ]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -313,7 +311,7 @@ class _LoginPage extends State<LoginPage> {
                     //           fontWeight: FontWeight.w500,
                     //           fontSize: 35),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
