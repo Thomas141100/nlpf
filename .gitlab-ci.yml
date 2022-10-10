@@ -1,0 +1,24 @@
+# ------------------------------------------------------------- Project CI --- #
+
+stages:
+    - build
+    - deploy
+default:
+  image: ubuntu:22.04
+
+build-frontend:
+  image: docker:latest
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:nlpf_frontend frontend
+    - docker push $CI_REGISTRY_IMAGE:nlpf_frontend
+
+build-backend:
+  image: docker:latest
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:nlpf_backend backend
+    - docker push $CI_REGISTRY_IMAGE:nlpf_backend
+
