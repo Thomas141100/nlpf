@@ -130,10 +130,9 @@ class _LoginPage extends State<LoginPage> {
                           const SizedBox(
                             height: 30,
                           ),
-                          const Text(
+                          Text(
                             'Bonjour',
-                            style: TextStyle(
-                                fontSize: 35, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(
                             height: 10,
@@ -142,7 +141,7 @@ class _LoginPage extends State<LoginPage> {
                             isLoggedIn
                                 ? 'Vous êtes connecté'
                                 : 'Veuillez vous connecter',
-                            style: const TextStyle(fontSize: 15),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           const SizedBox(
                             height: 15,
@@ -153,7 +152,7 @@ class _LoginPage extends State<LoginPage> {
                               controller: emailController,
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'email',
+                                  labelText: 'Email',
                                   suffixIcon: Icon(Icons.mail_outline)),
                               validator: Validators.emailValidator(),
                             ),
@@ -165,7 +164,7 @@ class _LoginPage extends State<LoginPage> {
                               controller: passwordController,
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Password',
+                                  labelText: 'Mot de passe',
                                   suffixIcon: Icon(Icons.vpn_key_outlined)),
                               validator: Validators.passwordValidator(),
                             ),
@@ -175,15 +174,15 @@ class _LoginPage extends State<LoginPage> {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return const AlertDialog(
+                                    return  AlertDialog(
                                       // Retrieve the text the that user has entered by using the
                                       // TextEditingController.
-                                      content: Text("Get Fucked for now"),
+                                      content: Text("Dommage...", style: Theme.of(context).textTheme.bodyMedium),
                                     );
                                   });
                             },
-                            child: const Text(
-                              'Forgot Password',
+                            child:  Text(
+                              'Mot de passe oublié', style: Theme.of(context).textTheme.labelSmall
                             ),
                           ),
                           const SizedBox(
@@ -193,7 +192,7 @@ class _LoginPage extends State<LoginPage> {
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: ElevatedButton(
-                              child: const Text('Sign in'),
+                              child:  Text('Se connecter', style: Theme.of(context).textTheme.labelMedium),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   MyApp.of(context).authService.authenticated =
@@ -212,11 +211,10 @@ class _LoginPage extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              const Text('Does not have account?'),
+                               Text('Vous n\'avez pas encore de compte ?', style: Theme.of(context).textTheme.labelMedium),
                               TextButton(
-                                child: const Text(
-                                  'Sign up',
-                                  style: TextStyle(fontSize: 20),
+                                child:  Text(
+                                  'S\'inscrire', style: Theme.of(context).textTheme.labelLarge
                                 ),
                                 onPressed: () async {
                                   showDialog(
@@ -245,8 +243,8 @@ class _LoginPage extends State<LoginPage> {
                                                 clearSignUpForm();
                                                 Navigator.of(context).pop();
                                               },
-                                              child: Text('Cancel', 
-                                              style: GoogleFonts.allan(),)
+                                              child: Text('Annuler', 
+                                              style: Theme.of(context).textTheme.labelMedium)
                                             ),
 
                                             // The "Yes" button
@@ -275,8 +273,8 @@ class _LoginPage extends State<LoginPage> {
                                                   }
                                                 }
                                               },
-                                              child:  Text('Sign up', 
-                                              style: GoogleFonts.allan(),),
+                                              child:  Text('S\'inscrire', 
+                                              style: Theme.of(context).textTheme.labelLarge),
                                             ),
                                           ],
                                         );
@@ -290,23 +288,16 @@ class _LoginPage extends State<LoginPage> {
                 SizedBox(
                   height: 20,
                 ),
-                const Text(
+                 Text(
                       'Vous recherchez du travail ? Traverser la rue !',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 35),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                     SizedBox(
                   height: 20,
                 ),
-                const Text(
+                 Text(
                       'Il suffit juste de Traverser la rue !',
-                      style:TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontWeight: FontWeight.bold,
-                          
-                          fontSize: 35),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                 ]),
           )),
