@@ -40,7 +40,7 @@ class JobOfferDialog extends AlertDialog {
           clearInputs();
           Navigator.of(context).pop();
         },
-        child: const Text('Annuler'),
+        child: Text('Annuler',  style:Theme.of(context).textTheme.labelMedium),
       ));
     }
 
@@ -65,7 +65,7 @@ class JobOfferDialog extends AlertDialog {
             }
           }
         },
-        child: const Text('Créer'),
+        child:  Text('Créer',  style:Theme.of(context).textTheme.labelMedium),
       ));
     } else if (isEdditing && jobOffer != null) {
       actions.add(TextButton(
@@ -89,7 +89,7 @@ class JobOfferDialog extends AlertDialog {
             }
           }
         },
-        child: const Text('Enregistrer'),
+        child:  Text('Enregistrer',  style:Theme.of(context).textTheme.labelMedium),
       ));
     } else {
       actions.add(
@@ -98,7 +98,7 @@ class JobOfferDialog extends AlertDialog {
             clearInputs();
             Navigator.of(context).pop();
           },
-          child: const Text('Fermer'),
+          child:  Text('Fermer',  style:Theme.of(context).textTheme.labelMedium),
         ),
       );
     }

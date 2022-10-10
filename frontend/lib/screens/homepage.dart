@@ -106,10 +106,10 @@ class _HomePageState extends State<HomePage> {
                         updateJobOffersList: setJobOffers,
                       ));
             },
-            child: const Text('Modifier'),
+            child:  Text('Modifier',  style:Theme.of(context).textTheme.labelMedium),
           ),
           secondButton: TextButton(
-            child: const Text('Supprimer'),
+            child:  Text('Supprimer',  style:Theme.of(context).textTheme.labelMedium),
             onPressed: () {
               deleteJobOffers(jobOffer.getId());
             },
@@ -144,8 +144,8 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
-              : const Center(
-                  child: Text('toto'),
+              :  Center(
+                  child: Text( 'toto', style:Theme.of(context).textTheme.displayLarge),
                 );
         },
       ),
