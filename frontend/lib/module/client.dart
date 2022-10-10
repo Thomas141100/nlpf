@@ -364,6 +364,7 @@ class Client {
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
+    currentUser.isCompany = jsonMap['company'];
     currentUser.setId(jsonMap['_id']);
     return currentUser;
   }
