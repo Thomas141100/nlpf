@@ -5,6 +5,7 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _companyController = TextEditingController();
 
   bool reRender = false;
 
@@ -44,6 +46,7 @@ class _UserPageState extends State<UserPage> {
         _firstnameController.text = user.firstname;
         _lastnameController.text = user.lastname;
         _emailController.text = user.email;
+        _companyController.text = user.companyName!;
       }
     });
   }
@@ -61,6 +64,26 @@ class _UserPageState extends State<UserPage> {
         _currentUser!.email != _emailController.text;
   }
 
+ _isCompany()
+{
+  if (_currentUser!.isCompany)
+  {
+    return Container(
+                            margin: const EdgeInsets.all(15.0),
+                            child: SizedBox(
+                              width: 250,
+                              child: TextFormField(
+                                onChanged: (_) => updateRender(),
+                                controller: _companyController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Entreprise'),
+                              ),
+                            ));
+  }
+  return const SizedBox(height: 2,);
+}
+
   void myAlert() {
     showDialog(
         context: context,
@@ -68,7 +91,7 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: const Text('Selectionner un fichier multimedia'),
+            title: Text('Selectionner un fichier multimedia', style: GoogleFonts.allan(),),
             content: SizedBox(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -80,9 +103,9 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.gallery);
                     },
                     child: Row(
-                      children: const [
+                      children:  [
                         Icon(Icons.image),
-                        Text('Depuis la galerie de photos'),
+                        Text('Depuis la galerie de photos', style: GoogleFonts.allan(),),
                       ],
                     ),
                   ),
@@ -96,9 +119,9 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.camera);
                     },
                     child: Row(
-                      children: const [
+                      children:  [
                         Icon(Icons.camera),
-                        Text('Prendre une photo'),
+                        Text('Prendre une photo', style: GoogleFonts.allan(),),
                       ],
                     ),
                   ),
@@ -124,15 +147,13 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       appBar: Header(
         key: const ValueKey('header'),
-        title: 'FHT Linkedin - User',
-        // displayLogout: false,
+        title: 'Mon profil',
       ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Row(
+      body:
+       Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
+            Expanded( 
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +173,10 @@ class _UserPageState extends State<UserPage> {
                               height: 300,
                             ),
                           ))
-                      : Column(children: <Widget>[
+                      : Column(
+                        children: <Widget>[
+                          //add container here
+                          Text('Photo de profil', style: GoogleFonts.allan(),),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             height: 300,
@@ -200,13 +224,15 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             Expanded(
-              child: Column(
+             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+                  //add container here
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Text('Modifier mon profil'),
                         Container(
                             margin: const EdgeInsets.all(15.0),
                             child: SizedBox(
@@ -231,6 +257,7 @@ class _UserPageState extends State<UserPage> {
                                     labelText: 'Nom'),
                               ),
                             )),
+                            //_isCompany() ? Container() : SizedBox(height: 2,),
                         Container(
                             margin: const EdgeInsets.all(15.0),
                             child: SizedBox(
@@ -342,12 +369,16 @@ class _UserPageState extends State<UserPage> {
                     ]),
                   ),
                 ],
-              ),
+              ),             
             ),
+            
             Expanded(
-                child: Column(
+                             child: Column(
+                  
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //add container here
+                  Text('Modifier mon mot de passe', style: GoogleFonts.amiko(),),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   width: 250,
@@ -385,11 +416,11 @@ class _UserPageState extends State<UserPage> {
                     ]),
                   ),
                 )
-              ],
+                ],
             ))
-          ],
+        ],
         ),
-      ),
+        
     );
   }
 }
