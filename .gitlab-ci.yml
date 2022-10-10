@@ -38,5 +38,5 @@ deploy:
       docker pull ${CI_REGISTRY_IMAGE}/frontend:latest &&
       docker pull ${CI_REGISTRY_IMAGE}/backend:latest &&
       cd nlpf &&
-      git pull ${GITLAB_CLONE} &&
+      git pull &&
       docker-compose up -d
