@@ -35,7 +35,7 @@ class JobOffer {
     }
 
     if (json.containsKey('mcq')) {
-      // mcq = MCQ.fromJson(json['mcq']);
+      mcq = MCQ.fromJson(json['mcq']);
     }
   }
 
