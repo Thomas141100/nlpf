@@ -17,7 +17,7 @@ void showSnackBar(BuildContext context, String message,
 
 JobOffer convertJson2JobOffer(Map<dynamic, dynamic> json) {
   List<Map<String, Object>> questions = [];
-  var arr = json['mcq']['questions'];
+  var arr = json['mcq']?['questions'];
   arr.forEach((element) {
     var questionText = element['questionText'];
     var answers = element['answers'];
