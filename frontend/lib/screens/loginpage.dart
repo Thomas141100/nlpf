@@ -3,6 +3,7 @@ import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../module/client.dart';
 import 'package:flutter/material.dart';
@@ -108,16 +109,14 @@ class _LoginPage extends State<LoginPage> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child: const Text(
-                      'FHT Production',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
-                    ),
+                    child:
+                    Image.asset(
+                          'images/TLR-Logo.png',
+                          scale: 2,
+                          ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     height: 400,
@@ -246,7 +245,8 @@ class _LoginPage extends State<LoginPage> {
                                                 clearSignUpForm();
                                                 Navigator.of(context).pop();
                                               },
-                                              child: const Text('Cancel'),
+                                              child: Text('Cancel', 
+                                              style: GoogleFonts.allan(),)
                                             ),
 
                                             // The "Yes" button
@@ -275,7 +275,8 @@ class _LoginPage extends State<LoginPage> {
                                                   }
                                                 }
                                               },
-                                              child: const Text('Sign up'),
+                                              child:  Text('Sign up', 
+                                              style: GoogleFonts.allan(),),
                                             ),
                                           ],
                                         );
@@ -286,8 +287,30 @@ class _LoginPage extends State<LoginPage> {
                           ),
                         ]),
                   ),
+                SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                      'Vous recherchez du travail ? Traverser la rue !',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 35),
+                    ),
+                    SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                      'Il suffit juste de Traverser la rue !',
+                      style:TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.bold,
+                          
+                          fontSize: 35),
+                    ),
                 ]),
           )),
+          
     );
   }
 }
