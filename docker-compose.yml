@@ -13,14 +13,14 @@ services:
 
   nlpf_backend:
     container_name: nlpf_backend
-    image: nlpf_backend:latest
+    image: registry.cri.epita.fr/thomas.saury/nlpf/backend:latest
     restart: always
     ports:
       - 42069:42069
 
   nlpf_frontend:
     container_name: nlpf_frontend
-    image: nlpf_frontend:latest
+    image: registry.cri.epita.fr/thomas.saury/nlpf/frontend:latest
     restart: always
     ports:
       - 8080:80
