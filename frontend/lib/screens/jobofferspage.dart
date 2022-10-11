@@ -147,6 +147,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
         showDialog(
             context: context,
             builder: (context) => JobOfferDialog(
+                  companyName: _currentUser!.companyName!,
                   jobOffer: jobOffer,
                 ));
       },
@@ -155,6 +156,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
           showDialog(
               context: context,
               builder: (context) => JobOfferDialog(
+                    companyName: _currentUser!.companyName!,
                     isEdditing: true,
                     jobOffer: jobOffer,
                     updateJobOffersList: setCompanyJobOffers,
@@ -189,6 +191,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
         showDialog(
             context: context,
             builder: (context) => JobOfferDialog(
+                  companyName: _currentUser!.companyName!,
                   jobOffer: jobOffer,
                 ));
       },
@@ -242,6 +245,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
                   context: context,
                   builder: (context) {
                     return JobOfferDialog(
+                      companyName: _currentUser!.companyName!,
                       isCreating: true,
                       updateJobOffersList: setCompanyJobOffers,
                     );

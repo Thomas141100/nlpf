@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (context) => JobOfferDialog(
                   jobOffer: jobOffer,
+                  companyName: _currentUser!.companyName!,
                 ));
       },
       firstButton: TextButton(
@@ -136,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                     isEdditing: true,
                     jobOffer: jobOffer,
                     updateJobOffersList: setJobOffers,
+                    companyName: _currentUser!.companyName!,
                   ));
         },
         child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
@@ -183,8 +185,7 @@ class _HomePageState extends State<HomePage> {
         showDialog(
             context: context,
             builder: (context) => JobOfferDialog(
-                  jobOffer: jobOffer,
-                ));
+                jobOffer: jobOffer, companyName: _currentUser!.companyName!));
       },
       firstButton: TextButton(
         onPressed:
@@ -251,6 +252,7 @@ class _HomePageState extends State<HomePage> {
                   context: context,
                   builder: (context) {
                     return JobOfferDialog(
+                      companyName: _currentUser!.companyName!,
                       isCreating: true,
                       updateJobOffersList: setJobOffers,
                     );

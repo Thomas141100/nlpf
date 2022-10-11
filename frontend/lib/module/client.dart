@@ -233,8 +233,8 @@ class Client {
     }
   }
 
-  static Future<Response> updateJobOffer(String id, String title,
-      String description, String tags, String companyname) async {
+  static Future<Response> updateJobOffer(
+      String id, String title, String description, String tags) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
@@ -247,7 +247,6 @@ class Client {
         },
         body: jsonEncode(<String, String>{
           'title': title,
-          'companyname': companyname,
           'description': description,
           'tags': tags
         }),
