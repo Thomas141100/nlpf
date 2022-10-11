@@ -227,9 +227,10 @@ class _JobOffersPageState extends State<JobOffersPage> {
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
-              : const Center(
-                  child: Text(
-                      "Vous n'avez pas encore postulé à une offre. N'attendez plus pour traverser la rue !"),
+              : Center(
+                  child: Text(_currentUser != null && _currentUser!.isCompany
+                      ? "Vous n'avez pas encore posté d'offre. N'attendez plus pour accueillir les chômeurs du trottoir voisin!"
+                      : "Vous n'avez pas encore postulé à une offre. N'attendez plus pour traverser la rue !"),
                 );
         },
       ),
