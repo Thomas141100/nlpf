@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
@@ -32,7 +32,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
   int _columnRatio = 1;
   double _cardRatio = 200;
   var isLoading = false;
-  List<UserCandidacy>? _children;
+  List<JobOfferCandidacy>? _children;
 
   @override
   void dispose() {
@@ -43,20 +43,29 @@ class _JobOffersPageState extends State<JobOffersPage> {
   @override
   void initState() {
     super.initState();
-    setCurrentUser().then((value) =>
-        Client.getCurrentUserAllCandidacies(_currentUser!.getId())
-            .then((value) {
-          setState(() async {
-            print(value);
-            _children = value;
+    setCurrentUser()
+        .then((value) => setCandidacies().then((value) => setJobOffersList()));
+    return;
+  }
 
-            List<JobOffer> jobOff = List.empty(growable: true);
-            for (UserCandidacy candidacy in value) {
-              jobOff.add(await Client.gotJobOfferById(candidacy.offerId));
-            }
-            _jobOffers = jobOff;
-          });
-        }));
+  Future<void> setCandidacies() async {
+    var candidacies =
+        await Client.getCurrentUserAllCandidacies(_currentUser!.getId());
+    setState(() {
+      _children = candidacies;
+    });
+  }
+
+  Future<void> setJobOffersList() async {
+    List<JobOffer> jobOff = List.empty(growable: true);
+    if (_children == null) return;
+    for (JobOfferCandidacy candidacy in _children!) {
+      if (candidacy.offer.getId() == "") continue;
+      jobOff.add(await Client.getJobOfferById(candidacy.offer.getId()));
+    }
+    setState(() {
+      _jobOffers = jobOff;
+    });
   }
 
   Future<void> setCurrentUser() async {
@@ -113,46 +122,75 @@ class _JobOffersPageState extends State<JobOffersPage> {
     if (max * pageNumber > _jobOffers!.length) {
       max = _jobOffers!.length;
     }
+    if (_currentUser!.isCompany) {
+      return List.generate(
+          max, (index) => _buildCompanyOfferCard(_jobOffers![index]));
+    }
+    return List.generate(
+        max, (index) => _buildUserOfferCard(_jobOffers![index]));
+  }
 
-    return List.generate(max, (index) {
-      JobOffer jobOffer = _jobOffers![index];
-      return OfferCard(
-        title: jobOffer.title,
-        description: jobOffer.description ?? "",
-        companyName: jobOffer.companyName,
-        onTapHandle: () {
+  OfferCard _buildCompanyOfferCard(JobOffer jobOffer) {
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      firstButton: TextButton(
+        onPressed: () {
           showDialog(
               context: context,
               builder: (context) => JobOfferDialog(
+                    isEdditing: true,
                     jobOffer: jobOffer,
+                    updateJobOffersList: setJobOffers,
                   ));
         },
-        firstButton: TextButton(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) => JobOfferDialog(
-                      isEdditing: true,
-                      jobOffer: jobOffer,
-                      updateJobOffersList: setJobOffers,
-                    ));
-          },
-          child: const Text('Modifier'),
-        ),
-        secondButton: TextButton(
-          child: const Text('Supprimer'),
-          onPressed: () {
-            deleteJobOffers(jobOffer.getId());
-          },
-        ),
-        cardHeight: _cardRatio,
-      );
-    });
+        child: const Text('Modifier'),
+      ),
+      secondButton: TextButton(
+        child: const Text('Supprimer'),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => ConfirmationDialog(
+                    title: "Confirmation Dialog",
+                    message: "Êtes vous sûr de vouloir supprimer cette offre ?",
+                    confirmHandle: () => deleteJobOffers(
+                      jobOffer.getId(),
+                    ),
+                  ));
+        },
+      ),
+      cardHeight: _cardRatio,
+    );
+  }
+
+  OfferCard _buildUserOfferCard(JobOffer jobOffer) {
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      cardHeight: _cardRatio,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_currentUser!.isCompany && _jobOffers == null) {
+    if (_currentUser != null && _jobOffers == null) {
       setJobOffers();
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);
@@ -168,9 +206,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          return _currentUser != null &&
-                  _currentUser!.isCompany &&
-                  _jobOffers != null
+          return _currentUser != null && _jobOffers != null
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),

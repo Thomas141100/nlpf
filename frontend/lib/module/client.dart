@@ -119,7 +119,7 @@ class Client {
 
   /////////////////Functions relative to the candidacy part /////////
 
-  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
+  static Future<List<JobOfferCandidacy>> getCurrentUserAllCandidacies(
       String id) async {
     Uri url = Uri.http(_url, '/api/users/$id/candidacies');
     try {
@@ -138,9 +138,9 @@ class Client {
       var body = response.body;
       if (body.isEmpty) return List.empty();
       var decodedJson = jsonDecode(body);
-      List<UserCandidacy> candidaciesList = [];
+      List<JobOfferCandidacy> candidaciesList = [];
       for (var userCandidacy in decodedJson) {
-        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
+        candidaciesList.add(JobOfferCandidacy.fromJson(userCandidacy));
       }
       return candidaciesList;
     } catch (e) {
@@ -178,7 +178,7 @@ class Client {
     }
   }
 
-  static Future<JobOffer> gotJobOfferById(String id) async {
+  static Future<JobOffer> getJobOfferById(String id) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id');
     try {
       var token = await getToken();
