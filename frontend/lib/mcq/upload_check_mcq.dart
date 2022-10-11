@@ -52,7 +52,7 @@ class _Check extends State<Check> {
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
               onPressed: importCSV,
-              child:  Text("Choisir un fichier",  style: Theme.of(context).textTheme.labelMedium),
+              child:  Text("Choisir un fichier",  style: Theme.of(context).textTheme.headlineSmall),
             ),
           ),
               Container(

@@ -122,8 +122,9 @@ class _LoginPage extends State<LoginPage> {
                     height: 400,
                     width: 380,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Theme.of(context).primaryColor)),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -192,7 +193,7 @@ class _LoginPage extends State<LoginPage> {
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: ElevatedButton(
-                              child:  Text('Se connecter', style: Theme.of(context).textTheme.labelMedium),
+                              child:  Text('Se connecter', style: Theme.of(context).textTheme.headlineSmall),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   MyApp.of(context).authService.authenticated =

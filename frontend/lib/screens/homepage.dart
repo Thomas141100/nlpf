@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
+              'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
           return _currentUser != null && _jobOffers != null
