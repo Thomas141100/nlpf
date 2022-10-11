@@ -35,7 +35,7 @@ class JobOfferMCQAnswerController extends ResourceController {
     }
 
     final answers = result['answers'] as List;
-    final answer = answers.firstWhere((element) => element['user'] == user['id'], orElse: () => null);
+    final answer = answers.firstWhere((element) => element['user'] == ObjectId.fromHexString(user['id'] as String), orElse: () => null);
 
     if (answer == null) {
       return Response.notFound();
@@ -66,7 +66,7 @@ class JobOfferMCQAnswerController extends ResourceController {
     }
 
     final Map<String, dynamic> answer = await request!.body.decode();
-    answer['user'] = user['id'];
+    answer['user'] = ObjectId.fromHexString(user['id'] as String);
     answer['creationDate'] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
     final updated = await collection.updateOne(where.eq("offer", ObjectId.fromHexString(offerId)), modify.push("answers", answer));
