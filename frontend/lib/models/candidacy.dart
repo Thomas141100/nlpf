@@ -1,4 +1,4 @@
-import 'package:fht_linkedin/models/user.dart';
+import 'package:fht_linkedin/models/job_offer.dart';
 
 class UserCandidacy {
   String _id = "";
@@ -18,8 +18,8 @@ class UserCandidacy {
 
 class JobOfferCandidacy {
   String _id = "";
-  User candidate = User.empty();
-  String offer = "";
+  String candidate = "";
+  JobOffer offer;
   int creationDate = 0;
 
   String getId() => _id;
@@ -28,5 +28,7 @@ class JobOfferCandidacy {
       : _id = json['_id'],
         candidate = json['candidate'],
         creationDate = json['creationDate'],
-        offer = json['offer'];
+        offer = json['offer'] != null
+            ? JobOffer.fromJson(json['offer'])
+            : JobOffer.empty();
 }

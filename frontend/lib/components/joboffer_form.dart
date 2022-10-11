@@ -9,7 +9,6 @@ class JobOfferForm extends StatefulWidget {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
   final TextEditingController tagsController;
-  final TextEditingController companyNameController;
   final GlobalKey<FormState> formKey;
   final bool enableInput;
   final MCQ? mcq;
@@ -20,7 +19,6 @@ class JobOfferForm extends StatefulWidget {
     required this.titleController,
     required this.descriptionController,
     required this.tagsController,
-    required this.companyNameController,
     required this.formKey,
     required this.mcq,
     this.enableInput = false,
@@ -42,7 +40,7 @@ class _JobOfferForm extends State<JobOfferForm> {
       child: Column(
         children: <Widget>[
           Container(
-           color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).backgroundColor,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
             child: Text(
@@ -67,17 +65,6 @@ class _JobOfferForm extends State<JobOfferForm> {
                         validator: Validators.generalValidator(),
                         enabled: widget.enableInput,
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                          controller: widget.companyNameController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Nom de l\'entreprise',
-                          ),
-                          validator: Validators.generalValidator(),
-                          enabled: widget.enableInput),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
