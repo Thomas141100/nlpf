@@ -146,79 +146,93 @@ class _JobOfferForm extends State<JobOfferForm> {
                   ],
                 ),
               ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                    controller: widget.descriptionController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Description',
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Renseignez ce champs';
+                      }
+                      return null;
+                    },
+                    enabled: widget.enableInput),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Check(
+                    mcq: widget.mcq,
+                    enableInput: widget.enableInput,
+                    offerId: widget.offerId),
+              ),
+              candidacies.isNotEmpty
+                  ? Column(
+                      children: <Widget>[
+                        const Center(
+                          child: Text(
+                            'Candidats',
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(columns: const [
+                            DataColumn(
+                                label: Text('Nom',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Prenom',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Email',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                            DataColumn(
+                                label: Text('Score',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                          ], rows: [
+                            ...candidacies.map(
+                              (candidacy) {
+                                return DataRow(cells: [
+                                  DataCell(
+                                    Text(candidacy.candidate.lastname),
+                                  ),
+                                  DataCell(
+                                    Text(candidacy.candidate.firstname),
+                                  ),
+                                  DataCell(
+                                    Text(candidacy.candidate.email),
+                                  ),
+                                  DataCell(
+                                    Text(candidacy.score == 0 &&
+                                            widget.mcq != null
+                                        ? "Non évalué"
+                                        : candidacy.score.toString()),
+                                  ),
+                                ]);
+                              },
+                            ),
+                          ]),
+                        ),
+                      ],
+                    )
+                  : Container()
             ],
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextFormField(
-                controller: widget.descriptionController,
-                keyboardType: TextInputType.multiline,
-                maxLines: 10,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Description',
-                ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Renseignez ce champs';
-                  }
-                  return null;
-                },
-                enabled: widget.enableInput),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: Check(
-                mcq: widget.mcq,
-                enableInput: widget.enableInput,
-                offerId: widget.offerId),
-          ),
-          candidacies.isNotEmpty
-              ? Column(children: <Widget>[
-                  const Center(
-                      child: Text(
-                    'Candidats',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  )),
-                  DataTable(columns: const [
-                    DataColumn(
-                        label: Text('Nom',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text('Prenom',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text('Email',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text('Score',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                  ], rows: [
-                    ...candidacies.map(
-                      (candidacy) {
-                        return DataRow(cells: [
-                          DataCell(
-                            Text(candidacy.candidate.lastname),
-                          ),
-                          DataCell(
-                            Text(candidacy.candidate.firstname),
-                          ),
-                          DataCell(
-                            Text(candidacy.candidate.email),
-                          ),
-                          DataCell(
-                            Text(candidacy.score.toString()),
-                          ),
-                        ]);
-                      },
-                    ),
-                  ]),
-                ])
-              : Container(),
         ],
       ),
     );

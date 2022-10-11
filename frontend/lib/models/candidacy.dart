@@ -34,7 +34,6 @@ class JobOfferCandidacy {
     candidate = User.fromJson(json['candidate']);
     offer = json['offer'];
     creationDate = json['creationDate'];
-    // score = json['score'];
-    score = 0;
+    score = json['score'] != null ? int.parse(json['score']) : 0;
   }
 }
