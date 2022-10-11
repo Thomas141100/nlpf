@@ -33,6 +33,14 @@ class _Search extends State<Search> {
     widget.searchOffersWithFilters(filters: filters);
   }
 
+  void resetFilters() {
+    _titleController.clear();
+    _companyController.clear();
+    _tagsController.clear();
+    _adresseController.clear();
+    widget.searchOffersWithFilters(filters: null);
+  }
+
   final filters = ["Le plus récent", "Le plus recherché", "Le moins recherché"];
   String? selectedValue;
 
@@ -72,17 +80,34 @@ class _Search extends State<Search> {
                   icon: Icon(Icons.location_on,
                       color: Theme.of(context).primaryColor)),
               Tags(textController: _tagsController),
-              Container(
-                height: 50,
-                margin: const EdgeInsets.all(20),
-                child: ElevatedButton(
-                  onPressed: () => {searchHandle()},
-                  child: Text(
-                    'Rechercher',
-                    style: Theme.of(context).textTheme.displaySmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 50,
+                    margin: const EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () => {resetFilters()},
+                      style: Theme.of(context).elevatedButtonTheme.style,
+                      child: Text(
+                        'Réinitialiser',
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                    ),
                   ),
-                  style: Theme.of(context).elevatedButtonTheme.style,
-                ),
+                  Container(
+                    height: 50,
+                    margin: const EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () => {searchHandle()},
+                      style: Theme.of(context).elevatedButtonTheme.style,
+                      child: Text(
+                        'Rechercher',
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: EdgeInsets.all(20),
