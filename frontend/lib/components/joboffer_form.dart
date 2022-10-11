@@ -46,7 +46,7 @@ class _JobOfferForm extends State<JobOfferForm> {
             padding: const EdgeInsets.all(10),
             child: Text(
               widget.formTitle,
-               style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Row(
@@ -93,7 +93,6 @@ class _JobOfferForm extends State<JobOfferForm> {
                             border: OutlineInputBorder(),
                             labelText: 'Tags',
                           ),
-                          validator: Validators.generalValidator(),
                           enabled: widget.enableInput),
                     ),
                     Padding(
