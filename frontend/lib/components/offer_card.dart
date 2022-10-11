@@ -6,7 +6,7 @@ class OfferCard extends Card {
   final String companyName;
   final void Function() onTapHandle;
   final TextButton firstButton;
-  final TextButton secondButton;
+  final TextButton? secondButton;
   final double cardHeight;
 
   const OfferCard(
@@ -16,11 +16,17 @@ class OfferCard extends Card {
       required this.companyName,
       required this.onTapHandle,
       required this.firstButton,
-      required this.secondButton,
-      required this.cardHeight});
+      required this.cardHeight,
+      this.secondButton});
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> btns = [firstButton];
+    if (secondButton != null) {
+      btns.add(const SizedBox(width: 8));
+      btns.add(secondButton!);
+      btns.add(const SizedBox(width: 8));
+    }
     return Card(
       child: InkWell(
         splashColor: Colors.blue.withAlpha(40),
@@ -53,12 +59,7 @@ class OfferCard extends Card {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              firstButton,
-              const SizedBox(width: 8),
-              secondButton,
-              const SizedBox(width: 8),
-            ],
+            children: btns,
           )
         ])),
       ),
