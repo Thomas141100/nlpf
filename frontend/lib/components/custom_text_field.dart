@@ -22,17 +22,16 @@ class _CustomTextField extends State<CustomTextField> {
       padding: const EdgeInsets.all(20),
       child: TextField(
         controller: widget.textController,
-        cursorColor:  Theme.of(context).primaryColor,//Text()
+        cursorColor: Theme.of(context).primaryColor, //Text()
         decoration: InputDecoration(
             labelText: widget.input,
-            labelStyle:  TextStyle(
-                color: Theme.of(context).primaryColor, fontSize: 16),
-            focusedBorder:  UnderlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColor),//Text()
+            labelStyle:
+                TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Theme.of(context).primaryColor),
             ),
-            enabledBorder:  UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: Theme.of(context).primaryColor)),//Text()
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
             icon: widget.icon),
       ),
     );

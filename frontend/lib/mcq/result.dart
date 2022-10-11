@@ -41,10 +41,10 @@ class Result extends StatelessWidget {
               resultPhrase,
               style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center,
-            ), 
+            ),
             Text(
               'Score ' '$resultScore',
-               style: Theme.of(context).textTheme.displayLarge,
+              style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             TextButton(
@@ -69,7 +69,7 @@ class Result extends StatelessWidget {
                 padding: const EdgeInsets.all(14),
                 child: Text(
                   'Retour',
-                   style: Theme.of(context).textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
             ),

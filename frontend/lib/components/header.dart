@@ -36,8 +36,11 @@ class _Header extends State<Header> {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: widget.displayProfile
-                ? IconButton(//Text()
-                    icon:  Icon(Icons.person, color: Theme.of(context).backgroundColor,),
+                ? IconButton(
+                    icon: Icon(
+                      Icons.person,
+                      color: Theme.of(context).backgroundColor,
+                    ),
                     tooltip: 'Show Snackbar',
                     onPressed: () {
                       AutoRouter.of(context).pushNamed("/user");

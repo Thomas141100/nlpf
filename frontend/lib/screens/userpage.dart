@@ -228,12 +228,13 @@ class _UserPageState extends State<UserPage> {
                       ),
                       FittedBox(
                         child: ElevatedButton(
+                            style: Theme.of(context).elevatedButtonTheme.style,
                             onPressed: () {
                               myAlert();
                             },
                             child: Row(
                               children: [
-                                Icon(Icons.upload_file, 
+                                Icon(Icons.upload_file,
                                     color: Theme.of(context).backgroundColor),
                                 Text(
                                   'Choisir un fichier',

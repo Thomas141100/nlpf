@@ -137,15 +137,17 @@ class _HomePageState extends State<HomePage> {
                     updateJobOffersList: setJobOffers,
                   ));
         },
-        child: const Text('Modifier'),
+        child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
+        style: Theme.of(context).textButtonTheme.style,
       ),
       secondButton: TextButton(
-        child: const Text('Supprimer'),
+        child: Text('Supprimer', style: Theme.of(context).textTheme.bodyMedium),
+        style: Theme.of(context).textButtonTheme.style,
         onPressed: () {
           showDialog(
               context: context,
               builder: (context) => ConfirmationDialog(
-                    title: "Confirmation Dialog",
+                    title: "Sérieusement ?",
                     message: "Êtes vous sûr de vouloir supprimer cette offre ?",
                     confirmHandle: () => deleteJobOffers(
                       jobOffer.getId(),
