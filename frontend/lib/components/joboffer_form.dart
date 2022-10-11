@@ -1,4 +1,5 @@
 import 'package:fht_linkedin/models/mcq.dart';
+import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/validators.dart';
@@ -37,6 +38,7 @@ class JobOfferForm extends StatefulWidget {
 class _JobOfferForm extends State<JobOfferForm> {
   List<String> _tags = [];
   List<JobOfferCandidacy> candidacies = [];
+  User currentUser = User.empty();
 
   @override
   void initState() {
@@ -50,6 +52,11 @@ class _JobOfferForm extends State<JobOfferForm> {
       Client.getMCQ(widget.offerId).then((value) {
         setState(() {
           widget.mcq = value;
+        });
+        Client.getCurrentUser().then((value) {
+          setState(() {
+            currentUser = value!;
+          });
         });
       });
     }

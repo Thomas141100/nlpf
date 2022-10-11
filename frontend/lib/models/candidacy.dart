@@ -30,7 +30,6 @@ class JobOfferCandidacy {
   JobOfferCandidacy.empty() : this("", User.empty(), "", 0, 0);
 
   JobOfferCandidacy.fromJson(Map<dynamic, dynamic> json) {
-    print(json);
     _id = json['_id'];
     candidate = User.fromJson(json['candidate']);
     offer = json['offer'];
