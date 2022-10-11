@@ -34,9 +34,17 @@ class User {
         'id': _id,
         'firstname': firstname,
         'lastname': lastname,
-        'email': email,
+        'mail': email,
         'isCompany': isCompany,
         'companyName': companyName,
         'jobOffers': jobOffers
       };
+
+  User.fromJson(Map<dynamic, dynamic> json)
+      : _id = json['_id'],
+        firstname = json['firstname'],
+        lastname = json['lastname'],
+        email = json['mail'],
+        isCompany = json['isCompany'] == "true",
+        companyName = json['isCompany'] == "true" ? json['companyName'] : "";
 }

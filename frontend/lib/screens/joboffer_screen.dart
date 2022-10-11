@@ -34,8 +34,8 @@ class JobOfferDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
     MCQ mcq = MCQ.empty();
-
     List<Widget>? actions = [];
+
     if (isEdditing || isCreating) {
       actions.add(TextButton(
         style: TextButton.styleFrom(foregroundColor: Colors.redAccent),

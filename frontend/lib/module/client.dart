@@ -273,6 +273,34 @@ class Client {
     }
   }
 
+  static Future<List<JobOfferCandidacy>> getJobOfferCandidacy(String id) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
+    var token = await getToken();
+    try {
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      List<dynamic> decodedJson = jsonDecode(body);
+      List<JobOfferCandidacy> candidacies = List.empty(growable: true);
+      for (Map<String, dynamic> candidaciesJson in decodedJson) {
+        candidacies.add(JobOfferCandidacy.fromJson(candidaciesJson));
+      }
+      return candidacies;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
   /////////////////Functions relative to the mcq/certification part /////////
 
   static Future<Response> postmcq(

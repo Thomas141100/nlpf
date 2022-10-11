@@ -21,12 +21,20 @@ class JobOfferCandidacy {
   User candidate = User.empty();
   String offer = "";
   int creationDate = 0;
+  int score = 0;
 
   String getId() => _id;
 
-  JobOfferCandidacy.fromJson(Map<String, dynamic> json)
-      : _id = json['_id'],
-        candidate = json['candidate'],
-        creationDate = json['creationDate'],
-        offer = json['offer'];
+  JobOfferCandidacy(
+      this._id, this.candidate, this.offer, this.creationDate, this.score);
+  JobOfferCandidacy.empty() : this("", User.empty(), "", 0, 0);
+
+  JobOfferCandidacy.fromJson(Map<dynamic, dynamic> json) {
+    _id = json['_id'];
+    candidate = User.fromJson(json['candidate']);
+    offer = json['offer'];
+    creationDate = json['creationDate'];
+    // score = json['score'];
+    score = 0;
+  }
 }
