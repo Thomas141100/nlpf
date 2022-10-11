@@ -33,6 +33,8 @@ class JobOfferForm extends StatefulWidget {
 }
 
 class _JobOfferForm extends State<JobOfferForm> {
+  List<String> _tags = [];
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -75,6 +77,39 @@ class _JobOfferForm extends State<JobOfferForm> {
                           ),
                           validator: Validators.generalValidator(),
                           enabled: widget.enableInput),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                          controller: widget.tagsController,
+                          onFieldSubmitted: (value) {
+                            _tags.add(value);
+                            setState(() {
+                              _tags = _tags;
+                            });
+                            widget.tagsController.clear();
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Tags',
+                          ),
+                          validator: Validators.generalValidator(),
+                          enabled: widget.enableInput),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Wrap(
+                        children: _tags
+                            .map((tag) => Chip(
+                                  label: Text(tag),
+                                  onDeleted: () {
+                                    setState(() {
+                                      _tags.remove(tag);
+                                    });
+                                  },
+                                ))
+                            .toList(),
+                      ),
                     ),
                   ],
                 ),
