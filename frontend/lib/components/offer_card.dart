@@ -27,44 +27,46 @@ class OfferCard extends Card {
       btns.add(secondButton!);
       btns.add(const SizedBox(width: 8));
     }
-    return Card(
+   return Card(
       child: InkWell(
         splashColor: Theme.of(context).primaryColor,
         onTap: onTapHandle,
-        child: SizedBox(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          ListTile(
-            iconColor: Theme.of(context).backgroundColor,
-            selectedColor: Theme.of(context).hoverColor,
-            textColor: Theme.of(context).backgroundColor,
-            leading: const Icon(Icons.album),
-            title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-            subtitle: Text(companyName,
-                style: Theme.of(context).textTheme.titleSmall),
-            mouseCursor: MouseCursor.uncontrolled,
-          ),
-          Container(
-            alignment: AlignmentDirectional.topStart,
-            constraints: BoxConstraints(
-              maxHeight: cardHeight,
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(description,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.bodyMedium),
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            child: Column(children: [
+              ListTile(
+                iconColor: Theme.of(context).secondaryHeaderColor,
+                selectedColor: Theme.of(context).hoverColor,
+                textColor: Theme.of(context).backgroundColor,
+                leading: const Icon(Icons.album),
+                title:
+                    Text(title, style: Theme.of(context).textTheme.titleMedium),
+                subtitle: Text(companyName,
+                    style: Theme.of(context).textTheme.titleSmall),
+                mouseCursor: MouseCursor.uncontrolled,
+              ),
+              Container(
+                alignment: AlignmentDirectional.center,
+                constraints: BoxConstraints(
+                    maxHeight: 100,// cardHeight,
+                    ),
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(description,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.bodyMedium),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: btns,
-          )
-        ])),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: btns,
+              )
+            ])),
       ),
     );
   }

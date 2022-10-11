@@ -170,6 +170,7 @@ class _LoginPage extends State<LoginPage> {
                             ),
                           ),
                           TextButton(
+                            style: Theme.of(context).textButtonTheme.style,
                             onPressed: () {
                               showDialog(
                                   context: context,
@@ -221,6 +222,7 @@ class _LoginPage extends State<LoginPage> {
                                   style:
                                       Theme.of(context).textTheme.labelMedium),
                               TextButton(
+                                style: Theme.of(context).textButtonTheme.style,
                                 child: Text('S\'inscrire',
                                     style:
                                         Theme.of(context).textTheme.labelLarge),
