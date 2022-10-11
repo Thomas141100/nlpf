@@ -114,10 +114,14 @@ class Client {
     }
   }
 
-  static Future<Response> updateUser(User user) async {
+  static Future<Response> updateUser(User user, {String? password}) async {
     Uri url = Uri.http(_url, '/users/${user.id}');
     try {
       var token = await getToken();
+      var userMap = user.toJson();
+      if (password != null && password.isNotEmpty) {
+        userMap.addAll({'password': password});
+      }
       var response = await put(
         url,
         headers: {
@@ -125,11 +129,7 @@ class Client {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
         },
-        body: jsonEncode(<String, String>{
-          'mail': user.email,
-          'firstname': user.firstname,
-          'lastname': user.lastname
-        }),
+        body: jsonEncode(userMap),
       );
       return response;
     } catch (e) {

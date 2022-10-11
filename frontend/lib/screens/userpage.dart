@@ -25,6 +25,10 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
+
   bool reRender = false;
 
   Future getImage(ImageSource media) async {
@@ -352,6 +356,7 @@ class _UserPageState extends State<UserPage> {
                   margin: const EdgeInsets.all(15.0),
                   width: 250,
                   child: TextFormField(
+                      controller: _passwordController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Nouveau mot de passe')),
@@ -360,6 +365,7 @@ class _UserPageState extends State<UserPage> {
                   margin: const EdgeInsets.all(15.0),
                   width: 250,
                   child: TextFormField(
+                      controller: _passwordConfirmController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Confirmer le mot de passe')),
@@ -370,8 +376,27 @@ class _UserPageState extends State<UserPage> {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 10, 129, 12),
                     ),
-                    onPressed: () {
-                      showSnackBar(context, "Feature not yet implemented");
+                    onPressed: () async {
+                      try {
+                        var response = await Client.updateUser(
+                            User(
+                                _currentUser!.id,
+                                _firstnameController.text,
+                                _lastnameController.text,
+                                _emailController.text,
+                                _currentUser!.isCompany,
+                                _currentUser!.companyName),
+                            password: _passwordController.text);
+                        if (response.statusCode != 200) {
+                          throw ErrorDescription("$response");
+                        }
+                        showSnackBar(
+                            context, "Votre mot de passe a été mis à jour");
+                        setCurrentUser();
+                      } catch (e) {
+                        showSnackBar(context, "La mise à jour a échoué",
+                            isError: true);
+                      }
                     },
                     child: Row(children: const [
                       Icon(Icons.save, color: Colors.white),
