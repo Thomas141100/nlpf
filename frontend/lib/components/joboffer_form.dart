@@ -14,10 +14,10 @@ class JobOfferForm extends StatefulWidget {
   final TextEditingController companyNameController;
   final GlobalKey<FormState> formKey;
   final bool enableInput;
-  final MCQ? mcq;
+  MCQ? mcq;
   final String offerId;
 
-  const JobOfferForm({
+  JobOfferForm({
     required this.formTitle,
     required this.titleController,
     required this.descriptionController,
@@ -45,6 +45,12 @@ class _JobOfferForm extends State<JobOfferForm> {
       Client.getJobOfferCandidacy(widget.offerId).then((value) {
         setState(() {
           candidacies = value;
+        });
+      });
+      Client.getMCQ(widget.offerId).then((value) {
+        setState(() {
+          widget.mcq = value;
+          print(widget.mcq?.answers);
         });
       });
     }

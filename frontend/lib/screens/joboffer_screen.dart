@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
@@ -56,13 +58,16 @@ class JobOfferDialog extends AlertDialog {
               descriptionController.text,
               tagsController.text,
               companyNameController.text,
-              mcq,
             );
             if (response.statusCode == 200) {
-              clearInputs();
-              Navigator.of(context).pop();
-              updateJobOffersList();
-              showSnackBar(context, "L'offre a été créée");
+              var jobOfferId = jsonDecode(response.body)['_id'];
+              var responseMCQ = await Client.postmcq(jobOfferId, mcq);
+              if (responseMCQ.statusCode == 200) {
+                clearInputs();
+                Navigator.of(context).pop();
+                updateJobOffersList();
+                showSnackBar(context, "L'offre a été créée");
+              }
             } else {
               showSnackBar(context, "La création de l'offre a échoué",
                   isError: true);
@@ -127,7 +132,7 @@ class JobOfferDialog extends AlertDialog {
         descriptionController: descriptionController,
         tagsController: tagsController,
         companyNameController: companyNameController,
-        mcq: isCreating ? mcq : jobOffer!.mcq,
+        mcq: isCreating ? mcq : null,
         formKey: _jobOfferformKey,
         formTitle: formTitle,
         enableInput: isCreating || isEdditing,

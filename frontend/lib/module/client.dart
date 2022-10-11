@@ -178,8 +178,8 @@ class Client {
     }
   }
 
-  static Future<Response> sendJobOffer(String title, String description,
-      String tags, String companyname, MCQ mcq) async {
+  static Future<Response> sendJobOffer(
+      String title, String description, String tags, String companyname) async {
     Uri url = Uri.http(_url, '/api/joboffers');
     var token = await getToken();
     try {
@@ -196,11 +196,6 @@ class Client {
             'companyName': companyname,
             'description': description,
             'tags': tags,
-            'mcq': {
-              'maxScore': mcq.maxScore,
-              'expectedScore': mcq.expectedScore,
-              'questions': mcq.questions,
-            },
           },
         ),
       );
@@ -303,8 +298,7 @@ class Client {
 
   /////////////////Functions relative to the mcq/certification part /////////
 
-  static Future<Response> postmcq(
-      String id, List<Map<String, Object>> mcq) async {
+  static Future<Response> postmcq(String id, MCQ mcq) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
@@ -315,7 +309,13 @@ class Client {
           "content-type": "application/json",
           "authorization": "Bearer $token",
         },
-        body: jsonEncode(mcq),
+        body: jsonEncode({
+          'mcq': {
+            'maxScore': mcq.maxScore,
+            'expectedScore': mcq.expectedScore,
+            'questions': mcq.questions,
+          },
+        }),
       );
       return response;
     } catch (e) {
@@ -323,8 +323,7 @@ class Client {
     }
   }
 
-  static Future<Response> getmcq(
-      String id, List<Map<String, Object>> mcq) async {
+  static Future<MCQ?> getMCQ(String id) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
@@ -336,9 +335,11 @@ class Client {
           "authorization": "Bearer $token",
         },
       );
-      return response;
+      return response.statusCode == 200
+          ? MCQ.fromJson(jsonDecode(response.body))
+          : MCQ.empty();
     } catch (e) {
-      return Response("", 500);
+      throw ErrorDescription("Failed to retrieve MCQ. Code $e");
     }
   }
 

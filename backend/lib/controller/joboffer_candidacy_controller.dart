@@ -22,21 +22,31 @@ class JobOfferCandidacyController extends ResourceController {
   }
 
   @Operation.get('offerId')
-  Future<Response> getAllCandidacies(@Bind.path('offerId') String offerId) async {
+  Future<Response> getAllCandidacies(
+      @Bind.path('offerId') String offerId) async {
     final candidacyCollection = db.collection("candidacies");
-    final result = await candidacyCollection.find(where.eq("offer", ObjectId.fromHexString(offerId))).toList();
+    final result = await candidacyCollection
+        .find(where.eq("offer", ObjectId.fromHexString(offerId)))
+        .toList();
+
+    final user = getPayload(request!.raw.headers['authorization']![0]);
+    if (user['isCompany'] == false) {
+      return Response.forbidden();
+    }
 
     for (final candidacy in result) {
       final userCollection = db.collection("users");
-      final user = await userCollection.findOne(where
-          .excludeFields(["password", "candidacies"])
-          .eq("_id", candidacy["candidate"]));
+      final user = await userCollection.findOne(where.excludeFields(
+          ["password", "candidacies"]).eq("_id", candidacy["candidate"]));
 
       final mcqCollection = db.collection("mcqs");
-      final mcq = await mcqCollection.findOne(where.eq("offer", candidacy["offer"]));
+      final mcq =
+          await mcqCollection.findOne(where.eq("offer", candidacy["offer"]));
       if (mcq != null) {
         final answers = mcq["answers"] as List;
-        final score = answers.firstWhere((element) => element["user"] == user!["_id"], orElse: () => null);
+        final score = answers.firstWhere(
+            (element) => element["user"] == user!["_id"],
+            orElse: () => null);
         if (score != null) {
           user!["score"] = score["score"];
         }
