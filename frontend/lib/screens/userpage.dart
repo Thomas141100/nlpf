@@ -5,7 +5,6 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -43,14 +42,13 @@ class _UserPageState extends State<UserPage> {
 
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
-    user ??= {} as User;
     setState(() {
       _currentUser = user;
       if (user != null) {
         _firstnameController.text = user.firstname;
         _lastnameController.text = user.lastname;
         _emailController.text = user.email;
-        _companyController.text = user.companyName!;
+        if (user.isCompany) _companyController.text = user.companyName!;
       }
     });
   }
