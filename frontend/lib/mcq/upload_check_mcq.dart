@@ -51,18 +51,10 @@ class _Check extends State<Check> {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
-<<<<<<< HEAD
               onPressed: importCSV,
               child:  Text("Choisir un fichier",  style: Theme.of(context).textTheme.headlineSmall),
             ),
           ),
-=======
-                  onPressed: importCSV,
-                  child: Text("Choisir un fichier",
-                      style: Theme.of(context).textTheme.headlineSmall),
-                ),
-              ),
->>>>>>> 77ff87db27412fb651f89210e8458c53f49e4d45
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
