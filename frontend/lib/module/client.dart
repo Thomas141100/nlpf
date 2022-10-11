@@ -117,7 +117,7 @@ class Client {
     }
   }
 
-  /////////////////Functions relative to the jobOffer part /////////
+  /////////////////Functions relative to the candidacy part /////////
 
   static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
       String id) async {
@@ -172,6 +172,28 @@ class Client {
       for (Map<dynamic, dynamic> jobOfferJson in decodedJson) {
         jobOffers.add(JobOffer.fromJson(jobOfferJson));
       }
+      return jobOffers;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
+  static Future<JobOffer> gotJobOfferById(String id) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      var body = response.body;
+      if (body.isEmpty) return JobOffer.empty();
+      dynamic decodedJson = jsonDecode(body);
+      JobOffer jobOffers = JobOffer.fromJson(decodedJson);
       return jobOffers;
     } catch (e) {
       throw ErrorDescription("Failed to fetch all offers. Code $e");
