@@ -12,7 +12,8 @@ class MCQ {
     List<Map<String, Object>> quests = [];
     for (var i = 0; i < questionsJson.length; i++) {
       quests.add({
-        'question': (questionsJson[i] as Map<String, dynamic>)['questionText'],
+        'questionText':
+            (questionsJson[i] as Map<String, dynamic>)['questionText'],
         'answers': (questionsJson[i] as Map<String, dynamic>)['answers'],
       });
     }
