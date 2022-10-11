@@ -64,8 +64,6 @@ class _UserPageState extends State<UserPage> {
         _currentUser!.email != _emailController.text;
   }
 
-  _isCompany() {}
-
   void myAlert() {
     showDialog(
         context: context,
