@@ -32,7 +32,7 @@ class JobOfferForm extends StatefulWidget {
   State<JobOfferForm> createState() => _JobOfferForm();
 }
 
-class _CreateJobOffer extends State<JobOfferForm> {
+class _JobOfferForm extends State<JobOfferForm> {
   List<String> _tags = [];
 
   @override
