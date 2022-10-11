@@ -9,8 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/mcq.dart';
 import '../utils/utils.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Client {
-  static const String _url = "localhost:42069";
+  static final String _url =
+      "${dotenv.env['host'] != "" ? dotenv.env['host'] : "localhost"}:${dotenv.env['port'] != "" ? dotenv.env['port'] : "42069"}";
 
   static Future<Response> signup(User newUser, String password) async {
     Uri url = Uri.http(_url, '/auth/signup');
@@ -364,6 +367,7 @@ class Client {
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
+    currentUser.companyName = currentUser.isCompany ? jsonMap['company'] : null;
     currentUser.setId(jsonMap['_id']);
     return currentUser;
   }

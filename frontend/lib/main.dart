@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/auth.dart';
 import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,12 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   final authService = AuthService();
   late final _appRouter = AppRouter(authGuard: AuthGuard(authService));
+  @override
+  void initState() {
+    super.initState();
+    dotenv.load(fileName: ".env");
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
