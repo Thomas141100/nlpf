@@ -170,7 +170,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
           showDialog(
               context: context,
               builder: (context) => ConfirmationDialog(
-                    title: "Confirmation Dialog",
+                    title: "Sérieusement ?",
                     message: "Êtes vous sûr de vouloir supprimer cette offre ?",
                     confirmHandle: () => deleteJobOffers(
                       jobOffer.getId(),
