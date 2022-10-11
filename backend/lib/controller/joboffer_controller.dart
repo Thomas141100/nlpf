@@ -32,7 +32,7 @@ class JobOfferController extends ResourceController {
     if (title != null)
       query = query.match("title", title, caseInsensitive: true);
     if (company != null)
-      query = query.match("company", company, caseInsensitive: true);
+      query = query.match("companyname", company, caseInsensitive: true);
     if (tags != null) {
       final tagList = tags.split(",");
       query = query.all("tags", tagList);

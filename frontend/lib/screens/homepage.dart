@@ -3,6 +3,8 @@ import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
+import 'package:fht_linkedin/components/search.dart';
+import 'package:fht_linkedin/utils/filters.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -52,8 +54,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void setJobOffers() async {
-    var offers = await Client.getAllOffers();
+  void setJobOffers({Filter? filters}) async {
+    var offers = await Client.getAllOffers(filters: filters);
     setState(() {
       _jobOffers = offers;
     });
@@ -210,7 +212,9 @@ class _HomePageState extends State<HomePage> {
               'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          return _currentUser != null && _jobOffers != null
+          Widget bodyWidget = _currentUser != null &&
+                  _currentUser!.isCompany &&
+                  _jobOffers != null
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
@@ -219,6 +223,21 @@ class _HomePageState extends State<HomePage> {
                   child: Text('Loading...',
                       style: Theme.of(context).textTheme.displayLarge),
                 );
+          return Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                      child: SizedBox(
+                          height: (MediaQuery.of(context).size.height - 56),
+                          child:
+                              Search(searchOffersWithFilters: setJobOffers))),
+                ),
+              ),
+              Flexible(flex: 4, child: bodyWidget)
+            ],
+          );
         },
       ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany

@@ -1,6 +1,7 @@
 import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
+import 'package:fht_linkedin/utils/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -75,35 +76,6 @@ class Client {
     }
   }
 
-  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
-      String id) async {
-    Uri url = Uri.http(_url, '/api/users/$id/candidacies');
-    try {
-      var token = await getToken();
-      var response = await get(
-        url,
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json",
-          "Authorization": "Bearer $token"
-        },
-      );
-      if (response.statusCode != 200) {
-        throw ErrorDescription("status code is not 200");
-      }
-      var body = response.body;
-      if (body.isEmpty) return List.empty();
-      var decodedJson = jsonDecode(body);
-      List<UserCandidacy> candidaciesList = [];
-      for (var userCandidacy in decodedJson) {
-        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
-      }
-      return candidaciesList;
-    } catch (e) {
-      throw ErrorDescription("Failed to fetch all offers. Code $e");
-    }
-  }
-
   static Future<Response> deleteUser(String id) async {
     Uri url = Uri.http(_url, '/api/users/$id');
     try {
@@ -147,8 +119,39 @@ class Client {
 
   /////////////////Functions relative to the jobOffer part /////////
 
-  static Future<List<JobOffer>> getAllOffers() async {
-    Uri url = Uri.http(_url, '/api/joboffers');
+  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
+      String id) async {
+    Uri url = Uri.http(_url, '/api/users/$id/candidacies');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      var decodedJson = jsonDecode(body);
+      List<UserCandidacy> candidaciesList = [];
+      for (var userCandidacy in decodedJson) {
+        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
+      }
+      return candidaciesList;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
+  /////////////////Functions relative to the jobOffer part /////////
+
+  static Future<List<JobOffer>> getAllOffers({Filter? filters}) async {
+    Uri url = Uri.http(_url, '/api/joboffers', filters?.parameters);
     try {
       var token = await getToken();
       var response = await get(
