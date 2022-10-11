@@ -30,8 +30,12 @@ class OfferCard extends Card {
       btns.add(secondButton!);
       btns.add(const SizedBox(width: 8));
     }
-   return Card(
-      child: InkWell(
+    return  
+     Card(
+      elevation: 2,
+      child:SizedBox (
+      height: 12,
+     child: InkWell(
         splashColor: Theme.of(context).primaryColor,
         onTap: onTapHandle,
         child: Container(
@@ -51,8 +55,8 @@ class OfferCard extends Card {
               Container(
                 alignment: AlignmentDirectional.center,
                 constraints: BoxConstraints(
-                    maxHeight: 100,// cardHeight,
-                    ),
+                  maxHeight: 100//cardHeight,
+                ),
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
@@ -71,6 +75,7 @@ class OfferCard extends Card {
               )
             ])),
       ),
+    )
     );
   }
 }
