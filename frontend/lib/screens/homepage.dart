@@ -209,8 +209,10 @@ class _HomePageState extends State<HomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: Header(
-          title:
-              'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
+        title:
+            'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
+        isCompany: _currentUser?.isCompany ?? false,
+      ),
       body: LayoutBuilder(
         builder: (context, dimens) {
           Widget bodyWidget = _currentUser != null && _jobOffers != null

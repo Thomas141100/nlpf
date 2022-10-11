@@ -214,8 +214,10 @@ class _JobOffersPageState extends State<JobOffersPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: Header(
-          title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
+        title:
+            'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
+        isCompany: _currentUser?.isCompany ?? false,
+      ),
       body: LayoutBuilder(
         builder: (context, dimens) {
           return _currentUser != null &&
