@@ -25,7 +25,7 @@ build-frontend:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - mv frontend/assets/env.prod.conf frontend/assets/env.conf
+    - mv ${CI_PROJECT_DIR}/frontend/assets/env.prod.conf ${CI_PROJECT_DIR}/frontend/assets/env.conf
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
