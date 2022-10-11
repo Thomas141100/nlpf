@@ -44,5 +44,7 @@ deploy:
       cd nlpf &&
       git pull &&
       docker-compose up -d"
+  tags:
+    - ec2-runner
   only:
     - main
