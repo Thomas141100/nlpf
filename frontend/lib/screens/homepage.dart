@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
@@ -142,7 +143,15 @@ class _HomePageState extends State<HomePage> {
       secondButton: TextButton(
         child: const Text('Supprimer'),
         onPressed: () {
-          deleteJobOffers(jobOffer.getId());
+          showDialog(
+              context: context,
+              builder: (context) => ConfirmationDialog(
+                    title: "Confirmation Dialog",
+                    message: "Êtes vous sûr de vouloir supprimer cette offre ?",
+                    confirmHandle: () => deleteJobOffers(
+                      jobOffer.getId(),
+                    ),
+                  ));
         },
       ),
       cardHeight: _cardRatio,
