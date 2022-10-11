@@ -6,6 +6,7 @@ import 'dart:html' as html;
 import 'dart:convert';
 
 import '../models/mcq.dart';
+import '../utils/utils.dart';
 
 class Check extends StatefulWidget {
   final MCQ? mcq;
@@ -23,6 +24,7 @@ class Check extends StatefulWidget {
 
 class _Check extends State<Check> {
   bool importedCSV = false;
+  bool wrongCSVFormat = false;
   ManageCSV manageCSV = ManageCSV();
 
   @override
@@ -82,6 +84,12 @@ class _Check extends State<Check> {
                   ),
                 ),
               ),
+              wrongCSVFormat
+                  ? const Text(
+                      "Format du CSV incorrect",
+                      style: TextStyle(color: Colors.red),
+                    )
+                  : Container(),
             ],
           ),
         ],
@@ -128,10 +136,16 @@ class _Check extends State<Check> {
       //decode bytes back to utf8
       String csvString = utf8.decode(csvFile.files.single.bytes!);
       setState(() {
-        importedCSV = manageCSV.parseCsv(csvString);
-        widget.mcq?.maxScore = manageCSV.maxScore;
-        widget.mcq?.expectedScore = manageCSV.expectedScore;
-        widget.mcq?.questions = manageCSV.questions;
+        try {
+          importedCSV = manageCSV.parseCsv(csvString);
+          widget.mcq?.maxScore = manageCSV.maxScore;
+          widget.mcq?.expectedScore = manageCSV.expectedScore;
+          widget.mcq?.questions = manageCSV.questions;
+          wrongCSVFormat = false;
+        } catch (e) {
+          showSnackBar(context, "Mauvais format de CSV", isError: true);
+          wrongCSVFormat = true;
+        }
       });
     }
   }
