@@ -7,7 +7,6 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/mcq.dart';
-import '../utils/utils.dart';
 
 class Client {
   static String _url = "localhost:42069";
