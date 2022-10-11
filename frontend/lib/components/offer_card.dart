@@ -5,7 +5,7 @@ class OfferCard extends Card {
   final String description;
   final String companyName;
   final void Function() onTapHandle;
-  final TextButton firstButton;
+  final TextButton? firstButton;
   final TextButton? secondButton;
   final double cardHeight;
 
@@ -15,15 +15,18 @@ class OfferCard extends Card {
       required this.description,
       required this.companyName,
       required this.onTapHandle,
-      required this.firstButton,
+      this.firstButton,
       required this.cardHeight,
       this.secondButton});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> btns = [firstButton];
+    List<Widget> btns = [];
+    if (firstButton != null) {
+      btns.add(firstButton!);
+    }
     if (secondButton != null) {
-      btns.add(const SizedBox(width: 8));
+      if (firstButton != null) btns.add(const SizedBox(width: 8));
       btns.add(secondButton!);
       btns.add(const SizedBox(width: 8));
     }

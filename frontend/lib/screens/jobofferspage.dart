@@ -1,9 +1,9 @@
 import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
+import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
-import 'package:fht_linkedin/components/search.dart';
 import 'package:fht_linkedin/utils/filters.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
@@ -11,8 +11,8 @@ import '../components/header.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class JobOffersPage extends StatefulWidget {
+  const JobOffersPage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -24,15 +24,16 @@ class HomePage extends StatefulWidget {
   // always marked "final".
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<JobOffersPage> createState() => _JobOffersPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _JobOffersPageState extends State<JobOffersPage> {
   User? _currentUser;
   List<JobOffer>? _jobOffers;
   int _columnRatio = 1;
   double _cardRatio = 200;
   var isLoading = false;
+  List<JobOfferCandidacy>? _children;
 
   @override
   void dispose() {
@@ -43,11 +44,37 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    setCurrentUser();
-    setJobOffers();
+    setCurrentUser().then((value) {
+      if (_currentUser!.isCompany) {
+        setCompanyJobOffers();
+      } else {
+        setCandidacies().then((value) => setJobOffersList());
+      }
+    });
+    return;
   }
 
-  void setCurrentUser() async {
+  Future<void> setCandidacies() async {
+    var candidacies =
+        await Client.getCurrentUserAllCandidacies(_currentUser!.getId());
+    setState(() {
+      _children = candidacies;
+    });
+  }
+
+  Future<void> setJobOffersList() async {
+    List<JobOffer> jobOff = List.empty(growable: true);
+    if (_children == null) return;
+    for (JobOfferCandidacy candidacy in _children!) {
+      if (candidacy.offer.getId() == "") continue;
+      jobOff.add(await Client.getJobOfferById(candidacy.offer.getId()));
+    }
+    setState(() {
+      _jobOffers = jobOff;
+    });
+  }
+
+  Future<void> setCurrentUser() async {
     User? user = await Client.getCurrentUser();
     user ??= {} as User;
     setState(() {
@@ -55,18 +82,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void setJobOffers({Filter? filters}) async {
-    var offers = await Client.getAllOffers(filters: filters);
+  void setCompanyJobOffers() async {
+    Filter filter = Filter();
+    filter.addCompanyName(_currentUser!.companyName);
+    var offers = await Client.getAllOffers(filters: filter);
     setState(() {
       _jobOffers = offers;
     });
-  }
-
-  bool userAlreadyCandidate(JobOffer jobOffer) {
-    return _currentUser != null &&
-        jobOffer.candidacies
-            .map((e) => e.candidate)
-            .contains(_currentUser!.getId());
   }
 
   void deleteJobOffers(String jobOfferId) async {
@@ -76,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           isError: true);
     } else {
       showSnackBar(context, "Cette offre a été supprimée");
-      setJobOffers();
+      setCompanyJobOffers();
     }
   }
 
@@ -135,20 +157,18 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => JobOfferDialog(
                     isEdditing: true,
                     jobOffer: jobOffer,
-                    updateJobOffersList: setJobOffers,
+                    updateJobOffersList: setCompanyJobOffers,
                   ));
         },
-        child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
-        style: Theme.of(context).textButtonTheme.style,
+        child: const Text('Modifier'),
       ),
       secondButton: TextButton(
-        child: Text('Supprimer', style: Theme.of(context).textTheme.bodyMedium),
-        style: Theme.of(context).textButtonTheme.style,
+        child: const Text('Supprimer'),
         onPressed: () {
           showDialog(
               context: context,
               builder: (context) => ConfirmationDialog(
-                    title: "Sérieusement ?",
+                    title: "Confirmation Dialog",
                     message: "Êtes vous sûr de vouloir supprimer cette offre ?",
                     confirmHandle: () => deleteJobOffers(
                       jobOffer.getId(),
@@ -161,20 +181,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   OfferCard _buildUserOfferCard(JobOffer jobOffer) {
-    void candidateHandle() async {
-      try {
-        var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
-        if (response.statusCode == 200) {
-          showSnackBar(context, "Candidature envoyée");
-          setJobOffers();
-        } else {
-          throw ErrorDescription("Failed to candidate");
-        }
-      } catch (e) {
-        showSnackBar(context, "Une erreur est survenue", isError: true);
-      }
-    }
-
     return OfferCard(
       title: jobOffer.title,
       description: jobOffer.description ?? "",
@@ -186,13 +192,6 @@ class _HomePageState extends State<HomePage> {
                   jobOffer: jobOffer,
                 ));
       },
-      firstButton: TextButton(
-        onPressed:
-            userAlreadyCandidate(jobOffer) ? null : () => candidateHandle(),
-        child: userAlreadyCandidate(jobOffer)
-            ? const Text('Vous avez déjà postulé')
-            : const Text('Postuler'),
-      ),
       cardHeight: _cardRatio,
     );
   }
@@ -200,7 +199,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (_currentUser != null && _jobOffers == null) {
-      setJobOffers();
+      if (_currentUser!.isCompany) {
+        setCompanyJobOffers();
+      } else {
+        setJobOffersList();
+      }
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);
     // This method is rerun every time setState is called, for instance as done
@@ -212,35 +215,23 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
         title:
-            'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
+            'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
         isCompany: _currentUser?.isCompany ?? false,
       ),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          Widget bodyWidget = _currentUser != null && _jobOffers != null
+          return _currentUser != null &&
+                  _jobOffers != null &&
+                  _jobOffers!.isNotEmpty
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
               : Center(
-                  child: Text('Loading...',
-                      style: Theme.of(context).textTheme.displayLarge),
+                  child: Text(_currentUser != null && _currentUser!.isCompany
+                      ? "Vous n'avez pas encore posté d'offre. N'attendez plus pour accueillir les chômeurs du trottoir voisin!"
+                      : "Vous n'avez pas encore postulé à une offre. N'attendez plus pour traverser la rue !"),
                 );
-          return Row(
-            children: [
-              Flexible(
-                flex: 1,
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                      child: SizedBox(
-                          height: (MediaQuery.of(context).size.height - 56),
-                          child:
-                              Search(searchOffersWithFilters: setJobOffers))),
-                ),
-              ),
-              Flexible(flex: 4, child: bodyWidget)
-            ],
-          );
         },
       ),
       floatingActionButton: _currentUser != null && _currentUser!.isCompany
@@ -252,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) {
                     return JobOfferDialog(
                       isCreating: true,
-                      updateJobOffersList: setJobOffers,
+                      updateJobOffersList: setCompanyJobOffers,
                     );
                   },
                 );
