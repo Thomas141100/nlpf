@@ -21,7 +21,7 @@ class Client {
   }
 
   static Future<Response> signup(User newUser, String password) async {
-    Uri url = Uri.http(_url, '/auth/signup');
+    Uri url = Uri.http(_url, '/api/auth/signup');
     try {
       return await post(url,
           headers: <String, String>{
@@ -41,7 +41,7 @@ class Client {
   }
 
   static Future<Response> signin(String mail, String password) async {
-    Uri url = Uri.http(_url, '/auth/login');
+    Uri url = Uri.http(_url, '/api/auth/login');
     try {
       var response = await post(
         url,
@@ -58,7 +58,7 @@ class Client {
   }
 
   static Future<Response> getUser(String id) async {
-    Uri url = Uri.http(_url, '/users/$id');
+    Uri url = Uri.http(_url, '/api/users/$id');
     try {
       var token = await getToken();
       var response = await get(
@@ -77,7 +77,7 @@ class Client {
 
   static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
       String id) async {
-    Uri url = Uri.http(_url, '/users/$id/candidacies');
+    Uri url = Uri.http(_url, '/api/users/$id/candidacies');
     try {
       var token = await getToken();
       var response = await get(
@@ -105,7 +105,7 @@ class Client {
   }
 
   static Future<Response> deleteUser(String id) async {
-    Uri url = Uri.http(_url, '/users/$id');
+    Uri url = Uri.http(_url, '/api/users/$id');
     try {
       var token = await getToken();
       var response = await delete(
@@ -123,7 +123,7 @@ class Client {
   }
 
   static Future<Response> updateUser(User user, {String? password}) async {
-    Uri url = Uri.http(_url, '/users/${user.id}');
+    Uri url = Uri.http(_url, '/api/users/${user.id}');
     try {
       var token = await getToken();
       var userMap = user.toJson();
@@ -148,7 +148,7 @@ class Client {
   /////////////////Functions relative to the jobOffer part /////////
 
   static Future<List<JobOffer>> getAllOffers() async {
-    Uri url = Uri.http(_url, '/joboffers');
+    Uri url = Uri.http(_url, '/api/joboffers');
     try {
       var token = await getToken();
       var response = await get(
@@ -177,7 +177,7 @@ class Client {
 
   static Future<Response> sendJobOffer(String title, String description,
       String tags, String companyname, MCQ mcq) async {
-    Uri url = Uri.http(_url, '/joboffers');
+    Uri url = Uri.http(_url, '/api/joboffers');
     var token = await getToken();
     try {
       var response = await post(
@@ -210,7 +210,7 @@ class Client {
 
   static Future<Response> updateJobOffer(String id, String title,
       String description, String tags, String companyname) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await put(
@@ -234,7 +234,7 @@ class Client {
   }
 
   static Future<Response> deleteJobOffer(String jobOfferId) async {
-    Uri url = Uri.http(_url, '/joboffers/$jobOfferId');
+    Uri url = Uri.http(_url, '/api/joboffers/$jobOfferId');
     var token = await getToken();
     try {
       var response = await delete(
@@ -252,7 +252,7 @@ class Client {
   }
 
   static Future<Response> addCandidacy2JobOffer(String id) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/candidacies');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
     var token = await getToken();
     try {
       var response = await post(
@@ -274,7 +274,7 @@ class Client {
 
   static Future<Response> postmcq(
       String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await post(
@@ -294,7 +294,7 @@ class Client {
 
   static Future<Response> getmcq(
       String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await get(
@@ -312,7 +312,7 @@ class Client {
   }
 
   static Future<Response> saveMCQ(String id, int resultScore) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     var token = await getToken();
     try {
       var response = await post(
@@ -333,7 +333,7 @@ class Client {
   }
 
   static Future<Response> getUsermcq(String id) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     try {
       var token = await getToken();
       var response = await get(
