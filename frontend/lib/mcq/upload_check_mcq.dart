@@ -45,7 +45,7 @@ class _Check extends State<Check> {
             padding: const EdgeInsets.all(5.0),
             child: ElevatedButton(
               onPressed: downloadFile,
-              child: const Text("Télécharger le template CSV"),
+              child: Text("Télécharger le template CSV", style: Theme.of(context).textTheme.headlineSmall),
             ),
           ),
           Row(
@@ -118,7 +118,7 @@ class _Check extends State<Check> {
                 : null,
             child: Text(
               importedCSV ? "Tester le QCM" : "Aucun QCM n'a été importé",
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ),

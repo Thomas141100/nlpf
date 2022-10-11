@@ -14,6 +14,9 @@ class _Post extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Theme.of(context).backgroundColor,
+      shadowColor: Theme.of(context).primaryColor,
+      surfaceTintColor: Theme.of(context).hoverColor,
       child: SizedBox(
         height: 250,
         width: 1000,
@@ -26,17 +29,17 @@ class _Post extends State<Post> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child:  Text(
+                    child: Text(
                       'Titre de l\'annonce',
-                       style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child:  Text(
+                    child: Text(
                       'LOGO',
-                       style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                 ],
@@ -49,9 +52,9 @@ class _Post extends State<Post> {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    child:  Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                     style: Theme.of(context).textTheme.bodyMedium),
+                    child: Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                        style: Theme.of(context).textTheme.bodyMedium),
                   ),
                 ],
               ),
@@ -67,7 +70,7 @@ class _Post extends State<Post> {
                       onPressed: () {},
                       child: Text(
                         'J\'aime',
-                         style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),
@@ -78,7 +81,7 @@ class _Post extends State<Post> {
                       onPressed: () {},
                       child: Text(
                         'Postuler',
-                         style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ),

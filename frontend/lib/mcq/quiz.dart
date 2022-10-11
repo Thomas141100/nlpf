@@ -20,7 +20,7 @@ class Quiz extends StatelessWidget {
     return SizedBox(
       width: 650,
       child: Container(
-        color: Colors.white,
+        color: Theme.of(context).backgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
