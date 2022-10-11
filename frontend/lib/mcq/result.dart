@@ -39,31 +39,27 @@ class Result extends StatelessWidget {
           children: <Widget>[
             Text(
               resultPhrase,
-              style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+              style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center,
             ), //Text
             Text(
               'Score ' '$resultScore',
-              style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             TextButton(
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.all(16.0),
-                textStyle: const TextStyle(fontSize: 20),
+                textStyle: Theme.of(context).textTheme.labelMedium,
               ),
               onPressed: () async {
                 var response = await Client.saveMCQ(offerId, resultScore);
                 if (response.statusCode == 200) {
-                  showSnackBar(context, "mcq sauvegardé");
+                  showSnackBar(context, "QCM sauvegardé");
+                  Navigator.of(context).pop();
+                  resetHandler();
                 } else {
-                  showSnackBar(context, "Une erreur est survenu :[",
+                  showSnackBar(context, "Une erreur est survenue :[",
                       isError: true);
                 }
                 Navigator.of(context).pop();
@@ -71,9 +67,9 @@ class Result extends StatelessWidget {
               child: Container(
                 color: Colors.blue,
                 padding: const EdgeInsets.all(14),
-                child: const Text(
+                child: Text(
                   'Retour',
-                  style: TextStyle(color: Colors.white),
+                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
             ),

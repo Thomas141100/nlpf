@@ -16,9 +16,9 @@ class Answer extends StatelessWidget {
         onPressed: () => selectHandler(),
         style: ButtonStyle(
             textStyle:
-                MaterialStateProperty.all(const TextStyle(color: Colors.white)),
+                MaterialStateProperty.all(Theme.of(context).textTheme.labelSmall),
             backgroundColor: MaterialStateProperty.all(Colors.green)),
-        child: Text(answerText),
+        child: Text(answerText,  style: Theme.of(context).textTheme.bodyMedium),
       ),
     );
   }

@@ -27,6 +27,7 @@ class _Check extends State<Check> {
 
   @override
   Widget build(BuildContext context) {
+
     if (widget.mcq?.questions.isNotEmpty ?? false) {
       importedCSV = true;
       manageCSV.mcqID = "0";
@@ -51,7 +52,8 @@ class _Check extends State<Check> {
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
                   onPressed: importCSV,
-                  child: const Text("Open file picker"),
+                  child: Text("Choisir un fichier",
+                      style: Theme.of(context).textTheme.headlineSmall),
                 ),
               ),
               Container(
@@ -76,7 +78,7 @@ class _Check extends State<Check> {
                     importedCSV
                         ? "Tester le QCM"
                         : "Veuillez importer un fichier CSV",
-                    style: const TextStyle(color: Colors.white),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
               ),

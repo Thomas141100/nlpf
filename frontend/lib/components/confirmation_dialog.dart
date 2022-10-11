@@ -13,14 +13,14 @@ class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
-      content: Text(message),
+      title: Text(title,  style: Theme.of(context).textTheme.titleMedium),
+      content: Text(message,  style: Theme.of(context).textTheme.bodyMedium),
       actions: <Widget>[
         TextButton(
             onPressed: (() {
               Navigator.pop(context, 'Annuler');
             }),
-            child: const Text('Cancel')),
+            child:  Text('Annuler, ', style: Theme.of(context).textTheme.labelMedium)),
         TextButton(
             onPressed: (() {
               if (confirmHandle != null) {
@@ -28,7 +28,7 @@ class ConfirmationDialog extends StatelessWidget {
               }
               Navigator.pop(context, 'OK');
             }),
-            child: const Text('Confirmer')),
+            child:  Text('Confirmer', style: Theme.of(context).textTheme.labelMedium)),
       ],
     );
   }

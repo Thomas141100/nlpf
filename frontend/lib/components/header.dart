@@ -27,10 +27,11 @@ class _Header extends State<Header> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-            "FHT Linkedin${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",
-            style: const TextStyle(color: Color.fromARGB(255, 242, 235, 233))),
-        backgroundColor: const Color.fromARGB(255, 36, 58, 115),
+          "Traverser la rue !${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

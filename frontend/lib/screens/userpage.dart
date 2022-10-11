@@ -5,6 +5,7 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _companyController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
@@ -41,13 +43,13 @@ class _UserPageState extends State<UserPage> {
 
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
-    user ??= {} as User;
     setState(() {
       _currentUser = user;
       if (user != null) {
         _firstnameController.text = user.firstname;
         _lastnameController.text = user.lastname;
         _emailController.text = user.email;
+        if (user.isCompany) _companyController.text = user.companyName!;
       }
     });
   }
@@ -65,6 +67,25 @@ class _UserPageState extends State<UserPage> {
         _currentUser!.email != _emailController.text;
   }
 
+  _isCompany() {
+    if (_currentUser!.isCompany) {
+      return Container(
+          margin: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: 250,
+            child: TextFormField(
+              onChanged: (_) => updateRender(),
+              controller: _companyController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Entreprise'),
+            ),
+          ));
+    }
+    return const SizedBox(
+      height: 2,
+    );
+  }
+
   void myAlert() {
     showDialog(
         context: context,
@@ -72,8 +93,11 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: const Text('Selectionner un fichier multimedia'),
-            content: SizedBox(
+            title: Text(
+              'Selectionner un fichier multimedia',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+            content: FittedBox(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -84,9 +108,12 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.gallery);
                     },
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(Icons.image),
-                        Text('Depuis la galerie de photos'),
+                        Text(
+                          'Depuis la galerie de photos',
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -100,9 +127,12 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.camera);
                     },
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(Icons.camera),
-                        Text('Prendre une photo'),
+                        Text(
+                          'Prendre une photo',
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -126,295 +156,339 @@ class _UserPageState extends State<UserPage> {
     }
 
     return Scaffold(
-      appBar: Header(
-        key: const ValueKey('header'),
-        title: 'FHT Linkedin - User',
-        // displayLogout: false,
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //if image not null show the image
-                  //if image null show text
-                  image != null
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              //to show image, you type like this.
-                              image!.path,
-                              fit: BoxFit.cover,
-                              width: 300,
-                              height: 300,
-                            ),
-                          ))
-                      : Column(children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            height: 300,
-                            width: 300,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(67, 96, 125, 139),
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Center(
-                                child: Text(
-                              "Aucune photo de profil",
-                              style: TextStyle(
-                                fontSize: 20,
+        appBar: Header(
+          key: const ValueKey('header'),
+          title: 'Paramètres du compte',
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        body: Container(
+          margin: EdgeInsets.all(200.0),
+          padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Theme.of(context).primaryColor),
+              color: Theme.of(context).backgroundColor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: FittedBox(
+                  //Expanded(
+                  alignment: Alignment.center,
+                  child: Column(
+                    // mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //if image not null show the image
+                      //if image null show text
+                      image != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  //to show image, you type like this.
+                                  image!.path,
+                                  fit: BoxFit.cover,
+                                  width: 300,
+                                  height: 300,
+                                ),
+                              ))
+                          : Column(children: <Widget>[
+                              //add container here
+                              Text(
+                                'Photo de profil',
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                height: 300,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(67, 96, 125, 139),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                    child: Text("Aucune photo de profil",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium)),
+                              ),
+                            ]),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      FittedBox(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              myAlert();
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.upload_file),
+                                Text(
+                                  'Choisir un fichier',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                              ],
                             )),
-                          ),
-                        ]),
-                  const SizedBox(
-                    height: 10,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: 180,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          myAlert();
-                        },
-                        child: Row(
-                          children: const [
-                            Icon(Icons.upload_file),
-                            Text(
-                              'Choisir un fichier',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _firstnameController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Prénom"),
-                              ),
-                            )),
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _lastnameController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Nom'),
-                              ),
-                            )),
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Email'),
-                              ),
-                            )),
-                      ]),
-                  SizedBox(
-                    width: 200,
-                    child: Column(children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: informationsChanged()
-                              ? const Color.fromARGB(255, 10, 129, 12)
-                              : Colors.grey,
-                        ),
-                        onPressed: informationsChanged()
-                            ? () async {
-                                try {
-                                  var response = await Client.updateUser(User(
-                                      _currentUser!.id,
-                                      _firstnameController.text,
-                                      _lastnameController.text,
-                                      _emailController.text,
-                                      _currentUser!.isCompany,
-                                      _currentUser!.companyName));
-                                  if (response.statusCode != 200) {
-                                    throw ErrorDescription(
-                                        "Failed to update user");
+              Container(
+                child: FittedBox(
+                  //Expanded(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      //add container here
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Modifier mon profil',
+                                style: Theme.of(context).textTheme.titleMedium),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _firstnameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Prénom"),
+                                  ),
+                                )),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _lastnameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Nom'),
+                                  ),
+                                )),
+                            (_currentUser != null && _currentUser!.isCompany)
+                                ? Container(
+                                    margin: const EdgeInsets.all(15.0),
+                                    child: SizedBox(
+                                      width: 250,
+                                      child: TextFormField(
+                                        onChanged: (_) => updateRender(),
+                                        controller: _companyController,
+                                        decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Entreprise'),
+                                      ),
+                                    ))
+                                : const SizedBox(
+                                    height: 2,
+                                  ),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _emailController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Email'),
+                                  ),
+                                )),
+                          ]),
+                      FittedBox(
+                        child: Column(children: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: informationsChanged()
+                                  ? const Color.fromARGB(255, 10, 129, 12)
+                                  : Colors.grey,
+                            ),
+                            onPressed: informationsChanged()
+                                ? () async {
+                                    try {
+                                      var response = await Client.updateUser(
+                                          User(
+                                              _currentUser!.id,
+                                              _firstnameController.text,
+                                              _lastnameController.text,
+                                              _emailController.text,
+                                              _currentUser!.isCompany,
+                                              _currentUser!.companyName));
+                                      if (response.statusCode != 200) {
+                                        throw ErrorDescription(
+                                            "Failed to update user");
+                                      }
+                                      showSnackBar(context,
+                                          "Votre profil a été mis à jour");
+                                      setCurrentUser();
+                                    } catch (e) {
+                                      showSnackBar(
+                                          context, "La mise à jour a échoué",
+                                          isError: true);
+                                    }
                                   }
-                                  showSnackBar(
-                                      context, "Votre profil a été mis à jour");
+                                : null,
+                            child: Row(children: [
+                              Icon(Icons.save,
+                                  color: Theme.of(context).backgroundColor),
+                              Text(
+                                ' Valider le changement',
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          FittedBox(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              child: Row(children: [
+                                Icon(Icons.remove_circle,
+                                    color: Theme.of(context).backgroundColor),
+                                Text(' Supprimer le compte',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall),
+                              ]),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: ((context) => ConfirmationDialog(
+                                          key: const ValueKey(
+                                              'confirmation_dialog_user_delete'),
+                                          title: "Confirmation Dialog",
+                                          message:
+                                              "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
+                                          confirmHandle: _currentUser != null
+                                              ? () async {
+                                                  var response =
+                                                      await Client.deleteUser(
+                                                          _currentUser!
+                                                              .getId());
+                                                  if (response.statusCode ==
+                                                      200) {
+                                                    Client.removeToken();
+                                                    // ignore: use_build_context_synchronously
+                                                    AutoRouter.of(context)
+                                                        .removeUntil((route) =>
+                                                            route.name ==
+                                                            "LoginRoute");
+                                                    // ignore: use_build_context_synchronously
+                                                    showSnackBar(context,
+                                                        "Le compte a été supprimé");
+                                                  } else {
+                                                    showSnackBar(context,
+                                                        "Une erreur est survenue",
+                                                        isError: true);
+                                                  }
+                                                }
+                                              : null,
+                                        )));
+                              },
+                            ),
+                          )
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                  child: FittedBox(
+                      //Expanded(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //add container here
+                          Text(
+                            'Modifier mon mot de passe',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15.0),
+                            width: 250,
+                            child: TextFormField(
+                                controller: _passwordController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Nouveau mot de passe')),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15.0),
+                            width: 250,
+                            child: TextFormField(
+                                controller: _passwordConfirmController,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Confirmer le mot de passe')),
+                          ),
+                          FittedBox(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 10, 129, 12),
+                              ),
+                              onPressed: () async {
+                                try {
+                                  var response = await Client.updateUser(
+                                      User(
+                                          _currentUser!.id,
+                                          _firstnameController.text,
+                                          _lastnameController.text,
+                                          _emailController.text,
+                                          _currentUser!.isCompany,
+                                          _currentUser!.companyName),
+                                      password: _passwordController.text);
+                                  if (response.statusCode != 200) {
+                                    throw ErrorDescription("$response");
+                                  }
+                                  showSnackBar(context,
+                                      "Votre mot de passe a été mis à jour");
                                   setCurrentUser();
                                 } catch (e) {
                                   showSnackBar(
                                       context, "La mise à jour a échoué",
                                       isError: true);
                                 }
-                              }
-                            : null,
-                        child: Row(children: const [
-                          Icon(Icons.save, color: Colors.white),
-                          Text(
-                            ' Valider le changement',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
+                              },
+                              child: Row(children: [
+                                const Icon(Icons.save, color: Colors.white),
+                                Text(
+                                  'Valider le changement',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                              ]),
                             ),
-                          ),
-                        ]),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Row(children: const [
-                          Icon(Icons.remove_circle, color: Colors.white),
-                          Text(
-                            ' Supprimer le compte',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ]),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: ((context) => ConfirmationDialog(
-                                    key: const ValueKey(
-                                        'confirmation_dialog_user_delete'),
-                                    title: "Confirmation Dialog",
-                                    message:
-                                        "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
-                                    confirmHandle: _currentUser != null
-                                        ? () async {
-                                            var response =
-                                                await Client.deleteUser(
-                                                    _currentUser!.getId());
-                                            if (response.statusCode == 200) {
-                                              Client.removeToken();
-                                              // ignore: use_build_context_synchronously
-                                              AutoRouter.of(context)
-                                                  .removeUntil((route) =>
-                                                      route.name ==
-                                                      "LoginRoute");
-                                              // ignore: use_build_context_synchronously
-                                              showSnackBar(context,
-                                                  "Le compte a été supprimé");
-                                            } else {
-                                              showSnackBar(context,
-                                                  "Une erreur est survenue",
-                                                  isError: true);
-                                            }
-                                          }
-                                        : null,
-                                  )));
-                        },
-                      ),
-                    ]),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  width: 250,
-                  child: TextFormField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Nouveau mot de passe')),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  width: 250,
-                  child: TextFormField(
-                      controller: _passwordConfirmController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Confirmer le mot de passe')),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 10, 129, 12),
-                    ),
-                    onPressed: () async {
-                      try {
-                        var response = await Client.updateUser(
-                            User(
-                                _currentUser!.id,
-                                _firstnameController.text,
-                                _lastnameController.text,
-                                _emailController.text,
-                                _currentUser!.isCompany,
-                                _currentUser!.companyName),
-                            password: _passwordController.text);
-                        if (response.statusCode != 200) {
-                          throw ErrorDescription("$response");
-                        }
-                        showSnackBar(
-                            context, "Votre mot de passe a été mis à jour");
-                        setCurrentUser();
-                      } catch (e) {
-                        showSnackBar(context, "La mise à jour a échoué",
-                            isError: true);
-                      }
-                    },
-                    child: Row(children: const [
-                      Icon(Icons.save, color: Colors.white),
-                      Text(
-                        'Valider le changement',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ]),
-                  ),
-                )
-              ],
-            ))
-          ],
-        ),
-      ),
-    );
+                          )
+                        ],
+                      )))
+            ],
+          ),
+        ));
   }
 }
