@@ -34,7 +34,7 @@ class Result extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        color: Colors.white,
+        color: Theme.of(context).backgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -42,7 +42,7 @@ class Result extends StatelessWidget {
               resultPhrase,
               style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center,
-            ), //Text
+            ), 
             Text(
               'Score ' '$resultScore',
                style: Theme.of(context).textTheme.displayLarge,
@@ -66,7 +66,7 @@ class Result extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Container(
-                color: Colors.blue,
+                color: Theme.of(context).hoverColor,
                 padding: const EdgeInsets.all(14),
                 child: Text(
                   'Retour',

@@ -118,7 +118,7 @@ class _Check extends State<Check> {
                 : null,
             child: Text(
               importedCSV ? "Tester le QCM" : "Aucun QCM n'a été importé",
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ),
         ),

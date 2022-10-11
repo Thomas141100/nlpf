@@ -46,12 +46,12 @@ class _Search extends State<Search> {
         children: [
           Column(
             children: [
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
                   'Recherche',
                   style: TextStyle(
-                      color: Color.fromARGB(255, 124, 62, 102),
+                      color: Theme.of(context).primaryColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold),
                 ),
@@ -59,37 +59,35 @@ class _Search extends State<Search> {
               CustomTextField(
                   textController: _titleController,
                   input: "Emploi",
-                  icon: const Icon(Icons.search,
-                      color: Color.fromARGB(255, 124, 62, 102))),
+                  icon:  Icon(Icons.search,
+                      color: Theme.of(context).primaryColor)),
               CustomTextField(
                   textController: _companyController,
                   input: "Entreprise",
-                  icon: const Icon(Icons.cases,
-                      color: Color.fromARGB(255, 124, 62, 102))),
+                  icon: Icon(Icons.cases,
+                      color:Theme.of(context).primaryColor
+                      )),
               CustomTextField(
                   textController: _adresseController,
                   input: "Lieu",
-                  icon: const Icon(Icons.location_on,
-                      color: Color.fromARGB(255, 124, 62, 102))),
+                  icon:  Icon(Icons.location_on,
+                      color: Theme.of(context).primaryColor)),
               Tags(textController: _tagsController),
               Container(
                 height: 50,
                 margin: const EdgeInsets.all(20),
                 child: ElevatedButton(
                   onPressed: () => {searchHandle()},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 242, 235, 233),
-                    backgroundColor: const Color.fromARGB(255, 124, 62, 102),
-                  ),
                   child: const Text('Rechercher'),
+                  style: Theme.of(context).elevatedButtonTheme.style,
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(20),
                 child: Text(
                   'Trier par',
                   style: TextStyle(
-                      color: Color.fromARGB(255, 124, 62, 102),
+                      color: Theme.of(context).primaryColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold),
                 ),
@@ -111,11 +109,10 @@ class _Search extends State<Search> {
                     });
                   },
                   isExpanded: true,
-                  dropdownColor: const Color.fromARGB(255, 242, 235, 233),
-                  iconEnabledColor: const Color.fromARGB(255, 124, 62, 102),
+                  dropdownColor: Theme.of(context).backgroundColor,
+                  iconEnabledColor: Theme.of(context).primaryColor,
                   underline: Container(
-                      height: 1,
-                      color: const Color.fromARGB(240, 124, 62, 102)),
+                      height: 1, color: Theme.of(context).primaryColor),
                 ),
               ),
             ],

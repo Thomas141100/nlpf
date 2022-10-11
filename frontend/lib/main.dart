@@ -45,31 +45,32 @@ class MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 124, 62, 102),
           secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
-          hoverColor: Color.fromARGB(255,165, 190, 204),
+          hoverColor: const Color.fromARGB(255, 165, 190, 204),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
-          dialogBackgroundColor: const Color.fromARGB(255, 242, 235, 233) ,
-          shadowColor:  Theme.of(context).primaryColor,
+          dialogBackgroundColor: const Color.fromARGB(255, 242, 235, 233),
+          shadowColor: Theme.of(context).primaryColor,
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
           //cardTheme: ,
-          textButtonTheme: TextButtonThemeData(style: Theme.of(context).elevatedButtonTheme.style),
-          buttonTheme: ButtonThemeData(
-            hoverColor: const Color.fromARGB(255, 36, 58, 115),
-            buttonColor: const Color.fromARGB(255, 124, 62, 102),
-          ),
-          iconTheme: IconThemeData(color:const Color.fromARGB(255, 242, 235, 233) ),
+          textButtonTheme: TextButtonThemeData(
+              style: Theme.of(context).elevatedButtonTheme.style),
+          buttonTheme: const ButtonThemeData(
+              hoverColor: Color.fromARGB(255, 36, 58, 115),
+              buttonColor: Color.fromARGB(255, 124, 62, 102)),
+          iconTheme:
+              const IconThemeData(color: Color.fromARGB(255, 242, 235, 233)),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-            foregroundColor:Theme.of(context).hoverColor,
-            backgroundColor: const Color.fromARGB(255, 124, 62, 102),
-            shadowColor: const Color.fromARGB(255, 36, 58, 115),
-            textStyle:  TextStyle(fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color:Color.fromARGB(255, 242, 235, 233)) 
-          )),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-              hoverColor: const Color.fromARGB(255, 36, 58, 115),
-              backgroundColor: const Color.fromARGB(255, 124, 62, 102)),
+                  foregroundColor: Theme.of(context).hoverColor,
+                  backgroundColor: const Color.fromARGB(255, 124, 62, 102),
+                  shadowColor: const Color.fromARGB(255, 36, 58, 115),
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 242, 235, 233)))),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              hoverColor: Color.fromARGB(255, 36, 58, 115),
+              backgroundColor: Color.fromARGB(255, 124, 62, 102)),
           textTheme: const TextTheme(
               displayLarge: TextStyle(
                   fontWeight: FontWeight.w500,
@@ -79,9 +80,10 @@ class MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.w500,
                   fontSize: 30,
                   color: Color.fromARGB(255, 36, 58, 115)),
-              displaySmall:  TextStyle(fontWeight: FontWeight.w500,
+              displaySmall: TextStyle(
+                  fontWeight: FontWeight.w500,
                   fontSize: 15,
-                  color:Color.fromARGB(255, 242, 235, 233)),
+                  color: Color.fromARGB(255, 242, 235, 233)),
               headlineLarge: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
@@ -90,9 +92,10 @@ class MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
                   color: Color.fromARGB(255, 36, 58, 115)),
-              headlineSmall: TextStyle(fontWeight: FontWeight.w500,
+              headlineSmall: TextStyle(
+                  fontWeight: FontWeight.w500,
                   fontSize: 12,
-                  color:Color.fromARGB(255, 242, 235, 233)) ,
+                  color: Color.fromARGB(255, 242, 235, 233)),
               titleLarge: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 35,
