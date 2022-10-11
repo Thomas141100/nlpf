@@ -151,7 +151,7 @@ class _Check extends State<Check> {
   }
 
   void downloadFile() {
-    String url = "/assets/csv/template_quizz.csv";
+    String url = "/assets/assets/csv/template_quizz.csv";
     html.AnchorElement anchorElement = html.AnchorElement(href: url);
     anchorElement.download = url;
     anchorElement.click();
