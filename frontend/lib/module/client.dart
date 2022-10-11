@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/utils/filters.dart';
@@ -6,13 +7,22 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/utils.dart';
+import '../models/mcq.dart';
 
 class Client {
-  static const String _url = "localhost:42069";
+  static String _url = "localhost:42069";
+
+  Future<String> _getApiUrl() async {
+    final prefs = SharedPreferences.getInstance();
+    return (await prefs).getString("apiUrl")!;
+  }
+
+  Client() {
+    _getApiUrl().then((value) => _url = value);
+  }
 
   static Future<Response> signup(User newUser, String password) async {
-    Uri url = Uri.http(_url, '/auth/signup');
+    Uri url = Uri.http(_url, '/api/auth/signup');
     try {
       return await post(url,
           headers: <String, String>{
@@ -32,7 +42,7 @@ class Client {
   }
 
   static Future<Response> signin(String mail, String password) async {
-    Uri url = Uri.http(_url, '/auth/login');
+    Uri url = Uri.http(_url, '/api/auth/login');
     try {
       var response = await post(
         url,
@@ -49,7 +59,7 @@ class Client {
   }
 
   static Future<Response> getUser(String id) async {
-    Uri url = Uri.http(_url, '/users/$id');
+    Uri url = Uri.http(_url, '/api/users/$id');
     try {
       var token = await getToken();
       var response = await get(
@@ -67,7 +77,7 @@ class Client {
   }
 
   static Future<Response> deleteUser(String id) async {
-    Uri url = Uri.http(_url, '/users/$id');
+    Uri url = Uri.http(_url, '/api/users/$id');
     try {
       var token = await getToken();
       var response = await delete(
@@ -84,10 +94,14 @@ class Client {
     }
   }
 
-  static Future<Response> updateUser(User user) async {
-    Uri url = Uri.http(_url, '/users/${user.id}');
+  static Future<Response> updateUser(User user, {String? password}) async {
+    Uri url = Uri.http(_url, '/api/users/${user.id}');
     try {
       var token = await getToken();
+      var userMap = user.toJson();
+      if (password != null && password.isNotEmpty) {
+        userMap.addAll({'password': password});
+      }
       var response = await put(
         url,
         headers: {
@@ -95,11 +109,7 @@ class Client {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
         },
-        body: jsonEncode(<String, String>{
-          'mail': user.email,
-          'firstname': user.firstname,
-          'lastname': user.lastname
-        }),
+        body: jsonEncode(userMap),
       );
       return response;
     } catch (e) {
@@ -109,8 +119,9 @@ class Client {
 
   /////////////////Functions relative to the jobOffer part /////////
 
-  static Future<List<JobOffer>> getAllOffers({Filter? filters}) async {
-    Uri url = Uri.http(_url, '/joboffers', filters?.parameters);
+  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
+      String id) async {
+    Uri url = Uri.http(_url, '/api/users/$id/candidacies');
     try {
       var token = await getToken();
       var response = await get(
@@ -127,19 +138,49 @@ class Client {
       var body = response.body;
       if (body.isEmpty) return List.empty();
       var decodedJson = jsonDecode(body);
-      List<JobOffer> offersList = [];
-      for (var jobOffer in decodedJson) {
-        offersList.add(convertJson2JobOffer(jobOffer));
+      List<UserCandidacy> candidaciesList = [];
+      for (var userCandidacy in decodedJson) {
+        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
       }
-      return offersList;
+      return candidaciesList;
     } catch (e) {
       throw ErrorDescription("Failed to fetch all offers. Code $e");
     }
   }
 
-  static Future<Response> sendJobOffer(
-      String title, String description, String tags, String companyname) async {
-    Uri url = Uri.http(_url, '/joboffers');
+  /////////////////Functions relative to the jobOffer part /////////
+
+  static Future<List<JobOffer>> getAllOffers({Filter? filters}) async {
+    Uri url = Uri.http(_url, '/api/joboffers', filters?.parameters);
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      List<dynamic> decodedJson = jsonDecode(body);
+      List<JobOffer> jobOffers = List.empty(growable: true);
+      for (Map<dynamic, dynamic> jobOfferJson in decodedJson) {
+        jobOffers.add(JobOffer.fromJson(jobOfferJson));
+      }
+      return jobOffers;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
+  static Future<Response> sendJobOffer(String title, String description,
+      String tags, String companyname, MCQ mcq) async {
+    Uri url = Uri.http(_url, '/api/joboffers');
     var token = await getToken();
     try {
       var response = await post(
@@ -149,22 +190,30 @@ class Client {
           "content-type": "application/json",
           "authorization": "Bearer $token",
         },
-        body: jsonEncode(<String, String>{
-          'title': title,
-          'companyname': companyname,
-          'description': description,
-          'tags': tags
-        }),
+        body: jsonEncode(
+          {
+            'title': title,
+            'companyName': companyname,
+            'description': description,
+            'tags': tags,
+            'mcq': {
+              'maxScore': mcq.maxScore,
+              'expectedScore': mcq.expectedScore,
+              'questions': mcq.questions,
+            },
+          },
+        ),
       );
       return response;
     } catch (e) {
+      print(e);
       return Response("", 500);
     }
   }
 
   static Future<Response> updateJobOffer(String id, String title,
       String description, String tags, String companyname) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await put(
@@ -188,7 +237,7 @@ class Client {
   }
 
   static Future<Response> deleteJobOffer(String jobOfferId) async {
-    Uri url = Uri.http(_url, '/joboffers/$jobOfferId');
+    Uri url = Uri.http(_url, '/api/joboffers/$jobOfferId');
     var token = await getToken();
     try {
       var response = await delete(
@@ -205,11 +254,30 @@ class Client {
     }
   }
 
+  static Future<Response> addCandidacy2JobOffer(String id) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{}),
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
   /////////////////Functions relative to the mcq/certification part /////////
 
   static Future<Response> postmcq(
       String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await post(
@@ -229,7 +297,7 @@ class Client {
 
   static Future<Response> getmcq(
       String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
       var response = await get(
@@ -247,7 +315,7 @@ class Client {
   }
 
   static Future<Response> saveMCQ(String id, int resultScore) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     var token = await getToken();
     try {
       var response = await post(
@@ -268,7 +336,7 @@ class Client {
   }
 
   static Future<Response> getUsermcq(String id) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/mcq');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     try {
       var token = await getToken();
       var response = await get(
@@ -313,7 +381,7 @@ class Client {
     return utf8.decode(base64Url.decode(normalizedSource));
   }
 
-  static getCurrentUser() async {
+  static Future<User?> getCurrentUser() async {
     var token = await getToken();
     var userId = jsonDecode(getJsonFromJWT(token!))['id'];
     var response = await getUser(userId);
@@ -326,6 +394,7 @@ class Client {
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
+    currentUser.companyName = currentUser.isCompany ? jsonMap['company'] : null;
     currentUser.setId(jsonMap['_id']);
     return currentUser;
   }

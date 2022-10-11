@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/components/confirmation_dialog.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
@@ -30,13 +31,22 @@ class _HomePageState extends State<HomePage> {
   User? _currentUser;
   List<JobOffer>? _jobOffers;
   int _columnRatio = 1;
-
+  double _cardRatio = 200;
   var isLoading = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    Client.getCurrentUser().then((user) {
+      user ??= {} as User;
+      _currentUser = user;
+    });
+    super.initState();
   }
 
   void setCurrentUser() async {
@@ -54,6 +64,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool userAlreadyCandidate(JobOffer jobOffer) {
+    return _currentUser != null &&
+        jobOffer.candidacies
+            .map((e) => e.candidate)
+            .contains(_currentUser!.getId());
+  }
+
   void deleteJobOffers(String jobOfferId) async {
     var response = await Client.deleteJobOffer(jobOfferId);
     if (response.statusCode == 500) {
@@ -67,18 +84,24 @@ class _HomePageState extends State<HomePage> {
 
   void updateGridColumRatio(double dimens) {
     int columnRatio;
+    double cardRatio;
     if (dimens <= kMobileBreakpoint) {
       columnRatio = 1;
+      cardRatio = MediaQuery.of(context).size.height / 2.5;
     } else if (dimens > kMobileBreakpoint && dimens <= kTabletBreakpoint) {
-      columnRatio = 1;
-    } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
       columnRatio = 2;
-    } else {
+      cardRatio = MediaQuery.of(context).size.height / 4;
+    } else if (dimens > kTabletBreakpoint && dimens <= kDesktopBreakpoint) {
       columnRatio = 3;
+      cardRatio = MediaQuery.of(context).size.height / 5;
+    } else {
+      columnRatio = 4;
+      cardRatio = MediaQuery.of(context).size.height / 5.7;
     }
     if (columnRatio != _columnRatio) {
       setState(() {
         _columnRatio = columnRatio;
+        _cardRatio = cardRatio;
       });
     }
   }
@@ -87,45 +110,98 @@ class _HomePageState extends State<HomePage> {
     if (max * pageNumber > _jobOffers!.length) {
       max = _jobOffers!.length;
     }
-    return List.generate(max, (index) {
-      var jobOffer = _jobOffers![index];
-      return OfferCard(
-          title: jobOffer.title,
-          description: jobOffer.description ?? "",
-          companyName: jobOffer.companyName,
-          onTapHandle: () {
-            showDialog(
-                context: context,
-                builder: (context) => JobOfferDialog(
-                      jobOffer: jobOffer,
-                    ));
-          },
-          firstButton: TextButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => JobOfferDialog(
-                        isEdditing: true,
-                        jobOffer: jobOffer,
-                        updateJobOffersList: setJobOffers,
-                      ));
-            },
-            child: const Text('Modifier'),
-          ),
-          secondButton: TextButton(
-            child: const Text('Supprimer'),
-            onPressed: () {
-              deleteJobOffers(jobOffer.getId());
-            },
-          ));
-    });
+    if (_currentUser!.isCompany) {
+      return List.generate(
+          max, (index) => _buildCompanyOfferCard(_jobOffers![index]));
+    }
+    return List.generate(
+        max, (index) => _buildUserOfferCard(_jobOffers![index]));
+  }
+
+  OfferCard _buildCompanyOfferCard(JobOffer jobOffer) {
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      firstButton: TextButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => JobOfferDialog(
+                    isEdditing: true,
+                    jobOffer: jobOffer,
+                    updateJobOffersList: setJobOffers,
+                  ));
+        },
+        child: const Text('Modifier'),
+      ),
+      secondButton: TextButton(
+        child: const Text('Supprimer'),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => ConfirmationDialog(
+                    title: "Confirmation Dialog",
+                    message: "Êtes vous sûr de vouloir supprimer cette offre ?",
+                    confirmHandle: () => deleteJobOffers(
+                      jobOffer.getId(),
+                    ),
+                  ));
+        },
+      ),
+      cardHeight: _cardRatio,
+    );
+  }
+
+  OfferCard _buildUserOfferCard(JobOffer jobOffer) {
+    void candidateHandle() async {
+      try {
+        var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
+        if (response.statusCode == 200) {
+          showSnackBar(context, "Candidature envoyée");
+          setJobOffers();
+        } else {
+          throw ErrorDescription("Failed to candidate");
+        }
+      } catch (e) {
+        showSnackBar(context, "Une erreur est survenue", isError: true);
+      }
+    }
+
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      firstButton: TextButton(
+        onPressed:
+            userAlreadyCandidate(jobOffer) ? null : () => candidateHandle(),
+        child: userAlreadyCandidate(jobOffer)
+            ? const Text('Vous avez déjà postulé')
+            : const Text('Postuler'),
+      ),
+      cardHeight: _cardRatio,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     if (_currentUser == null) {
       setCurrentUser();
-    } else if (_currentUser!.isCompany && _jobOffers == null) {
+    } else if (_jobOffers == null) {
       setJobOffers();
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);

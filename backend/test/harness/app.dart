@@ -1,10 +1,10 @@
+import 'dart:math';
 import 'package:backend/backend.dart';
 import 'package:conduit_test/conduit_test.dart';
 
 export 'package:backend/backend.dart';
 export 'package:conduit_test/conduit_test.dart';
 export 'package:test/test.dart';
-export 'package:conduit/conduit.dart';
 
 /// A testing harness for backend.
 ///
@@ -19,10 +19,18 @@ export 'package:conduit/conduit.dart';
 ///           });
 ///         }
 ///
-class Harness extends TestHarness<Channel> {
+
+String generateRandomString(int len) {
+  var r = Random();
+  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+}
+
+class Harness extends TestHarness<BackendChannel> {
   @override
   Future onSetUp() async {}
 
-  @override
-  Future onTearDown() async {}
+  Future tearDownAll() async {
+    await channel?.db.drop();
+  }
 }

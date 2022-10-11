@@ -1,0 +1,50 @@
+# ------------------------------------------------------------- Project CI --- #
+
+stages:
+    - build
+    - deploy
+default:
+  image: ubuntu:22.04
+
+build-backend:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/backend"
+      --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/backend:latest"
+  only:
+    - main
+
+build-frontend:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mv ${CI_PROJECT_DIR}/frontend/assets/env.prod.conf ${CI_PROJECT_DIR}/frontend/assets/env.conf
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/frontend"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/frontend:latest"
+  only:
+    - main
+deploy:
+  stage: deploy
+  image: docker:latest
+  script:
+    - chmod 600 ${EC2_SSH_KEY}
+    - ssh -o StrictHostKeyChecking=no -i ${EC2_SSH_KEY} ${EC2_URI} "
+      docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY} &&
+      docker pull ${CI_REGISTRY_IMAGE}/frontend:latest &&
+      docker pull ${CI_REGISTRY_IMAGE}/backend:latest &&
+      cd nlpf &&
+      git pull &&
+      docker-compose up -d"
+  tags:
+    - ec2-runner
+  only:
+    - main

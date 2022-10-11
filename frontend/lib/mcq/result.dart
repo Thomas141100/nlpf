@@ -5,10 +5,10 @@ import 'package:fht_linkedin/utils/utils.dart';
 class Result extends StatelessWidget {
   final int resultScore;
   final Function resetHandler;
-  final String mcqId;
+  final String offerId;
   final int maxScore;
 
-  const Result(this.mcqId, this.maxScore, this.resultScore, this.resetHandler,
+  const Result(this.offerId, this.maxScore, this.resultScore, this.resetHandler,
       {Key? key})
       : super(key: key);
 
@@ -59,15 +59,14 @@ class Result extends StatelessWidget {
                 textStyle: const TextStyle(fontSize: 20),
               ),
               onPressed: () async {
-                var response = await Client.saveMCQ(mcqId, resultScore);
+                var response = await Client.saveMCQ(offerId, resultScore);
                 if (response.statusCode == 200) {
                   showSnackBar(context, "mcq sauvegardé");
-                  Navigator.of(context).pop();
-                  resetHandler();
                 } else {
                   showSnackBar(context, "Une erreur est survenu :[",
                       isError: true);
                 }
+                Navigator.of(context).pop();
               },
               child: Container(
                 color: Colors.blue,

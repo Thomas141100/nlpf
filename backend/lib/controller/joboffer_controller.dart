@@ -40,15 +40,43 @@ class JobOfferController extends ResourceController {
 
     final result = await collection.find(query).toList();
 
+    for (final joboffer in result) {
+      if (!joboffer.containsKey("candidacies")) continue;
+
+      final candidacies = [];
+      for (var candidacyId in joboffer["candidacies"]) {
+        final candidacyCollection = db.collection("candidacies");
+        final candidacy =
+            await candidacyCollection.findOne(where.eq("_id", candidacyId));
+        candidacies.add(candidacy);
+      }
+      joboffer["candidacies"] = candidacies;
+    }
+
     return Response.ok(result);
   }
 
   @Operation.get('id')
-  Future<Response> getJobOfferByID(@Bind.path('id') String id) async {
+  Future<Response> getJobOfferById(@Bind.path('id') String id) async {
     final objectId = ObjectId.fromHexString(id);
 
     final collection = db.collection("joboffers");
     final result = await collection.findOne(where.eq("_id", objectId));
+
+    if (result == null) {
+      return Response.notFound();
+    }
+
+    if (result.containsKey("candidacies")) {
+      final candidacies = [];
+      for (var candidacyId in result["candidacies"]) {
+        final candidacyCollection = db.collection("candidacies");
+        final candidacy =
+            await candidacyCollection.findOne(where.eq("_id", candidacyId));
+        candidacies.add(candidacy);
+      }
+      result["candidacies"] = candidacies;
+    }
 
     return Response.ok(result);
   }
@@ -68,8 +96,9 @@ class JobOfferController extends ResourceController {
     if (!jobOffer.containsKey('employer')) {
       jobOffer['employer'] = user['id'];
     }
-    if (!jobOffer.containsKey('company')) {
-      jobOffer['company'] = user['companyName'];
+
+    if (!jobOffer.containsKey('companyName')) {
+      jobOffer['companyName'] = user['companyName'];
     }
 
     final jobOfferCollection = db.collection("joboffers");
