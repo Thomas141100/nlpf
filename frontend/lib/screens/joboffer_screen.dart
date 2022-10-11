@@ -131,6 +131,7 @@ class JobOfferDialog extends AlertDialog {
         formKey: _jobOfferformKey,
         formTitle: formTitle,
         enableInput: isCreating || isEdditing,
+        offerId: isEdditing || !isCreating ? jobOffer!.getId() : "",
       ),
       actions: actions,
     );

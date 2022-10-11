@@ -10,7 +10,12 @@ import '../models/mcq.dart';
 class Check extends StatefulWidget {
   final MCQ? mcq;
   final bool enableInput;
-  const Check({super.key, required this.mcq, required this.enableInput});
+  final String offerId;
+  const Check(
+      {super.key,
+      required this.mcq,
+      required this.enableInput,
+      required this.offerId});
 
   @override
   State<Check> createState() => _Check();
@@ -59,7 +64,7 @@ class _Check extends State<Check> {
                             builder: (context) {
                               return AlertDialog(
                                 content: MCQForm(
-                                    mcqID: manageCSV.mcqID,
+                                    offerId: widget.offerId,
                                     maxScore: manageCSV.maxScore,
                                     questions: manageCSV.questions),
                               );
@@ -93,7 +98,7 @@ class _Check extends State<Check> {
                       builder: (context) {
                         return AlertDialog(
                           content: MCQForm(
-                              mcqID: manageCSV.mcqID,
+                              offerId: widget.offerId,
                               maxScore: widget.mcq!.maxScore,
                               questions: widget.mcq!.questions.toList()),
                         );
