@@ -299,7 +299,7 @@ class Client {
   /////////////////Functions relative to the mcq/certification part /////////
 
   static Future<Response> postmcq(String id, MCQ mcq) async {
-    Uri url = Uri.http(_url, '/api/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     var token = await getToken();
     try {
       var response = await post(
@@ -324,7 +324,7 @@ class Client {
   }
 
   static Future<MCQ?> getMCQ(String id) async {
-    Uri url = Uri.http(_url, '/api/joboffers/$id');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
     var token = await getToken();
     try {
       var response = await get(
@@ -344,7 +344,7 @@ class Client {
   }
 
   static Future<Response> saveMCQ(String id, int resultScore) async {
-    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq/answer');
     var token = await getToken();
     try {
       var response = await post(

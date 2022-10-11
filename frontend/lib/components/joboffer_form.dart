@@ -50,7 +50,6 @@ class _JobOfferForm extends State<JobOfferForm> {
       Client.getMCQ(widget.offerId).then((value) {
         setState(() {
           widget.mcq = value;
-          print(widget.mcq?.answers);
         });
       });
     }
@@ -178,64 +177,61 @@ class _JobOfferForm extends State<JobOfferForm> {
                     offerId: widget.offerId),
               ),
               candidacies.isNotEmpty
-                  ? Column(
-                      children: <Widget>[
-                        const Center(
+                  ? Column(children: <Widget>[
+                      const Center(
                           child: Text(
-                            'Candidats',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                        'Candidats',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      )),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(columns: const [
+                          DataColumn(
+                              label: Text('Nom',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Prenom',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Email',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Score',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                        ], rows: [
+                          ...candidacies.map(
+                            (candidacy) {
+                              return DataRow(cells: [
+                                DataCell(
+                                  Text(candidacy.candidate.lastname),
+                                ),
+                                DataCell(
+                                  Text(candidacy.candidate.firstname),
+                                ),
+                                DataCell(
+                                  Text(candidacy.candidate.email),
+                                ),
+                                DataCell(
+                                  Text(candidacy.candidate.score == 0 &&
+                                          widget.mcq != null
+                                      ? "Non évalué"
+                                      : candidacy.candidate.score.toString()),
+                                ),
+                              ]);
+                            },
                           ),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(columns: const [
-                            DataColumn(
-                                label: Text('Nom',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Prenom',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Email',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            DataColumn(
-                                label: Text('Score',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                          ], rows: [
-                            ...candidacies.map(
-                              (candidacy) {
-                                return DataRow(cells: [
-                                  DataCell(
-                                    Text(candidacy.candidate.lastname),
-                                  ),
-                                  DataCell(
-                                    Text(candidacy.candidate.firstname),
-                                  ),
-                                  DataCell(
-                                    Text(candidacy.candidate.email),
-                                  ),
-                                  DataCell(
-                                    Text(candidacy.score == 0 &&
-                                            widget.mcq != null
-                                        ? "Non évalué"
-                                        : candidacy.score.toString()),
-                                  ),
-                                ]);
-                              },
-                            ),
-                          ]),
-                        ),
-                      ],
-                    )
+                        ]),
+                      ),
+                    ])
                   : Container()
             ],
           ),

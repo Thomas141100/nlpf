@@ -19,7 +19,7 @@ class MCQ {
           'answers': (questionsJson[i] as Map<String, dynamic>)['answers'],
         });
       }
-      answers = json['candidacies'] ?? [];
+      answers = json['answer'] ?? [];
       questions = quests;
     } else {
       null;

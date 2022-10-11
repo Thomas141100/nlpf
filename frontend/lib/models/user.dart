@@ -6,6 +6,7 @@ class User {
   bool isCompany;
   String? companyName;
   List<String>? jobOffers;
+  int? score;
 
   User(this._id, this.firstname, this.lastname, this.email, this.isCompany,
       this.companyName);
@@ -46,5 +47,6 @@ class User {
         lastname = json['lastname'],
         email = json['mail'],
         isCompany = json['isCompany'] == "true",
-        companyName = json['isCompany'] == "true" ? json['companyName'] : "";
+        companyName = json['isCompany'] == "true" ? json['companyName'] : "",
+        score = json['score'] != null ? int.parse(json['score']) : 0;
 }
