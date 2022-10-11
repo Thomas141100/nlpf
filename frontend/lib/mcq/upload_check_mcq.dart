@@ -29,7 +29,6 @@ class _Check extends State<Check> {
 
   @override
   Widget build(BuildContext context) {
-
     if (widget.mcq?.questions.isNotEmpty ?? false) {
       importedCSV = true;
       manageCSV.mcqID = "0";
@@ -45,7 +44,8 @@ class _Check extends State<Check> {
             padding: const EdgeInsets.all(5.0),
             child: ElevatedButton(
               onPressed: downloadFile,
-              child: const Text("Télécharger le template CSV"),
+              child: Text("Télécharger le template CSV",
+                  style: Theme.of(context).textTheme.headlineSmall),
             ),
           ),
           Row(

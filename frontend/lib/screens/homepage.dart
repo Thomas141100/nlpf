@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_currentUser != null && _currentUser!.isCompany && _jobOffers == null) {
+    if (_currentUser != null && _jobOffers == null) {
       setJobOffers();
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);
@@ -212,9 +212,7 @@ class _HomePageState extends State<HomePage> {
               'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          Widget bodyWidget = _currentUser != null &&
-                  _currentUser!.isCompany &&
-                  _jobOffers != null
+          Widget bodyWidget = _currentUser != null && _jobOffers != null
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),

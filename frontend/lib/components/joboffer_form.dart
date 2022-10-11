@@ -66,134 +66,136 @@ class _JobOfferForm extends State<JobOfferForm> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      child: Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              widget.formTitle,
-              style: Theme.of(context).textTheme.titleLarge,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                widget.formTitle,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                          controller: widget.titleController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Titre de l\'annonce',
-                          ),
-                          validator: Validators.generalValidator(),
-                          enabled: widget.enableInput),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                          controller: widget.tagsController,
-                          onFieldSubmitted: (value) {
-                            _tags.add(value);
-                            setState(() {
-                              _tags = _tags;
-                            });
-                            widget.tagsController.clear();
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Tags',
-                          ),
-                          enabled: widget.enableInput),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Wrap(
-                        children: _tags
-                            .map((tag) => Chip(
-                                  label: Text(tag),
-                                  onDeleted: () {
-                                    setState(() {
-                                      _tags.remove(tag);
-                                    });
-                                  },
-                                ))
-                            .toList(),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: TextFormField(
+                            controller: widget.titleController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Titre de l\'annonce',
+                            ),
+                            validator: Validators.generalValidator(),
+                            enabled: widget.enableInput),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      constraints: const BoxConstraints(
-                        minHeight: 150.0,
-                        maxHeight: 300.0,
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: TextFormField(
+                            controller: widget.tagsController,
+                            onFieldSubmitted: (value) {
+                              _tags.add(value);
+                              setState(() {
+                                _tags = _tags;
+                              });
+                              widget.tagsController.clear();
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Tags',
+                            ),
+                            enabled: widget.enableInput),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      constraints: const BoxConstraints(
-                        minHeight: 150.0,
-                        maxHeight: 300.0,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Wrap(
+                          children: _tags
+                              .map((tag) => Chip(
+                                    label: Text(tag),
+                                    onDeleted: () {
+                                      setState(() {
+                                        _tags.remove(tag);
+                                      });
+                                    },
+                                  ))
+                              .toList(),
+                        ),
                       ),
-                      child: Image.network(
-                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextFormField(
-                    controller: widget.descriptionController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 10,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Description',
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Renseignez ce champs';
-                      }
-                      return null;
-                    },
-                    enabled: widget.enableInput),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: Check(
-                    mcq: widget.mcq,
-                    enableInput: widget.enableInput,
-                    offerId: widget.offerId),
-              ),
-              candidacies.isNotEmpty
-                  ? Column(children: <Widget>[
-                      const Center(
-                          child: Text(
-                        'Candidats',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      )),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(columns: const [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        constraints: const BoxConstraints(
+                          minHeight: 150.0,
+                          maxHeight: 300.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        constraints: const BoxConstraints(
+                          minHeight: 150.0,
+                          maxHeight: 300.0,
+                        ),
+                        child: Image.network(
+                            'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                  controller: widget.descriptionController,
+                  maxLines: 7,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Description',
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Renseignez ce champs';
+                    }
+                    return null;
+                  },
+                  enabled: widget.enableInput),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Check(
+                  mcq: widget.mcq,
+                  enableInput: widget.enableInput,
+                  offerId: widget.offerId),
+            ),
+            candidacies.isNotEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                        const Center(
+                            child: Text(
+                          'Candidats',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        )),
+                        DataTable(columns: const [
                           DataColumn(
                               label: Text('Nom',
                                   style: TextStyle(
@@ -237,12 +239,10 @@ class _JobOfferForm extends State<JobOfferForm> {
                             },
                           ),
                         ]),
-                      ),
-                    ])
-                  : Container()
-            ],
-          ),
-        ],
+                      ])
+                : Container()
+          ],
+        ),
       ),
     );
   }
