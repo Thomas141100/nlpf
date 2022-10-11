@@ -1,3 +1,5 @@
+import 'package:fht_linkedin/models/candidacy.dart';
+
 import 'mcq.dart';
 
 class JobOffer {
@@ -5,7 +7,7 @@ class JobOffer {
   String title = "";
   String employer = "";
   String companyName = "";
-  List<String>? candidacies;
+  List<UserCandidacy> candidacies = List.empty(growable: true);
   List<String>? tags;
   String? description;
   MCQ? mcq;
@@ -13,7 +15,29 @@ class JobOffer {
   JobOffer(this._id, this.title, this.employer, this.companyName,
       this.candidacies, this.tags, this.description, this.mcq);
 
-  JobOffer.empty() : this("", "", "", "", null, null, null, null);
+  JobOffer.empty() : this("", "", "", "", [], null, null, null);
+
+  JobOffer.fromJson(Map<dynamic, dynamic> json) {
+    _id = json['_id'];
+    title = json['title'];
+    employer = json['employer'];
+    companyName = json['companyName'];
+    description = json['description'];
+    tags = [json['tags']];
+
+    if (json.containsKey('candidacies')) {
+      for (var candidacy in json['candidacies']) {
+        var temp = UserCandidacy.fromJson(candidacy);
+        candidacies.add(temp);
+      }
+    } else {
+      candidacies = List.empty(growable: true);
+    }
+
+    if (json.containsKey('mcq')) {
+      mcq = MCQ.fromJson(json['mcq']);
+    }
+  }
 
   String getId() {
     return _id;

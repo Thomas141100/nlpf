@@ -29,7 +29,13 @@ class _Header extends State<Header> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
+<<<<<<< HEAD
             "Traverser la rue !${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",  style: Theme.of(context).textTheme.headlineLarge, ),
+=======
+          "Traverser la rue !${widget.title.isNotEmpty ? " - ${widget.title}" : ""}",
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+>>>>>>> 77ff87db27412fb651f89210e8458c53f49e4d45
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

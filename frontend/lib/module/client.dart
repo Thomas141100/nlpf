@@ -10,7 +10,16 @@ import '../models/mcq.dart';
 import '../utils/utils.dart';
 
 class Client {
-  static const String _url = "localhost:42069";
+  static String _url = "localhost:42069";
+
+  Future<String> _getApiUrl() async {
+    final prefs = SharedPreferences.getInstance();
+    return (await prefs).getString("apiUrl")!;
+  }
+
+  Client() {
+    _getApiUrl().then((value) => _url = value);
+  }
 
   static Future<Response> signup(User newUser, String password) async {
     Uri url = Uri.http(_url, '/auth/signup');
@@ -88,7 +97,7 @@ class Client {
       var decodedJson = jsonDecode(body);
       List<UserCandidacy> candidaciesList = [];
       for (var userCandidacy in decodedJson) {
-        candidaciesList.add(convertJson2UserCandidacy(userCandidacy));
+        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
       }
       return candidaciesList;
     } catch (e) {
@@ -114,10 +123,14 @@ class Client {
     }
   }
 
-  static Future<Response> updateUser(User user) async {
+  static Future<Response> updateUser(User user, {String? password}) async {
     Uri url = Uri.http(_url, '/users/${user.id}');
     try {
       var token = await getToken();
+      var userMap = user.toJson();
+      if (password != null && password.isNotEmpty) {
+        userMap.addAll({'password': password});
+      }
       var response = await put(
         url,
         headers: {
@@ -125,11 +138,7 @@ class Client {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
         },
-        body: jsonEncode(<String, String>{
-          'mail': user.email,
-          'firstname': user.firstname,
-          'lastname': user.lastname
-        }),
+        body: jsonEncode(userMap),
       );
       return response;
     } catch (e) {
@@ -156,12 +165,12 @@ class Client {
       }
       var body = response.body;
       if (body.isEmpty) return List.empty();
-      var decodedJson = jsonDecode(body);
-      List<JobOffer> offersList = [];
-      for (var jobOffer in decodedJson) {
-        offersList.add(convertJson2JobOffer(jobOffer));
+      List<dynamic> decodedJson = jsonDecode(body);
+      List<JobOffer> jobOffers = List.empty(growable: true);
+      for (Map<dynamic, dynamic> jobOfferJson in decodedJson) {
+        jobOffers.add(JobOffer.fromJson(jobOfferJson));
       }
-      return offersList;
+      return jobOffers;
     } catch (e) {
       throw ErrorDescription("Failed to fetch all offers. Code $e");
     }
@@ -182,12 +191,12 @@ class Client {
         body: jsonEncode(
           {
             'title': title,
-            'companyname': companyname,
+            'companyName': companyname,
             'description': description,
             'tags': tags,
             'mcq': {
               'maxScore': mcq.maxScore,
-              'expectedScore': mcq.expextedScore,
+              'expectedScore': mcq.expectedScore,
               'questions': mcq.questions,
             },
           },
@@ -236,6 +245,25 @@ class Client {
           "content-type": "application/json",
           "authorization": "Bearer $token",
         },
+      );
+      return response;
+    } catch (e) {
+      return Response("", 500);
+    }
+  }
+
+  static Future<Response> addCandidacy2JobOffer(String id) async {
+    Uri url = Uri.http(_url, '/joboffers/$id/candidacies');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode(<String, String>{}),
       );
       return response;
     } catch (e) {
@@ -351,7 +379,7 @@ class Client {
     return utf8.decode(base64Url.decode(normalizedSource));
   }
 
-  static getCurrentUser() async {
+  static Future<User?> getCurrentUser() async {
     var token = await getToken();
     var userId = jsonDecode(getJsonFromJWT(token!))['id'];
     var response = await getUser(userId);
@@ -364,7 +392,7 @@ class Client {
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
     currentUser.isCompany = jsonMap['isCompany'] == "true";
-    currentUser.companyName = jsonMap['company'];
+    currentUser.companyName = currentUser.isCompany ? jsonMap['company'] : "";
     currentUser.setId(jsonMap['_id']);
     return currentUser;
   }

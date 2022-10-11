@@ -29,4 +29,14 @@ class User {
   }
 
   String get id => _id;
+
+  Map<String, dynamic> toJson() => {
+        'id': _id,
+        'firstname': firstname,
+        'lastname': lastname,
+        'email': email,
+        'isCompany': isCompany,
+        'companyName': companyName,
+        'jobOffers': jobOffers
+      };
 }

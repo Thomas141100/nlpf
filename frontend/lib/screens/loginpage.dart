@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/models/user.dart';
-import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -175,16 +174,18 @@ class _LoginPage extends State<LoginPage> {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return  AlertDialog(
+                                    return AlertDialog(
                                       // Retrieve the text the that user has entered by using the
                                       // TextEditingController.
-                                      content: Text("Dommage...", style: Theme.of(context).textTheme.bodyMedium),
+                                      content: Text("Dommage...",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
                                     );
                                   });
                             },
-                            child:  Text(
-                              'Mot de passe oublié', style: Theme.of(context).textTheme.bodySmall
-                            ),
+                            child: Text('Mot de passe oublié',
+                                style: Theme.of(context).textTheme.bodySmall),
                           ),
                           const SizedBox(
                             height: 15,
@@ -193,7 +194,10 @@ class _LoginPage extends State<LoginPage> {
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: ElevatedButton(
-                              child:  Text('Se connecter', style: Theme.of(context).textTheme.headlineSmall),
+                              child: Text('Se connecter',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   MyApp.of(context).authService.authenticated =

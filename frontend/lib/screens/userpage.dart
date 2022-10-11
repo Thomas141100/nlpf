@@ -27,6 +27,10 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _companyController = TextEditingController();
 
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
+
   bool reRender = false;
 
   Future getImage(ImageSource media) async {
@@ -39,14 +43,13 @@ class _UserPageState extends State<UserPage> {
 
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
-    user ??= {} as User;
     setState(() {
       _currentUser = user;
       if (user != null) {
         _firstnameController.text = user.firstname;
         _lastnameController.text = user.lastname;
         _emailController.text = user.email;
-        _companyController.text = user.companyName!;
+        if (user.isCompany) _companyController.text = user.companyName!;
       }
     });
   }
@@ -62,6 +65,25 @@ class _UserPageState extends State<UserPage> {
     return _currentUser!.firstname != _firstnameController.text ||
         _currentUser!.lastname != _lastnameController.text ||
         _currentUser!.email != _emailController.text;
+  }
+
+  _isCompany() {
+    if (_currentUser!.isCompany) {
+      return Container(
+          margin: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: 250,
+            child: TextFormField(
+              onChanged: (_) => updateRender(),
+              controller: _companyController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Entreprise'),
+            ),
+          ));
+    }
+    return const SizedBox(
+      height: 2,
+    );
   }
 
   void myAlert() {
@@ -411,6 +433,7 @@ class _UserPageState extends State<UserPage> {
                             margin: const EdgeInsets.all(15.0),
                             width: 250,
                             child: TextFormField(
+                                controller: _passwordController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Nouveau mot de passe')),
@@ -419,6 +442,7 @@ class _UserPageState extends State<UserPage> {
                             margin: const EdgeInsets.all(15.0),
                             width: 250,
                             child: TextFormField(
+                                controller: _passwordConfirmController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Confirmer le mot de passe')),
@@ -429,13 +453,31 @@ class _UserPageState extends State<UserPage> {
                                 backgroundColor:
                                     const Color.fromARGB(255, 10, 129, 12),
                               ),
-                              onPressed: () {
-                                showSnackBar(
-                                    context, "Feature not yet implemented");
+                              onPressed: () async {
+                                try {
+                                  var response = await Client.updateUser(
+                                      User(
+                                          _currentUser!.id,
+                                          _firstnameController.text,
+                                          _lastnameController.text,
+                                          _emailController.text,
+                                          _currentUser!.isCompany,
+                                          _currentUser!.companyName),
+                                      password: _passwordController.text);
+                                  if (response.statusCode != 200) {
+                                    throw ErrorDescription("$response");
+                                  }
+                                  showSnackBar(context,
+                                      "Votre mot de passe a été mis à jour");
+                                  setCurrentUser();
+                                } catch (e) {
+                                  showSnackBar(
+                                      context, "La mise à jour a échoué",
+                                      isError: true);
+                                }
                               },
                               child: Row(children: [
-                                Icon(Icons.save,
-                                    color: Theme.of(context).backgroundColor),
+                                const Icon(Icons.save, color: Colors.white),
                                 Text(
                                   'Valider le changement',
                                   style: Theme.of(context).textTheme.labelSmall,

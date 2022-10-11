@@ -2,17 +2,20 @@ import 'package:fht_linkedin/mcq/form.dart';
 import 'package:fht_linkedin/mcq/manage_csv.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import '../components/header.dart';
 import 'dart:html' as html;
 import 'dart:convert';
 
 import '../models/mcq.dart';
-import '../utils/utils.dart';
 
 class Check extends StatefulWidget {
   final MCQ? mcq;
   final bool enableInput;
-  const Check({super.key, required this.mcq, required this.enableInput});
+  final String offerId;
+  const Check(
+      {super.key,
+      required this.mcq,
+      required this.enableInput,
+      required this.offerId});
 
   @override
   State<Check> createState() => _Check();
@@ -48,10 +51,18 @@ class _Check extends State<Check> {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
+<<<<<<< HEAD
               onPressed: importCSV,
               child:  Text("Choisir un fichier",  style: Theme.of(context).textTheme.headlineSmall),
             ),
           ),
+=======
+                  onPressed: importCSV,
+                  child: Text("Choisir un fichier",
+                      style: Theme.of(context).textTheme.headlineSmall),
+                ),
+              ),
+>>>>>>> 77ff87db27412fb651f89210e8458c53f49e4d45
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: ElevatedButton(
@@ -62,7 +73,7 @@ class _Check extends State<Check> {
                             builder: (context) {
                               return AlertDialog(
                                 content: MCQForm(
-                                    mcqID: manageCSV.mcqID,
+                                    offerId: widget.offerId,
                                     maxScore: manageCSV.maxScore,
                                     questions: manageCSV.questions),
                               );
@@ -96,7 +107,7 @@ class _Check extends State<Check> {
                       builder: (context) {
                         return AlertDialog(
                           content: MCQForm(
-                              mcqID: manageCSV.mcqID,
+                              offerId: widget.offerId,
                               maxScore: widget.mcq!.maxScore,
                               questions: widget.mcq!.questions.toList()),
                         );
@@ -126,7 +137,7 @@ class _Check extends State<Check> {
       setState(() {
         importedCSV = manageCSV.parseCsv(csvString);
         widget.mcq?.maxScore = manageCSV.maxScore;
-        widget.mcq?.expextedScore = manageCSV.expextedScore;
+        widget.mcq?.expectedScore = manageCSV.expectedScore;
         widget.mcq?.questions = manageCSV.questions;
       });
     }

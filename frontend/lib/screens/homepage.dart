@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/components/offer_card.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
@@ -59,6 +58,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool userAlreadyCandidate(JobOffer jobOffer) {
+    return _currentUser != null &&
+        jobOffer.candidacies
+            .map((e) => e.candidate)
+            .contains(_currentUser!.getId());
+  }
+
   void deleteJobOffers(String jobOfferId) async {
     var response = await Client.deleteJobOffer(jobOfferId);
     if (response.statusCode == 500) {
@@ -98,41 +104,83 @@ class _HomePageState extends State<HomePage> {
     if (max * pageNumber > _jobOffers!.length) {
       max = _jobOffers!.length;
     }
-    return List.generate(max, (index) {
-      var jobOffer = _jobOffers![index];
-      return OfferCard(
-          title: jobOffer.title,
-          description: jobOffer.description ?? "",
-          companyName: jobOffer.companyName,
-          onTapHandle: () {
-            showDialog(
-                context: context,
-                builder: (context) => JobOfferDialog(
-                      jobOffer: jobOffer,
-                    ));
-          },
-          firstButton: TextButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => JobOfferDialog(
-                        isEdditing: true,
-                        jobOffer: jobOffer,
-                        updateJobOffersList: setJobOffers,
-                      ));
-            },
-            child: Text('Modifier',
-                style: Theme.of(context).textTheme.labelMedium),
-          ),
-          secondButton: TextButton(
-            child: Text('Supprimer',
-                style: Theme.of(context).textTheme.labelMedium),
-            onPressed: () {
-              deleteJobOffers(jobOffer.getId());
-            },
-          ),
-          cardHeight: _cardRatio);
-    });
+    if (_currentUser!.isCompany) {
+      return List.generate(
+          max, (index) => _buildCompanyOfferCard(_jobOffers![index]));
+    }
+    return List.generate(
+        max, (index) => _buildUserOfferCard(_jobOffers![index]));
+  }
+
+  OfferCard _buildCompanyOfferCard(JobOffer jobOffer) {
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      firstButton: TextButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => JobOfferDialog(
+                    isEdditing: true,
+                    jobOffer: jobOffer,
+                    updateJobOffersList: setJobOffers,
+                  ));
+        },
+        child: const Text('Modifier'),
+      ),
+      secondButton: TextButton(
+        child: const Text('Supprimer'),
+        onPressed: () {
+          deleteJobOffers(jobOffer.getId());
+        },
+      ),
+      cardHeight: _cardRatio,
+    );
+  }
+
+  OfferCard _buildUserOfferCard(JobOffer jobOffer) {
+    void candidateHandle() async {
+      try {
+        var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
+        if (response.statusCode == 200) {
+          showSnackBar(context, "Candidature envoyée");
+          setJobOffers();
+        } else {
+          throw ErrorDescription("Failed to candidate");
+        }
+      } catch (e) {
+        showSnackBar(context, "Une erreur est survenue", isError: true);
+      }
+    }
+
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                ));
+      },
+      firstButton: TextButton(
+        onPressed:
+            userAlreadyCandidate(jobOffer) ? null : () => candidateHandle(),
+        child: userAlreadyCandidate(jobOffer)
+            ? const Text('Vous avez déjà postulé')
+            : const Text('Postuler'),
+      ),
+      cardHeight: _cardRatio,
+    );
   }
 
   @override
@@ -153,15 +201,13 @@ class _HomePageState extends State<HomePage> {
               'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          return _currentUser != null &&
-                  _currentUser!.isCompany &&
-                  _jobOffers != null
+          return _currentUser != null && _jobOffers != null
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
               : Center(
-                  child: Text('toto',
+                  child: Text('Loading...',
                       style: Theme.of(context).textTheme.displayLarge),
                 );
         },
