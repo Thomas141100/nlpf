@@ -30,67 +30,86 @@ class MyAppState extends State<MyApp> {
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
           hoverColor: const Color.fromARGB(255, 36, 58, 115),
+          dialogBackgroundColor: const Color.fromARGB(255, 242, 235, 233) ,
+          shadowColor: const Color.fromARGB(255, 124, 62, 102),
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
+          textButtonTheme: TextButtonThemeData(style: Theme.of(context).elevatedButtonTheme.style),
+          buttonTheme: ButtonThemeData(
+            hoverColor: const Color.fromARGB(255, 36, 58, 115),
+            buttonColor: const Color.fromARGB(255, 124, 62, 102),
+          ),
+          iconTheme: IconThemeData(color:const Color.fromARGB(255, 242, 235, 233) ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+            foregroundColor: const Color.fromARGB(255, 242, 235, 233),
+            backgroundColor: const Color.fromARGB(255, 124, 62, 102),
+            shadowColor: const Color.fromARGB(255, 36, 58, 115),
+            textStyle:  TextStyle(fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color:Color.fromARGB(255, 242, 235, 233)) 
+          )),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+              hoverColor: const Color.fromARGB(255, 36, 58, 115),
+              backgroundColor: const Color.fromARGB(255, 124, 62, 102)),
           textTheme: const TextTheme(
-            displayLarge: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 35,
-                          color: Color.fromARGB(255, 36, 58, 115)),
-            displayMedium: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 36, 58, 115)),
-            headlineLarge: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          color: const Color.fromARGB(255, 242, 235, 233)),
-            headlineMedium: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 36, 58, 115)) ,
-          titleLarge: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 35,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-          titleMedium: TextStyle(
-                          fontSize: 20.0,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-          titleSmall: TextStyle(
-                          fontSize: 15.0,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-
-          bodyLarge: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-          bodyMedium: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-                        
-          bodySmall: TextStyle(
-                          fontSize: 10,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-          labelLarge: TextStyle(
-                          fontSize: 20.0,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-          labelMedium: TextStyle(
-                          fontSize: 15.0,
-                          color: Color.fromARGB(255, 36, 58, 115),
-                        ),
-                        labelSmall:  TextStyle(
-                          fontSize: 15,
-                          color: Colors.white)
-
-              
+              displayLarge: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 35,
+                  color: Color.fromARGB(255, 36, 58, 115)),
+              displayMedium: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 36, 58, 115)),
+              displaySmall:  TextStyle(fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color:Color.fromARGB(255, 242, 235, 233)),
+              headlineLarge: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: const Color.fromARGB(255, 242, 235, 233)),
+              headlineMedium: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Color.fromARGB(255, 36, 58, 115)),
+              headlineSmall: TextStyle(fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color:Color.fromARGB(255, 242, 235, 233)) ,
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 35,
+                color: Color.fromARGB(255, 36, 58, 115),
               ),
+              titleMedium: TextStyle(
+                fontSize: 20.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              titleSmall: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodyLarge: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodyMedium: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodySmall: TextStyle(
+                fontSize: 10,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              labelLarge: TextStyle(
+                fontSize: 20.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              labelMedium: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              labelSmall: TextStyle(fontSize: 15, color: Colors.white)),
         ),
         routeInformationParser: _appRouter.defaultRouteParser(),
         routerDelegate: _appRouter.delegate());

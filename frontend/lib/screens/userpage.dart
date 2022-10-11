@@ -64,24 +64,7 @@ class _UserPageState extends State<UserPage> {
         _currentUser!.email != _emailController.text;
   }
 
- _isCompany()
-{
-  if (_currentUser!.isCompany)
-  {
-    return Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: FittedBox(
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _companyController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Entreprise'),
-                              ),
-                            ));
-  }
-  return const SizedBox(height: 2,);
-}
+  _isCompany() {}
 
   void myAlert() {
     showDialog(
@@ -90,7 +73,10 @@ class _UserPageState extends State<UserPage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Selectionner un fichier multimedia', style: Theme.of(context).textTheme.labelMedium,),
+            title: Text(
+              'Selectionner un fichier multimedia',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
             content: FittedBox(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -102,9 +88,12 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.gallery);
                     },
                     child: Row(
-                      children:  [
+                      children: [
                         Icon(Icons.image),
-                        Text('Depuis la galerie de photos', style: Theme.of(context).textTheme.labelMedium,),
+                        Text(
+                          'Depuis la galerie de photos',
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -118,9 +107,12 @@ class _UserPageState extends State<UserPage> {
                       getImage(ImageSource.camera);
                     },
                     child: Row(
-                      children:  [
+                      children: [
                         Icon(Icons.camera),
-                        Text('Prendre une photo', style: Theme.of(context).textTheme.labelMedium,),
+                        Text(
+                          'Prendre une photo',
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -144,292 +136,319 @@ class _UserPageState extends State<UserPage> {
     }
 
     return Scaffold(
-      appBar: Header(
-        key: const ValueKey('header'),
-        title: 'Mon profil',
-      ),
-      backgroundColor: Theme.of(context).primaryColor ,
-      body:
-      Container(
-        
-        margin: EdgeInsets.all(250.0),
-        padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+        appBar: Header(
+          key: const ValueKey('header'),
+          title: 'Paramètres du compte',
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        body: Container(
+          margin: EdgeInsets.all(200.0),
+          padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Theme.of(context).primaryColor),
               color: Theme.of(context).backgroundColor),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-            child: FittedBox(
-            //Expanded(
-              alignment: Alignment.center,
-              child: Column(
-               // mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //if image not null show the image
-                  //if image null show text
-                  image != null
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              //to show image, you type like this.
-                              image!.path,
-                              fit: BoxFit.cover,
-                              width: 300,
-                              height: 300,
-                            ),
-                          ))
-                      : Column(
-                        children: <Widget>[
-                          //add container here
-                          Text('Photo de profil', style: Theme.of(context).textTheme.titleMedium,),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            height: 300,
-                            width: 300,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(67, 96, 125, 139),
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child:  Center(
-                                child: Text(
-                              "Aucune photo de profil",
-                              style: Theme.of(context).textTheme.bodyMedium
-                            )),
-                          ),
-                        ]),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FittedBox(
-                    child: ElevatedButton(
-                        onPressed: () {
-                          myAlert();
-                        },
-                        child: Row(
-                          children:  [
-                            Icon(Icons.upload_file),
-                            Text(
-                              'Choisir un fichier',
-                               style:Theme.of(context).textTheme.labelSmall,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: FittedBox(
+                  //Expanded(
+                  alignment: Alignment.center,
+                  child: Column(
+                    // mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //if image not null show the image
+                      //if image null show text
+                      image != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  //to show image, you type like this.
+                                  image!.path,
+                                  fit: BoxFit.cover,
+                                  width: 300,
+                                  height: 300,
+                                ),
+                              ))
+                          : Column(children: <Widget>[
+                              //add container here
+                              Text(
+                                'Photo de profil',
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                          ],
-                        )),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-            ),
-            Container(
-              
-            child: FittedBox(
-            //Expanded(
-               alignment: Alignment.center,
-             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-               // mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  //add container here
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Modifier mon profil', style: Theme.of(context).textTheme.titleMedium),
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _firstnameController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Prénom"),
+                              SizedBox(
+                                height: 10,
                               ),
-                            )),
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _lastnameController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Nom'),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                height: 300,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(67, 96, 125, 139),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                    child: Text("Aucune photo de profil",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium)),
                               ),
-                            )),
-                            //FIXME
-                            //_isCompany() ? Container() : SizedBox(height: 2,),
-                        Container(
-                            margin: const EdgeInsets.all(15.0),
-                            child: SizedBox(
-                              width: 250,
-                              child: TextFormField(
-                                onChanged: (_) => updateRender(),
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Email'),
-                              ),
-                            )),
-                      ]),
-                  FittedBox(
-                    child: Column(children: [
-                      //FIXME
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: informationsChanged()
-                              ? const Color.fromARGB(255, 10, 129, 12)
-                              : Colors.grey,
-                        ),
-                        onPressed: informationsChanged()
-                            ? () async {
-                                try {
-                                  var response = await Client.updateUser(User(
-                                      _currentUser!.id,
-                                      _firstnameController.text,
-                                      _lastnameController.text,
-                                      _emailController.text,
-                                      _currentUser!.isCompany,
-                                      _currentUser!.companyName));
-                                  if (response.statusCode != 200) {
-                                    throw ErrorDescription(
-                                        "Failed to update user");
-                                  }
-                                  showSnackBar(
-                                      context, "Votre profil a été mis à jour");
-                                  setCurrentUser();
-                                } catch (e) {
-                                  showSnackBar(
-                                      context, "La mise à jour a échoué",
-                                      isError: true);
-                                }
-                              }
-                            : null,
-                        child: Row(children:  [
-                          Icon(Icons.save, color: Colors.white),
-                          Text(
-                            ' Valider le changement',
-                            style: Theme.of(context).textTheme.labelSmall ,
-                          ),
-                        ]),
-                      ),
+                            ]),
                       const SizedBox(
                         height: 10,
                       ),
                       FittedBox(
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Row(children:  [
-                          Icon(Icons.remove_circle, color: Colors.white),
-                          Text(
-                            ' Supprimer le compte',
-                            style: Theme.of(context).textTheme.labelSmall
-                          ),
-                        ]),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: ((context) => ConfirmationDialog(
-                                    key: const ValueKey(
-                                        'confirmation_dialog_user_delete'),
-                                    title: "Confirmation Dialog",
-                                    message:
-                                        "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
-                                    confirmHandle: _currentUser != null
-                                        ? () async {
-                                            var response =
-                                                await Client.deleteUser(
-                                                    _currentUser!.getId());
-                                            if (response.statusCode == 200) {
-                                              Client.removeToken();
-                                              // ignore: use_build_context_synchronously
-                                              AutoRouter.of(context)
-                                                  .removeUntil((route) =>
-                                                      route.name ==
-                                                      "LoginRoute");
-                                              // ignore: use_build_context_synchronously
-                                              showSnackBar(context,
-                                                  "Le compte a été supprimé");
-                                            } else {
-                                              showSnackBar(context,
-                                                  "Une erreur est survenue",
-                                                  isError: true);
-                                            }
-                                          }
-                                        : null,
-                                  )));
-                        },
+                        child: ElevatedButton(
+                            onPressed: () {
+                              myAlert();
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.upload_file),
+                                Text(
+                                  'Choisir un fichier',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                              ],
+                            )),
                       ),
-                  )
-                  ]),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
-                ],
-              ),             
-            ),
-            ),
-            Container(
-              
-            child: FittedBox(
-            //Expanded(
-               alignment: Alignment.center,
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //add container here
-                  Text('Modifier mon mot de passe', style: Theme.of(context).textTheme.titleMedium,),
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  width: 250,
-                  child: TextFormField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Nouveau mot de passe')),
                 ),
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  width: 250,
-                  child: TextFormField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Confirmer le mot de passe')),
-                ),
-                FittedBox(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 10, 129, 12),
-                    ),
-                    onPressed: () {
-                      showSnackBar(context, "Feature not yet implemented");
-                    },
-                    child: Row(children:  [
-                      Icon(Icons.save, color: Colors.white),
-                      Text(
-                        'Valider le changement',
-                        style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                    ]),
+              ),
+              Container(
+                child: FittedBox(
+                  //Expanded(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      //add container here
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Modifier mon profil',
+                                style: Theme.of(context).textTheme.titleMedium),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _firstnameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Prénom"),
+                                  ),
+                                )),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _lastnameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Nom'),
+                                  ),
+                                )),
+                            (_currentUser != null && _currentUser!.isCompany)
+                                ? Container(
+                                    margin: const EdgeInsets.all(15.0),
+                                    child: SizedBox(
+                                      width: 250,
+                                      child: TextFormField(
+                                        onChanged: (_) => updateRender(),
+                                        controller: _companyController,
+                                        decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Entreprise'),
+                                      ),
+                                    ))
+                                : const SizedBox(
+                                    height: 2,
+                                  ),
+                            Container(
+                                margin: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: TextFormField(
+                                    onChanged: (_) => updateRender(),
+                                    controller: _emailController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Email'),
+                                  ),
+                                )),
+                          ]),
+                      FittedBox(
+                        child: Column(children: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: informationsChanged()
+                                  ? const Color.fromARGB(255, 10, 129, 12)
+                                  : Colors.grey,
+                            ),
+                            onPressed: informationsChanged()
+                                ? () async {
+                                    try {
+                                      var response = await Client.updateUser(
+                                          User(
+                                              _currentUser!.id,
+                                              _firstnameController.text,
+                                              _lastnameController.text,
+                                              _emailController.text,
+                                              _currentUser!.isCompany,
+                                              _currentUser!.companyName));
+                                      if (response.statusCode != 200) {
+                                        throw ErrorDescription(
+                                            "Failed to update user");
+                                      }
+                                      showSnackBar(context,
+                                          "Votre profil a été mis à jour");
+                                      setCurrentUser();
+                                    } catch (e) {
+                                      showSnackBar(
+                                          context, "La mise à jour a échoué",
+                                          isError: true);
+                                    }
+                                  }
+                                : null,
+                            child: Row(children: [
+                              Icon(Icons.save,
+                                  color: Theme.of(context).backgroundColor),
+                              Text(
+                                ' Valider le changement',
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          FittedBox(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              child: Row(children: [
+                                Icon(Icons.remove_circle,
+                                    color: Theme.of(context).backgroundColor),
+                                Text(' Supprimer le compte',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall),
+                              ]),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: ((context) => ConfirmationDialog(
+                                          key: const ValueKey(
+                                              'confirmation_dialog_user_delete'),
+                                          title: "Confirmation Dialog",
+                                          message:
+                                              "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
+                                          confirmHandle: _currentUser != null
+                                              ? () async {
+                                                  var response =
+                                                      await Client.deleteUser(
+                                                          _currentUser!
+                                                              .getId());
+                                                  if (response.statusCode ==
+                                                      200) {
+                                                    Client.removeToken();
+                                                    // ignore: use_build_context_synchronously
+                                                    AutoRouter.of(context)
+                                                        .removeUntil((route) =>
+                                                            route.name ==
+                                                            "LoginRoute");
+                                                    // ignore: use_build_context_synchronously
+                                                    showSnackBar(context,
+                                                        "Le compte a été supprimé");
+                                                  } else {
+                                                    showSnackBar(context,
+                                                        "Une erreur est survenue",
+                                                        isError: true);
+                                                  }
+                                                }
+                                              : null,
+                                        )));
+                              },
+                            ),
+                          )
+                        ]),
+                      ),
+                    ],
                   ),
-                )
-                ],
-            ))
-            )
-        ],
-        ),
-      )
-    );
+                ),
+              ),
+              Container(
+                  child: FittedBox(
+                      //Expanded(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //add container here
+                          Text(
+                            'Modifier mon mot de passe',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15.0),
+                            width: 250,
+                            child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Nouveau mot de passe')),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15.0),
+                            width: 250,
+                            child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Confirmer le mot de passe')),
+                          ),
+                          FittedBox(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 10, 129, 12),
+                              ),
+                              onPressed: () {
+                                showSnackBar(
+                                    context, "Feature not yet implemented");
+                              },
+                              child: Row(children: [
+                                Icon(Icons.save,
+                                    color: Theme.of(context).backgroundColor),
+                                Text(
+                                  'Valider le changement',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                              ]),
+                            ),
+                          )
+                        ],
+                      )))
+            ],
+          ),
+        ));
   }
 }

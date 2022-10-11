@@ -38,6 +38,12 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    setCurrentUser();
+  }
+
   void setCurrentUser() async {
     User? user = await Client.getCurrentUser();
     user ??= {} as User;
@@ -131,9 +137,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_currentUser == null) {
-      setCurrentUser();
-    } else if (_currentUser!.isCompany && _jobOffers == null) {
+    if (_currentUser != null && _currentUser!.isCompany && _jobOffers == null) {
       setJobOffers();
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);
@@ -146,7 +150,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: Header(
           title:
-              'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
+              'Bienvenue ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
           return _currentUser != null &&
