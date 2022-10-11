@@ -109,7 +109,7 @@ class _LoginPage extends State<LoginPage> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
                     child: Image.asset(
-                      'images/TLR-Logo.png',
+                      'assets/images/TLR-Logo.png',
                       scale: 2,
                     ),
                   ),
