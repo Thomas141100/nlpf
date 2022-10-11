@@ -54,9 +54,8 @@ class MyAppState extends State<MyApp> {
           cardColor: const Color.fromARGB(255, 242, 235, 233),
           //cardTheme: ,
           textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  textStyle: TextStyle(fontSize: 12),
-                  backgroundColor: Theme.of(context).secondaryHeaderColor)),
+            style: TextButton.styleFrom(textStyle: TextStyle(fontSize: 12)),
+          ),
           buttonTheme: const ButtonThemeData(
               hoverColor: Color.fromARGB(255, 36, 58, 115),
               buttonColor: Color.fromARGB(255, 124, 62, 102)),
@@ -64,7 +63,6 @@ class MyAppState extends State<MyApp> {
               const IconThemeData(color: Color.fromARGB(255, 242, 235, 233)),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Theme.of(context).hoverColor,
                   backgroundColor: const Color.fromARGB(255, 124, 62, 102),
                   shadowColor: const Color.fromARGB(255, 36, 58, 115),
                   textStyle: const TextStyle(
