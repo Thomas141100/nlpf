@@ -155,6 +155,7 @@ class _HomePageState extends State<HomePage> {
         var response = await Client.addCandidacy2JobOffer(jobOffer.getId());
         if (response.statusCode == 200) {
           showSnackBar(context, "Candidature envoyée");
+          setJobOffers();
         } else {
           throw ErrorDescription("Failed to candidate");
         }
@@ -177,7 +178,9 @@ class _HomePageState extends State<HomePage> {
       firstButton: TextButton(
         onPressed:
             userAlreadyCandidate(jobOffer) ? null : () => candidateHandle(),
-        child: const Text('Postuler'),
+        child: userAlreadyCandidate(jobOffer)
+            ? const Text('Vous avez déjà postulé')
+            : const Text('Postuler'),
       ),
       cardHeight: _cardRatio,
     );

@@ -8,7 +8,6 @@ class MCQ {
   MCQ.fromJson(Map<dynamic, dynamic> json) {
     maxScore = json['maxScore'];
     expectedScore = json['expectedScore'];
-    // questions = json['questions'];
     var questionsJson = json['questions'];
     List<Map<String, Object>> quests = [];
     for (var i = 0; i < questionsJson.length; i++) {
