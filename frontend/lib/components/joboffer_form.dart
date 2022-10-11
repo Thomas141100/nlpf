@@ -42,6 +42,7 @@ class _JobOfferForm extends State<JobOfferForm> {
       child: Column(
         children: <Widget>[
           Container(
+           color: Theme.of(context).backgroundColor,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
             child: Text(

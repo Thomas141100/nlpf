@@ -27,20 +27,20 @@ class _Tags extends State<Tags> {
               });
               widget.textController.clear();
             },
-            cursorColor: const Color.fromARGB(255, 124, 62, 102),
-            decoration: const InputDecoration(
+            cursorColor:Theme.of(context).primaryColor,
+            decoration: InputDecoration(
                 labelText: "Tags",
                 labelStyle: TextStyle(
-                    color: Color.fromARGB(255, 124, 62, 102), fontSize: 16),
+                    color: Theme.of(context).primaryColor, fontSize: 16),
                 focusedBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: Color.fromARGB(255, 124, 62, 102)),
+                      BorderSide(color:Theme.of(context).primaryColor),
                 ),
                 enabledBorder: UnderlineInputBorder(
                     borderSide:
-                        BorderSide(color: Color.fromARGB(255, 124, 62, 102))),
+                        BorderSide(color: Theme.of(context).primaryColor)),
                 icon:
-                    Icon(Icons.tag, color: Color.fromARGB(255, 124, 62, 102))),
+                    Icon(Icons.tag, color: Theme.of(context).primaryColor)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),

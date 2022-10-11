@@ -194,10 +194,11 @@ class _LoginPage extends State<LoginPage> {
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: ElevatedButton(
+                              style:
+                                  Theme.of(context).elevatedButtonTheme.style,
                               child: Text('Se connecter',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   MyApp.of(context).authService.authenticated =
@@ -243,16 +244,17 @@ class _LoginPage extends State<LoginPage> {
                                           ),
                                           actions: [
                                             TextButton(
-                                              style: TextButton.styleFrom(
-                                                  foregroundColor:
-                                                      Colors.redAccent),
-                                              onPressed: () {
-                                                clearSignUpForm();
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text('Annuler', 
-                                              style: Theme.of(context).textTheme.labelMedium)
-                                            ),
+                                                style: TextButton.styleFrom(
+                                                    foregroundColor:
+                                                        Colors.redAccent),
+                                                onPressed: () {
+                                                  clearSignUpForm();
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('Annuler',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelMedium)),
 
                                             // The "Yes" button
                                             TextButton(
@@ -280,8 +282,10 @@ class _LoginPage extends State<LoginPage> {
                                                   }
                                                 }
                                               },
-                                              child:  Text('S\'inscrire', 
-                                              style: Theme.of(context).textTheme.labelLarge),
+                                              child: Text('S\'inscrire',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge),
                                             ),
                                           ],
                                         );
@@ -292,23 +296,22 @@ class _LoginPage extends State<LoginPage> {
                           ),
                         ]),
                   ),
-                SizedBox(
-                  height: 20,
-                ),
-                 Text(
-                      'Vous recherchez du travail ? Traverser la rue !',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    SizedBox(
-                  height: 20,
-                ),
-                 Text(
-                      'Il suffit juste de Traverser la rue !',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Vous recherchez du travail ? Traverser la rue !',
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Il suffit juste de Traverser la rue !',
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
                 ]),
           )),
-          
     );
   }
 }

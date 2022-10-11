@@ -32,11 +32,14 @@ class OfferCard extends Card {
     }
     return Card(
       child: InkWell(
-        splashColor: Colors.blue.withAlpha(40),
+        splashColor: Theme.of(context).primaryColor,
         onTap: onTapHandle,
         child: SizedBox(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
           ListTile(
+            iconColor: Theme.of(context).backgroundColor,
+            selectedColor: Theme.of(context).hoverColor,
+            textColor: Theme.of(context).backgroundColor,
             leading: const Icon(Icons.album),
             title: Text(title, style: Theme.of(context).textTheme.titleMedium),
             subtitle: Text(companyName,

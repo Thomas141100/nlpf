@@ -229,6 +229,7 @@ class _UserPageState extends State<UserPage> {
                       ),
                       FittedBox(
                         child: ElevatedButton(
+                            style: Theme.of(context).elevatedButtonTheme.style,
                             onPressed: () {
                               myAlert();
                             },

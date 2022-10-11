@@ -13,6 +13,12 @@ class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      /*
+      color:
+      IconColor:
+      textStyle
+      //Text()
+      */
       title: Text(title,  style: Theme.of(context).textTheme.titleMedium),
       content: Text(message,  style: Theme.of(context).textTheme.bodyMedium),
       actions: <Widget>[
@@ -28,7 +34,7 @@ class ConfirmationDialog extends StatelessWidget {
               }
               Navigator.pop(context, 'OK');
             }),
-            child:  Text('Confirmer', style: Theme.of(context).textTheme.labelMedium)),
+            child:  Text('Confirmer', style: Theme.of(context).textTheme.labelMedium),),
       ],
     );
   }
