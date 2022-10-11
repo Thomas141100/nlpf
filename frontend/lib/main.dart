@@ -96,8 +96,21 @@ class MyAppState extends State<MyApp> {
               titleLarge: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 35,
-                color: Color.fromARGB(255, 36, 58, 115)),
-            
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              titleMedium: TextStyle(
+                fontSize: 20.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              titleSmall: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
+              bodyLarge: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 36, 58, 115),
+              ),
               bodyMedium: TextStyle(
                 fontSize: 12,
                 color: Color.fromARGB(255, 36, 58, 115),

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/utils/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../module/client.dart';
 import 'package:flutter/material.dart';
@@ -242,19 +243,16 @@ class _LoginPage extends State<LoginPage> {
                                           ),
                                           actions: [
                                             TextButton(
-                                                style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        Colors.redAccent),
-                                                onPressed: () {
-                                                  clearSignUpForm();
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Annuler',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelMedium
-                                                    // style: GoogleFonts.allan()
-                                                    )),
+                                              style: TextButton.styleFrom(
+                                                  foregroundColor:
+                                                      Colors.redAccent),
+                                              onPressed: () {
+                                                clearSignUpForm();
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Annuler', 
+                                              style: Theme.of(context).textTheme.labelMedium)
+                                            ),
 
                                             // The "Yes" button
                                             TextButton(
@@ -282,12 +280,8 @@ class _LoginPage extends State<LoginPage> {
                                                   }
                                                 }
                                               },
-                                              child: Text('S\'inscrire',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelLarge
-                                                  // style: GoogleFonts.allan()
-                                                  ),
+                                              child:  Text('S\'inscrire', 
+                                              style: Theme.of(context).textTheme.labelLarge),
                                             ),
                                           ],
                                         );
@@ -298,35 +292,23 @@ class _LoginPage extends State<LoginPage> {
                           ),
                         ]),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Vous recherchez du travail ? Traverser la rue !',
-                    style: Theme.of(context).textTheme.displayLarge,
-                    // const Text(
-                    //       'Vous recherchez du travail ? Traverser la rue !',
-                    //       style: TextStyle(
-                    //           color: Color.fromARGB(255, 0, 0, 0),
-                    //           fontWeight: FontWeight.w500,
-                    //           fontSize: 35),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Il suffit juste de Traverser la rue !',
-                    style: Theme.of(context).textTheme.displayLarge,
-                    // const Text(
-                    //       'Il suffit juste de Traverser la rue !',
-                    //       style:TextStyle(
-                    //           color: Color.fromARGB(255, 0, 0, 0),
-                    //           fontWeight: FontWeight.bold,
-
-                    //           fontSize: 35),
-                  ),
+                SizedBox(
+                  height: 20,
+                ),
+                 Text(
+                      'Vous recherchez du travail ? Traverser la rue !',
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    SizedBox(
+                  height: 20,
+                ),
+                 Text(
+                      'Il suffit juste de Traverser la rue !',
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
                 ]),
           )),
+          
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserPage extends StatefulWidget {
@@ -95,7 +96,6 @@ class _UserPageState extends State<UserPage> {
             title: Text(
               'Selectionner un fichier multimedia',
               style: Theme.of(context).textTheme.labelMedium,
-              // style: GoogleFonts.allan()
             ),
             content: FittedBox(
               child: Column(
@@ -109,11 +109,10 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        const Icon(Icons.image),
+                        Icon(Icons.image),
                         Text(
                           'Depuis la galerie de photos',
                           style: Theme.of(context).textTheme.labelMedium,
-                          // style: GoogleFonts.allan()
                         ),
                       ],
                     ),
@@ -129,11 +128,10 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        const Icon(Icons.camera),
+                        Icon(Icons.camera),
                         Text(
                           'Prendre une photo',
                           style: Theme.of(context).textTheme.labelMedium,
-                          // style: GoogleFonts.allan()
                         ),
                       ],
                     ),
@@ -164,8 +162,8 @@ class _UserPageState extends State<UserPage> {
         ),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         body: Container(
-          margin: const EdgeInsets.all(200.0),
-          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+          margin: EdgeInsets.all(200.0),
+          padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Theme.of(context).primaryColor),
@@ -177,7 +175,7 @@ class _UserPageState extends State<UserPage> {
               Container(
                 child: FittedBox(
                   //Expanded(
-                  // alignment: Alignment.center,
+                  alignment: Alignment.center,
                   child: Column(
                     // mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +203,7 @@ class _UserPageState extends State<UserPage> {
                                 'Photo de profil',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -214,7 +212,7 @@ class _UserPageState extends State<UserPage> {
                                 height: 300,
                                 width: 300,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(67, 96, 125, 139),
+                                  color: Color.fromARGB(67, 96, 125, 139),
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -235,7 +233,7 @@ class _UserPageState extends State<UserPage> {
                             },
                             child: Row(
                               children: [
-                                const Icon(Icons.upload_file),
+                                Icon(Icons.upload_file),
                                 Text(
                                   'Choisir un fichier',
                                   style: Theme.of(context).textTheme.labelSmall,
@@ -435,6 +433,7 @@ class _UserPageState extends State<UserPage> {
                             margin: const EdgeInsets.all(15.0),
                             width: 250,
                             child: TextFormField(
+                                controller: _passwordController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Nouveau mot de passe')),
@@ -443,6 +442,7 @@ class _UserPageState extends State<UserPage> {
                             margin: const EdgeInsets.all(15.0),
                             width: 250,
                             child: TextFormField(
+                                controller: _passwordConfirmController,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Confirmer le mot de passe')),
@@ -453,13 +453,31 @@ class _UserPageState extends State<UserPage> {
                                 backgroundColor:
                                     const Color.fromARGB(255, 10, 129, 12),
                               ),
-                              onPressed: () {
-                                showSnackBar(
-                                    context, "Feature not yet implemented");
+                              onPressed: () async {
+                                try {
+                                  var response = await Client.updateUser(
+                                      User(
+                                          _currentUser!.id,
+                                          _firstnameController.text,
+                                          _lastnameController.text,
+                                          _emailController.text,
+                                          _currentUser!.isCompany,
+                                          _currentUser!.companyName),
+                                      password: _passwordController.text);
+                                  if (response.statusCode != 200) {
+                                    throw ErrorDescription("$response");
+                                  }
+                                  showSnackBar(context,
+                                      "Votre mot de passe a été mis à jour");
+                                  setCurrentUser();
+                                } catch (e) {
+                                  showSnackBar(
+                                      context, "La mise à jour a échoué",
+                                      isError: true);
+                                }
                               },
                               child: Row(children: [
-                                Icon(Icons.save,
-                                    color: Theme.of(context).backgroundColor),
+                                const Icon(Icons.save, color: Colors.white),
                                 Text(
                                   'Valider le changement',
                                   style: Theme.of(context).textTheme.labelSmall,
