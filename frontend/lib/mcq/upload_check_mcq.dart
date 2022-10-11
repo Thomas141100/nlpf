@@ -24,7 +24,7 @@ class Check extends StatefulWidget {
 
 class _Check extends State<Check> {
   bool importedCSV = false;
-  bool wronfCSVFormat = false;
+  bool wrongCSVFormat = false;
   ManageCSV manageCSV = ManageCSV();
 
   @override
@@ -82,7 +82,7 @@ class _Check extends State<Check> {
                   ),
                 ),
               ),
-              wronfCSVFormat
+              wrongCSVFormat
                   ? const Text(
                       "Format du CSV incorrect",
                       style: TextStyle(color: Colors.red),
@@ -139,10 +139,10 @@ class _Check extends State<Check> {
           widget.mcq?.maxScore = manageCSV.maxScore;
           widget.mcq?.expectedScore = manageCSV.expectedScore;
           widget.mcq?.questions = manageCSV.questions;
-          wronfCSVFormat = false;
+          wrongCSVFormat = false;
         } catch (e) {
           showSnackBar(context, "Mauvais format de CSV", isError: true);
-          wronfCSVFormat = true;
+          wrongCSVFormat = true;
         }
       });
     }
