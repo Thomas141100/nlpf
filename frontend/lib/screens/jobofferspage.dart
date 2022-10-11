@@ -4,6 +4,7 @@ import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/screens/joboffer_screen.dart';
 import 'package:fht_linkedin/utils/constants.dart';
+import 'package:fht_linkedin/utils/filters.dart';
 import 'package:fht_linkedin/utils/utils.dart';
 import '../module/client.dart';
 import '../components/header.dart';
@@ -43,8 +44,13 @@ class _JobOffersPageState extends State<JobOffersPage> {
   @override
   void initState() {
     super.initState();
-    setCurrentUser()
-        .then((value) => setCandidacies().then((value) => setJobOffersList()));
+    setCurrentUser().then((value) {
+      if (_currentUser!.isCompany) {
+        setCompanyJobOffers();
+      } else {
+        setCandidacies().then((value) => setJobOffersList());
+      }
+    });
     return;
   }
 
@@ -76,8 +82,10 @@ class _JobOffersPageState extends State<JobOffersPage> {
     });
   }
 
-  void setJobOffers() async {
-    var offers = await Client.getAllOffers();
+  void setCompanyJobOffers() async {
+    Filter filter = Filter();
+    filter.addCompanyName(_currentUser!.companyName);
+    var offers = await Client.getAllOffers(filters: filter);
     setState(() {
       _jobOffers = offers;
     });
@@ -90,7 +98,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
           isError: true);
     } else {
       showSnackBar(context, "Cette offre a été supprimée");
-      setJobOffers();
+      setCompanyJobOffers();
     }
   }
 
@@ -149,7 +157,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
               builder: (context) => JobOfferDialog(
                     isEdditing: true,
                     jobOffer: jobOffer,
-                    updateJobOffersList: setJobOffers,
+                    updateJobOffersList: setCompanyJobOffers,
                   ));
         },
         child: const Text('Modifier'),
@@ -191,7 +199,11 @@ class _JobOffersPageState extends State<JobOffersPage> {
   @override
   Widget build(BuildContext context) {
     if (_currentUser != null && _jobOffers == null) {
-      setJobOffers();
+      if (_currentUser!.isCompany) {
+        setCompanyJobOffers();
+      } else {
+        setJobOffersList();
+      }
     }
     updateGridColumRatio(MediaQuery.of(context).size.width);
     // This method is rerun every time setState is called, for instance as done
@@ -206,13 +218,16 @@ class _JobOffersPageState extends State<JobOffersPage> {
               'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}'),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          return _currentUser != null && _jobOffers != null
+          return _currentUser != null &&
+                  _jobOffers != null &&
+                  _jobOffers!.isNotEmpty
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
               : const Center(
-                  child: Text('toto'),
+                  child: Text(
+                      "Vous n'avez pas encore postulé à une offre. N'attendez plus pour traverser la rue !"),
                 );
         },
       ),
@@ -225,7 +240,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
                   builder: (context) {
                     return JobOfferDialog(
                       isCreating: true,
-                      updateJobOffersList: setJobOffers,
+                      updateJobOffersList: setCompanyJobOffers,
                     );
                   },
                 );
