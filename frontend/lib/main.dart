@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fht_linkedin/module/auth.dart';
 import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +30,7 @@ class MyAppState extends State<MyApp> {
   }
 
   void _loadEnv() async {
-    dotenv.load(fileName: ".env").then((value) async {
+    dotenv.load(fileName: "assets/env.conf").then((value) async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("apiUrl", dotenv.env['API_URL']!);
     });
