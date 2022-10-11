@@ -25,6 +25,7 @@ build-frontend:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
+    - mv frontend/assets/.env.prod frontend/assets/.env
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
@@ -35,7 +36,6 @@ deploy:
   stage: deploy
   image: docker:latest
   script:
-    - cat ${EC2_SSH_KEY}
     - chmod 600 ${EC2_SSH_KEY}
     - ssh -o StrictHostKeyChecking=no -i ${EC2_SSH_KEY} ${EC2_URI} "
       docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY} &&
