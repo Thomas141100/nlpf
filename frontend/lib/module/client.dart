@@ -343,7 +343,7 @@ class Client {
   }
 
   static Future<Response> saveMCQ(String id, int resultScore) async {
-    Uri url = Uri.http(_url, '/joboffers/$id/candidacies');
+    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
     var token = await getToken();
     try {
       var response = await post(
