@@ -45,12 +45,13 @@ class MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 124, 62, 102),
           secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
+          hoverColor: Color.fromARGB(255,165, 190, 204),
           fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
-          hoverColor: const Color.fromARGB(255, 36, 58, 115),
           dialogBackgroundColor: const Color.fromARGB(255, 242, 235, 233) ,
-          shadowColor: const Color.fromARGB(255, 124, 62, 102),
+          shadowColor:  Theme.of(context).primaryColor,
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
+          //cardTheme: ,
           textButtonTheme: TextButtonThemeData(style: Theme.of(context).elevatedButtonTheme.style),
           buttonTheme: ButtonThemeData(
             hoverColor: const Color.fromARGB(255, 36, 58, 115),
@@ -59,7 +60,7 @@ class MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color:const Color.fromARGB(255, 242, 235, 233) ),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromARGB(255, 242, 235, 233),
+            foregroundColor:Theme.of(context).hoverColor,
             backgroundColor: const Color.fromARGB(255, 124, 62, 102),
             shadowColor: const Color.fromARGB(255, 36, 58, 115),
             textStyle:  TextStyle(fontWeight: FontWeight.w500,

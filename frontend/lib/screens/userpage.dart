@@ -233,7 +233,8 @@ class _UserPageState extends State<UserPage> {
                             },
                             child: Row(
                               children: [
-                                Icon(Icons.upload_file),
+                                Icon(Icons.upload_file, 
+                                    color: Theme.of(context).backgroundColor),
                                 Text(
                                   'Choisir un fichier',
                                   style: Theme.of(context).textTheme.labelSmall,
