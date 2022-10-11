@@ -148,14 +148,26 @@ class _UserPageState extends State<UserPage> {
         key: const ValueKey('header'),
         title: 'Mon profil',
       ),
+      backgroundColor: Theme.of(context).primaryColor ,
       body:
-       Row(
-          mainAxisSize: MainAxisSize.max,
+      Container(
+        
+        margin: EdgeInsets.all(250.0),
+        padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+              color: Theme.of(context).backgroundColor),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded( 
+            Container(
+            child: FittedBox(
+            //Expanded(
+              alignment: Alignment.center,
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+               // mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //if image not null show the image
                   //if image null show text
@@ -216,10 +228,16 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),
             ),
-            Expanded(
+            ),
+            Container(
+              
+            child: FittedBox(
+            //Expanded(
+               alignment: Alignment.center,
              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+               // mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   //add container here
                   Column(
@@ -250,6 +268,7 @@ class _UserPageState extends State<UserPage> {
                                     labelText: 'Nom'),
                               ),
                             )),
+                            //FIXME
                             //_isCompany() ? Container() : SizedBox(height: 2,),
                         Container(
                             margin: const EdgeInsets.all(15.0),
@@ -266,6 +285,7 @@ class _UserPageState extends State<UserPage> {
                       ]),
                   FittedBox(
                     child: Column(children: [
+                      //FIXME
                       TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: informationsChanged()
@@ -359,10 +379,14 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),             
             ),
-            
-            Expanded(
-                             child: Column(
-                  
+            ),
+            Container(
+              
+            child: FittedBox(
+            //Expanded(
+               alignment: Alignment.center,
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //add container here
@@ -402,9 +426,10 @@ class _UserPageState extends State<UserPage> {
                 )
                 ],
             ))
+            )
         ],
         ),
-        
+      )
     );
   }
 }
