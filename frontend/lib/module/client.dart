@@ -9,11 +9,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/mcq.dart';
 import '../utils/utils.dart';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class Client {
-  static final String _url =
-      "${dotenv.env['host'] != "" ? dotenv.env['host'] : "localhost"}:${dotenv.env['port'] != "" ? dotenv.env['port'] : "42069"}";
+  static String _url = "localhost:42069";
+
+  Future<String> _getApiUrl() async {
+    final prefs = SharedPreferences.getInstance();
+    return (await prefs).getString("apiUrl")!;
+  }
+
+  Client() {
+    _getApiUrl().then((value) => _url = value);
+  }
 
   static Future<Response> signup(User newUser, String password) async {
     Uri url = Uri.http(_url, '/auth/signup');
