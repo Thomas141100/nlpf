@@ -171,8 +171,8 @@ class _UserPageState extends State<UserPage> {
               border: Border.all(color: Theme.of(context).primaryColor),
               color: Theme.of(context).backgroundColor),
           child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 child: FittedBox(
