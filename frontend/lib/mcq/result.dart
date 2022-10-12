@@ -1,6 +1,7 @@
 import 'package:fht_linkedin/module/client.dart';
 import 'package:flutter/material.dart';
 import 'package:fht_linkedin/utils/utils.dart';
+import '../models/user.dart';
 
 class Result extends StatelessWidget {
   final int resultScore;

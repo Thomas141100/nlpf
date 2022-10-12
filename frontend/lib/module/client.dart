@@ -119,7 +119,7 @@ class Client {
 
   /////////////////Functions relative to the candidacy part /////////
 
-  static Future<List<JobOfferCandidacy>> getCurrentUserAllCandidacies(
+  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
       String id) async {
     Uri url = Uri.http(_url, '/api/users/$id/candidacies');
     try {
@@ -138,9 +138,9 @@ class Client {
       var body = response.body;
       if (body.isEmpty) return List.empty();
       var decodedJson = jsonDecode(body);
-      List<JobOfferCandidacy> candidaciesList = [];
+      List<UserCandidacy> candidaciesList = [];
       for (var userCandidacy in decodedJson) {
-        candidaciesList.add(JobOfferCandidacy.fromJson(userCandidacy));
+        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
       }
       return candidaciesList;
     } catch (e) {
@@ -200,8 +200,8 @@ class Client {
     }
   }
 
-  static Future<Response> sendJobOffer(String title, String description,
-      String tags, String companyname, MCQ mcq) async {
+  static Future<Response> sendJobOffer(
+      String title, String description, String tags, String companyname) async {
     Uri url = Uri.http(_url, '/api/joboffers');
     var token = await getToken();
     try {
@@ -218,17 +218,11 @@ class Client {
             'companyName': companyname,
             'description': description,
             'tags': tags,
-            'mcq': {
-              'maxScore': mcq.maxScore,
-              'expectedScore': mcq.expectedScore,
-              'questions': mcq.questions,
-            },
           },
         ),
       );
       return response;
     } catch (e) {
-      print(e);
       return Response("", 500);
     }
   }
@@ -294,31 +288,8 @@ class Client {
     }
   }
 
-  /////////////////Functions relative to the mcq/certification part /////////
-
-  static Future<Response> postmcq(
-      String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/api/joboffers/$id');
-    var token = await getToken();
-    try {
-      var response = await post(
-        url,
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json",
-          "authorization": "Bearer $token",
-        },
-        body: jsonEncode(mcq),
-      );
-      return response;
-    } catch (e) {
-      return Response("", 500);
-    }
-  }
-
-  static Future<Response> getmcq(
-      String id, List<Map<String, Object>> mcq) async {
-    Uri url = Uri.http(_url, '/api/joboffers/$id');
+  static Future<List<JobOfferCandidacy>> getJobOfferCandidacy(String id) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id/candidacies');
     var token = await getToken();
     try {
       var response = await get(
@@ -329,14 +300,71 @@ class Client {
           "authorization": "Bearer $token",
         },
       );
+      if (response.statusCode != 200) {
+        throw ErrorDescription("status code is not 200");
+      }
+      var body = response.body;
+      if (body.isEmpty) return List.empty();
+      List<dynamic> decodedJson = jsonDecode(body);
+      List<JobOfferCandidacy> candidacies = List.empty(growable: true);
+      for (Map<String, dynamic> candidaciesJson in decodedJson) {
+        candidacies.add(JobOfferCandidacy.fromJson(candidaciesJson));
+      }
+      return candidacies;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
+  /////////////////Functions relative to the mcq/certification part /////////
+
+  static Future<Response> postmcq(String id, MCQ mcq) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
+    var token = await getToken();
+    try {
+      var response = await post(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+        body: jsonEncode({
+          'mcq': {
+            'maxScore': mcq.maxScore,
+            'expectedScore': mcq.expectedScore,
+            'questions': mcq.questions,
+          },
+        }),
+      );
       return response;
     } catch (e) {
       return Response("", 500);
     }
   }
 
-  static Future<Response> saveMCQ(String id, int resultScore) async {
+  static Future<MCQ?> getMCQ(String id) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id/mcq');
+    var token = await getToken();
+    try {
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "authorization": "Bearer $token",
+        },
+      );
+      return response.statusCode == 200
+          ? MCQ.fromJson(jsonDecode(response.body))
+          : MCQ.empty();
+    } catch (e) {
+      throw ErrorDescription("Failed to retrieve MCQ. Code $e");
+    }
+  }
+
+  static Future<Response> saveMCQ(String id, int resultScore) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id/mcq/answer');
     var token = await getToken();
     try {
       var response = await post(

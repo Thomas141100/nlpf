@@ -33,7 +33,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
   int _columnRatio = 1;
   double _cardRatio = 200;
   var isLoading = false;
-  List<JobOfferCandidacy>? _children;
+  List<UserCandidacy>? _children;
 
   @override
   void dispose() {
@@ -65,9 +65,8 @@ class _JobOffersPageState extends State<JobOffersPage> {
   Future<void> setJobOffersList() async {
     List<JobOffer> jobOff = List.empty(growable: true);
     if (_children == null) return;
-    for (JobOfferCandidacy candidacy in _children!) {
-      if (candidacy.offer.getId() == "") continue;
-      jobOff.add(await Client.getJobOfferById(candidacy.offer.getId()));
+    for (UserCandidacy candidacy in _children!) {
+      if (candidacy.offer != null) jobOff.add(candidacy.offer!);
     }
     setState(() {
       _jobOffers = jobOff;
