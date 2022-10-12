@@ -62,7 +62,10 @@ class OfferCard extends Card {
                               children: [
                                 Expanded(
                                   child: Text(description,
-                                      overflow: TextOverflow.fade,
+                                      //overflow: TextOverflow.fade,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      softWrap: true,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
@@ -82,14 +85,18 @@ class OfferCard extends Card {
                                 for (var stat in stats!.entries)
                                   Column(
                                     children: [
-                                      Text(stat.key,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall),
-                                      Text(stat.value,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall),
+                                      Text(
+                                        stat.key,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Text(
+                                        stat.value,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
                                     ],
                                   ),
                             ],
