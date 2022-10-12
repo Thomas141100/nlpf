@@ -24,9 +24,10 @@ class JobOfferMCQController extends ResourceController {
   @Operation.get('offerId')
   Future<Response> getJobOfferMCQ(@Bind.path('offerId') String offerId) async {
     final mcqCollection = db.collection("mcqs");
-    final result = await mcqCollection.findOne(where.eq("offer", ObjectId.fromHexString(offerId)));
+    final result = await mcqCollection
+        .findOne(where.eq("offer", ObjectId.fromHexString(offerId)));
 
-     if (result == null) {
+    if (result == null) {
       return Response.notFound();
     }
     return Response.ok(result);
@@ -39,7 +40,7 @@ class JobOfferMCQController extends ResourceController {
     }
 
     final user = getPayload(request!.raw.headers['authorization']![0]);
-    if (user['isCompany'] == true) {
+    if (user['isCompany'] == false) {
       return Response.forbidden();
     }
 

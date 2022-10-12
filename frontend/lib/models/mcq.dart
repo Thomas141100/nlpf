@@ -27,4 +27,8 @@ class MCQ {
   }
 
   MCQ.empty() : this(0, 0, []);
+
+  bool isEmpty() {
+    return maxScore == 0 && expectedScore == 0 && questions.isEmpty;
+  }
 }

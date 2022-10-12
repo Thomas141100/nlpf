@@ -60,14 +60,18 @@ class JobOfferDialog extends AlertDialog {
               companyName,
             );
             if (response.statusCode == 200) {
-              var jobOfferId = jsonDecode(response.body)['_id'];
-              var responseMCQ = await Client.postmcq(jobOfferId, mcq);
-              if (responseMCQ.statusCode == 200) {
-                clearInputs();
-                Navigator.of(context).pop();
-                updateJobOffersList();
-                showSnackBar(context, "L'offre a été créée");
+              showSnackBar(context, "L'offre a été créée");
+              if (!mcq.isEmpty()) {
+                var jobOfferId = jsonDecode(response.body)['_id'];
+                var responseMCQ = await Client.postmcq(jobOfferId, mcq);
+                if (responseMCQ.statusCode != 200) {
+                  showSnackBar(context, "Le QCM n'a pas pu être créé",
+                      isError: true);
+                }
               }
+              clearInputs();
+              Navigator.of(context).pop();
+              updateJobOffersList();
             } else {
               showSnackBar(context, "La création de l'offre a échoué",
                   isError: true);
