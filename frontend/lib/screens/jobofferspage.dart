@@ -179,6 +179,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
         },
       ),
       cardHeight: _cardRatio,
+      stats: {'Candidatures': jobOffer.candidacies.length.toString()},
     );
   }
 
