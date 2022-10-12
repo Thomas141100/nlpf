@@ -5,9 +5,10 @@ class OfferCard extends Card {
   final String description;
   final String companyName;
   final void Function() onTapHandle;
-  final TextButton firstButton;
+  final TextButton? firstButton;
   final TextButton? secondButton;
   final double cardHeight;
+  final Map<String, String>? stats;
 
   const OfferCard(
       {super.key,
@@ -15,57 +16,92 @@ class OfferCard extends Card {
       required this.description,
       required this.companyName,
       required this.onTapHandle,
-      required this.firstButton,
+      this.firstButton,
       required this.cardHeight,
-      this.secondButton});
+      this.secondButton,
+      this.stats});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> btns = [firstButton];
+    List<Widget> btns = [];
+    if (firstButton != null) {
+      btns.add(firstButton!);
+    }
     if (secondButton != null) {
-      btns.add(const SizedBox(width: 8));
+      if (firstButton != null) btns.add(const SizedBox(width: 8));
       btns.add(secondButton!);
-      btns.add(const SizedBox(width: 8));
     }
     return Card(
       child: InkWell(
-       // splashColor: Colors.blue.withAlpha(40),
-       splashColor: Theme.of(context).primaryColor,
+        splashColor: Theme.of(context).primaryColor,
         onTap: onTapHandle,
-        child: SizedBox(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          ListTile(
-            iconColor: Theme.of(context).backgroundColor,
-            selectedColor: Theme.of(context).hoverColor,
-            textColor: Theme.of(context).backgroundColor,       
-            leading: const Icon(Icons.album),
-            title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-            subtitle: Text(companyName,
-                style: Theme.of(context).textTheme.titleSmall),
-            mouseCursor: MouseCursor.uncontrolled,
-          ),
-          Container(
-            alignment: AlignmentDirectional.topStart,
-            constraints: BoxConstraints(
-              maxHeight: cardHeight,
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(description,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.bodyMedium),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: btns,
-          )
-        ])),
+        child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ListTile(
+                    iconColor: Theme.of(context).secondaryHeaderColor,
+                    selectedColor: Theme.of(context).hoverColor,
+                    textColor: Theme.of(context).backgroundColor,
+                    leading: const Icon(Icons.album),
+                    title: Text(title,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    subtitle: Text(companyName,
+                        style: Theme.of(context).textTheme.titleSmall),
+                    mouseCursor: MouseCursor.uncontrolled,
+                  ),
+                  Expanded(
+                      child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration:
+                              const BoxDecoration(), // It's useful to have a decoration here, do not remove it
+                          padding: const EdgeInsets.all(8),
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(description,
+                                      overflow: TextOverflow.fade,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                ),
+                              ],
+                            )
+                          ]))),
+                  Column(
+                    children: [
+                      if (stats != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (stats != null)
+                                for (var stat in stats!.entries)
+                                  Column(
+                                    children: [
+                                      Text(stat.key,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall),
+                                      Text(stat.value,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall),
+                                    ],
+                                  ),
+                            ],
+                          ),
+                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: btns,
+                      )
+                    ],
+                  )
+                ])),
       ),
     );
   }

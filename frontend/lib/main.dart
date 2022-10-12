@@ -4,6 +4,7 @@ import 'package:fht_linkedin/module/auth.dart';
 import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -46,14 +47,15 @@ class MyAppState extends State<MyApp> {
           secondaryHeaderColor: const Color.fromARGB(255, 36, 58, 115),
           backgroundColor: const Color.fromARGB(255, 242, 235, 233),
           hoverColor: const Color.fromARGB(255, 165, 190, 204),
-          fontFamily: 'Baskervville', //GoogleFonts.baskervville(),
+          fontFamily: 'Silkscreen', //'Baskervville',
           dialogBackgroundColor: const Color.fromARGB(255, 242, 235, 233),
           shadowColor: Theme.of(context).primaryColor,
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
           //cardTheme: ,
           textButtonTheme: TextButtonThemeData(
-              style: Theme.of(context).elevatedButtonTheme.style),
+            style: TextButton.styleFrom(textStyle: TextStyle(fontSize: 12)),
+          ),
           buttonTheme: const ButtonThemeData(
               hoverColor: Color.fromARGB(255, 36, 58, 115),
               buttonColor: Color.fromARGB(255, 124, 62, 102)),
@@ -61,36 +63,40 @@ class MyAppState extends State<MyApp> {
               const IconThemeData(color: Color.fromARGB(255, 242, 235, 233)),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Theme.of(context).hoverColor,
                   backgroundColor: const Color.fromARGB(255, 124, 62, 102),
                   shadowColor: const Color.fromARGB(255, 36, 58, 115),
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       color: Color.fromARGB(255, 242, 235, 233)))),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              hoverColor: Color.fromARGB(255, 36, 58, 115),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+              hoverColor: const Color.fromARGB(255, 165, 190, 204),
               backgroundColor: Color.fromARGB(255, 124, 62, 102)),
           textTheme: const TextTheme(
               displayLarge: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 35,
+                  fontFamily: 'Baskervville',
                   color: Color.fromARGB(255, 36, 58, 115)),
               displayMedium: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 30,
+                  fontFamily: 'Baskervville',
                   color: Color.fromARGB(255, 36, 58, 115)),
               displaySmall: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
+                  fontFamily: 'Baskervville',
                   color: Color.fromARGB(255, 242, 235, 233)),
               headlineLarge: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
+                  fontFamily: 'Baskervville',
                   color: const Color.fromARGB(255, 242, 235, 233)),
               headlineMedium: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
+                  fontFamily: 'Baskervville',
                   color: Color.fromARGB(255, 36, 58, 115)),
               headlineSmall: TextStyle(
                   fontWeight: FontWeight.w500,
@@ -99,38 +105,49 @@ class MyAppState extends State<MyApp> {
               titleLarge: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 35,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               titleMedium: TextStyle(
                 fontSize: 20.0,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               titleSmall: TextStyle(
                 fontSize: 15.0,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               bodyLarge: TextStyle(
                 fontSize: 14,
+                fontFamily: 'Baskervville',
                 fontWeight: FontWeight.w500,
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               bodyMedium: TextStyle(
                 fontSize: 12,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               bodySmall: TextStyle(
                 fontSize: 10,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               labelLarge: TextStyle(
                 fontSize: 20.0,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
               labelMedium: TextStyle(
                 fontSize: 15.0,
+                fontFamily: 'Baskervville',
                 color: Color.fromARGB(255, 36, 58, 115),
               ),
-              labelSmall: TextStyle(fontSize: 15, color: Colors.white)),
+              labelSmall: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Baskervville',
+                  color: Colors.white)),
         ),
         routeInformationParser: _appRouter.defaultRouteParser(),
         routerDelegate: _appRouter.delegate());

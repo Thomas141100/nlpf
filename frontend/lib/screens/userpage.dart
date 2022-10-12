@@ -109,7 +109,7 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.image),
+                        const Icon(Icons.image),
                         Text(
                           'Depuis la galerie de photos',
                           style: Theme.of(context).textTheme.labelMedium,
@@ -128,7 +128,7 @@ class _UserPageState extends State<UserPage> {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.camera),
+                        const Icon(Icons.camera),
                         Text(
                           'Prendre une photo',
                           style: Theme.of(context).textTheme.labelMedium,
@@ -159,11 +159,12 @@ class _UserPageState extends State<UserPage> {
         appBar: Header(
           key: const ValueKey('header'),
           title: 'Paramètres du compte',
+          isCompany: _currentUser?.isCompany ?? false,
         ),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         body: Container(
-          margin: EdgeInsets.all(200.0),
-          padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
+          margin: const EdgeInsets.all(200.0),
+          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 30.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Theme.of(context).primaryColor),
@@ -203,7 +204,7 @@ class _UserPageState extends State<UserPage> {
                                 'Photo de profil',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -212,7 +213,7 @@ class _UserPageState extends State<UserPage> {
                                 height: 300,
                                 width: 300,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(67, 96, 125, 139),
+                                  color: const Color.fromARGB(67, 96, 125, 139),
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -228,12 +229,13 @@ class _UserPageState extends State<UserPage> {
                       ),
                       FittedBox(
                         child: ElevatedButton(
+                            style: Theme.of(context).elevatedButtonTheme.style,
                             onPressed: () {
                               myAlert();
                             },
                             child: Row(
                               children: [
-                                Icon(Icons.upload_file, 
+                                Icon(Icons.upload_file,
                                     color: Theme.of(context).backgroundColor),
                                 Text(
                                   'Choisir un fichier',
@@ -380,7 +382,7 @@ class _UserPageState extends State<UserPage> {
                                     builder: ((context) => ConfirmationDialog(
                                           key: const ValueKey(
                                               'confirmation_dialog_user_delete'),
-                                          title: "Confirmation Dialog",
+                                          title: "Sérieusement ?",
                                           message:
                                               "Êtes vous sûr de vouloir supprimer cet utilisateur ?",
                                           confirmHandle: _currentUser != null

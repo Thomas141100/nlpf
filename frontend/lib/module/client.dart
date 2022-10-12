@@ -117,9 +117,9 @@ class Client {
     }
   }
 
-  /////////////////Functions relative to the jobOffer part /////////
+  /////////////////Functions relative to the candidacy part /////////
 
-  static Future<List<UserCandidacy>> getCurrentUserAllCandidacies(
+  static Future<List<JobOfferCandidacy>> getCurrentUserAllCandidacies(
       String id) async {
     Uri url = Uri.http(_url, '/api/users/$id/candidacies');
     try {
@@ -138,9 +138,9 @@ class Client {
       var body = response.body;
       if (body.isEmpty) return List.empty();
       var decodedJson = jsonDecode(body);
-      List<UserCandidacy> candidaciesList = [];
+      List<JobOfferCandidacy> candidaciesList = [];
       for (var userCandidacy in decodedJson) {
-        candidaciesList.add(UserCandidacy.fromJson(userCandidacy));
+        candidaciesList.add(JobOfferCandidacy.fromJson(userCandidacy));
       }
       return candidaciesList;
     } catch (e) {
@@ -178,6 +178,28 @@ class Client {
     }
   }
 
+  static Future<JobOffer> getJobOfferById(String id) async {
+    Uri url = Uri.http(_url, '/api/joboffers/$id');
+    try {
+      var token = await getToken();
+      var response = await get(
+        url,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      var body = response.body;
+      if (body.isEmpty) return JobOffer.empty();
+      dynamic decodedJson = jsonDecode(body);
+      JobOffer jobOffers = JobOffer.fromJson(decodedJson);
+      return jobOffers;
+    } catch (e) {
+      throw ErrorDescription("Failed to fetch all offers. Code $e");
+    }
+  }
+
   static Future<Response> sendJobOffer(
       String title, String description, String tags, String companyname) async {
     Uri url = Uri.http(_url, '/api/joboffers');
@@ -201,13 +223,12 @@ class Client {
       );
       return response;
     } catch (e) {
-      print(e);
       return Response("", 500);
     }
   }
 
-  static Future<Response> updateJobOffer(String id, String title,
-      String description, String tags, String companyname) async {
+  static Future<Response> updateJobOffer(
+      String id, String title, String description, String tags) async {
     Uri url = Uri.http(_url, '/api/joboffers/$id');
     var token = await getToken();
     try {
@@ -220,7 +241,6 @@ class Client {
         },
         body: jsonEncode(<String, String>{
           'title': title,
-          'companyname': companyname,
           'description': description,
           'tags': tags
         }),

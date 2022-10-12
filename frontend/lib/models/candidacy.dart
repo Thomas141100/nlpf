@@ -1,3 +1,4 @@
+import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/models/user.dart';
 
 class UserCandidacy {
@@ -19,6 +20,7 @@ class UserCandidacy {
 class JobOfferCandidacy {
   String _id = "";
   User candidate = User.empty();
+  // String candidate = "";
   String offer = "";
   int creationDate = 0;
   int score = 0;
@@ -27,6 +29,7 @@ class JobOfferCandidacy {
 
   JobOfferCandidacy(
       this._id, this.candidate, this.offer, this.creationDate, this.score);
+
   JobOfferCandidacy.empty() : this("", User.empty(), "", 0, 0);
 
   JobOfferCandidacy.fromJson(Map<dynamic, dynamic> json) {
@@ -36,4 +39,11 @@ class JobOfferCandidacy {
     creationDate = json['creationDate'];
     score = json['score'] != null ? int.parse(json['score']) : 0;
   }
+  // JobOfferCandidacy.fromJson(Map<String, dynamic> json)
+  //     : _id = json['_id'],
+  //       candidate = json['candidate'],
+  //       creationDate = json['creationDate'],
+  //       offer = json['offer'] != null
+  //           ? JobOffer.fromJson(json['offer'])
+  //           : JobOffer.empty();
 }

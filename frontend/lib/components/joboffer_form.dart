@@ -12,7 +12,6 @@ class JobOfferForm extends StatefulWidget {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
   final TextEditingController tagsController;
-  final TextEditingController companyNameController;
   final GlobalKey<FormState> formKey;
   final bool enableInput;
   MCQ? mcq;
@@ -23,7 +22,6 @@ class JobOfferForm extends StatefulWidget {
     required this.titleController,
     required this.descriptionController,
     required this.tagsController,
-    required this.companyNameController,
     required this.formKey,
     required this.mcq,
     this.enableInput = false,

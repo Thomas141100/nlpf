@@ -13,7 +13,7 @@ class JobOfferDialog extends AlertDialog {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final tagsController = TextEditingController();
-  final companyNameController = TextEditingController();
+  final String companyName;
   final bool isEdditing;
   final bool isCreating;
   final JobOffer? jobOffer;
@@ -24,13 +24,13 @@ class JobOfferDialog extends AlertDialog {
       this.isEdditing = false,
       this.isCreating = false,
       this.jobOffer,
-      this.updateJobOffersList});
+      this.updateJobOffersList,
+      required this.companyName});
 
   void clearInputs() {
     titleController.clear();
     descriptionController.clear();
     tagsController.clear();
-    companyNameController.clear();
   }
 
   @override
@@ -45,7 +45,7 @@ class JobOfferDialog extends AlertDialog {
           clearInputs();
           Navigator.of(context).pop();
         },
-        child: Text('Annuler',  style:Theme.of(context).textTheme.labelMedium),
+        child: Text('Annuler', style: Theme.of(context).textTheme.labelMedium),
       ));
     }
 
@@ -57,7 +57,7 @@ class JobOfferDialog extends AlertDialog {
               titleController.text,
               descriptionController.text,
               tagsController.text,
-              companyNameController.text,
+              companyName,
             );
             if (response.statusCode == 200) {
               var jobOfferId = jsonDecode(response.body)['_id'];
@@ -74,19 +74,17 @@ class JobOfferDialog extends AlertDialog {
             }
           }
         },
-        child:  Text('Créer',  style:Theme.of(context).textTheme.labelMedium),
+        child: Text('Créer', style: Theme.of(context).textTheme.labelMedium),
       ));
     } else if (isEdditing && jobOffer != null) {
       actions.add(TextButton(
         onPressed: () async {
           if (_jobOfferformKey.currentState!.validate()) {
             var response = await Client.updateJobOffer(
-              jobOffer!.getId(),
-              titleController.text,
-              descriptionController.text,
-              tagsController.text,
-              companyNameController.text,
-            );
+                jobOffer!.getId(),
+                titleController.text,
+                descriptionController.text,
+                tagsController.text);
             if (response.statusCode == 200) {
               clearInputs();
               Navigator.of(context).pop();
@@ -98,7 +96,8 @@ class JobOfferDialog extends AlertDialog {
             }
           }
         },
-        child:  Text('Enregistrer',  style:Theme.of(context).textTheme.labelMedium),
+        child:
+            Text('Enregistrer', style: Theme.of(context).textTheme.labelMedium),
       ));
     } else {
       actions.add(
@@ -107,14 +106,13 @@ class JobOfferDialog extends AlertDialog {
             clearInputs();
             Navigator.of(context).pop();
           },
-          child:  Text('Fermer',  style:Theme.of(context).textTheme.labelMedium),
+          child: Text('Fermer', style: Theme.of(context).textTheme.labelMedium),
         ),
       );
     }
 
     if (!isCreating && jobOffer != null) {
       titleController.text = jobOffer!.title;
-      companyNameController.text = jobOffer!.companyName;
       descriptionController.text = jobOffer!.description ?? "";
     }
 
@@ -131,7 +129,6 @@ class JobOfferDialog extends AlertDialog {
         titleController: titleController,
         descriptionController: descriptionController,
         tagsController: tagsController,
-        companyNameController: companyNameController,
         mcq: isCreating ? mcq : null,
         formKey: _jobOfferformKey,
         formTitle: formTitle,

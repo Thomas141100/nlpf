@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import '../module/client.dart';
 
 class Header extends StatefulWidget with PreferredSizeWidget {
-  var displayLogout = true;
-  var displayProfile = true;
+  bool isCompany = false;
   String title;
 
   Header(
       {super.key = const ValueKey("header"),
       this.title = "",
-      this.displayLogout = true,
-      this.displayProfile = true});
+      required this.isCompany});
 
   @override
   State<Header> createState() => _Header();
@@ -34,31 +32,38 @@ class _Header extends State<Header> {
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: widget.displayProfile
-                ? IconButton(//Text()
-                    icon:  Icon(Icons.person, color: Theme.of(context).backgroundColor,),
-                    tooltip: 'Show Snackbar',
-                    onPressed: () {
-                      AutoRouter.of(context).pushNamed("/user");
-                    },
-                  )
-                : null,
-          ),
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(Icons.archive_outlined),
+                tooltip: widget.isCompany
+                    ? "Offres de l'entreprise"
+                    : "Vos Candidatures",
+                onPressed: () {
+                  AutoRouter.of(context).pushNamed("/joboffers");
+                },
+              )),
           Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: widget.displayLogout
-                  ? IconButton(
-                      icon: const Icon(Icons.logout),
-                      onPressed: () {
-                        MyApp.of(context).authService.authenticated = false;
-                        Client.removeToken();
-                        showSnackBar(context, "Utilisateur déconnecté");
-                        AutoRouter.of(context)
-                            .removeUntil((route) => route.name == "LoginRoute");
-                      },
-                    )
-                  : null),
+              child: IconButton(
+                icon: const Icon(Icons.person),
+                tooltip: 'Paramètres du compte',
+                onPressed: () {
+                  AutoRouter.of(context).pushNamed("/user");
+                },
+              )),
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Déconnexion',
+                onPressed: () {
+                  MyApp.of(context).authService.authenticated = false;
+                  Client.removeToken();
+                  showSnackBar(context, "Utilisateur déconnecté");
+                  AutoRouter.of(context)
+                      .removeUntil((route) => route.name == "LoginRoute");
+                },
+              )),
         ],
       ),
     );
