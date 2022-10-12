@@ -52,7 +52,6 @@ class MyAppState extends State<MyApp> {
           shadowColor: Theme.of(context).primaryColor,
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
-          //cardTheme: ,
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(textStyle: TextStyle(fontSize: 12)),
           ),
