@@ -33,10 +33,6 @@ class JobOffer {
     } else {
       candidacies = List.empty(growable: true);
     }
-
-    if (json.containsKey('mcq')) {
-      mcq = MCQ.fromJson(json['mcq']);
-    }
   }
 
   String getId() {

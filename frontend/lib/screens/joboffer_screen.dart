@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fht_linkedin/models/job_offer.dart';
 import 'package:fht_linkedin/module/client.dart';
 import 'package:fht_linkedin/utils/utils.dart';
@@ -34,8 +36,8 @@ class JobOfferDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
     MCQ mcq = MCQ.empty();
-
     List<Widget>? actions = [];
+
     if (isEdditing || isCreating) {
       actions.add(TextButton(
         style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
@@ -56,13 +58,16 @@ class JobOfferDialog extends AlertDialog {
               descriptionController.text,
               tagsController.text,
               companyName,
-              mcq,
             );
             if (response.statusCode == 200) {
-              clearInputs();
-              Navigator.of(context).pop();
-              updateJobOffersList();
-              showSnackBar(context, "L'offre a été créée");
+              var jobOfferId = jsonDecode(response.body)['_id'];
+              var responseMCQ = await Client.postmcq(jobOfferId, mcq);
+              if (responseMCQ.statusCode == 200) {
+                clearInputs();
+                Navigator.of(context).pop();
+                updateJobOffersList();
+                showSnackBar(context, "L'offre a été créée");
+              }
             } else {
               showSnackBar(context, "La création de l'offre a échoué",
                   isError: true);
@@ -124,7 +129,7 @@ class JobOfferDialog extends AlertDialog {
         titleController: titleController,
         descriptionController: descriptionController,
         tagsController: tagsController,
-        mcq: isCreating ? mcq : jobOffer!.mcq,
+        mcq: isCreating ? mcq : null,
         formKey: _jobOfferformKey,
         formTitle: formTitle,
         enableInput: isCreating || isEdditing,

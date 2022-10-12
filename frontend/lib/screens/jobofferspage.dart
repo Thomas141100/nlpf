@@ -66,8 +66,8 @@ class _JobOffersPageState extends State<JobOffersPage> {
     List<JobOffer> jobOff = List.empty(growable: true);
     if (_children == null) return;
     for (JobOfferCandidacy candidacy in _children!) {
-      if (candidacy.offer.getId() == "") continue;
-      jobOff.add(await Client.getJobOfferById(candidacy.offer.getId()));
+      if (candidacy.offer == "") continue;
+      jobOff.add(await Client.getJobOfferById(candidacy.offer));
     }
     setState(() {
       _jobOffers = jobOff;

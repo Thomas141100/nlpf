@@ -1,4 +1,5 @@
 import 'package:fht_linkedin/models/job_offer.dart';
+import 'package:fht_linkedin/models/user.dart';
 
 class UserCandidacy {
   String _id = "";
@@ -18,17 +19,31 @@ class UserCandidacy {
 
 class JobOfferCandidacy {
   String _id = "";
-  String candidate = "";
-  JobOffer offer;
+  User candidate = User.empty();
+  // String candidate = "";
+  String offer = "";
   int creationDate = 0;
+  int score = 0;
 
   String getId() => _id;
 
-  JobOfferCandidacy.fromJson(Map<String, dynamic> json)
-      : _id = json['_id'],
-        candidate = json['candidate'],
-        creationDate = json['creationDate'],
-        offer = json['offer'] != null
-            ? JobOffer.fromJson(json['offer'])
-            : JobOffer.empty();
+  JobOfferCandidacy(
+      this._id, this.candidate, this.offer, this.creationDate, this.score);
+
+  JobOfferCandidacy.empty() : this("", User.empty(), "", 0, 0);
+
+  JobOfferCandidacy.fromJson(Map<dynamic, dynamic> json) {
+    _id = json['_id'];
+    candidate = User.fromJson(json['candidate']);
+    offer = json['offer'];
+    creationDate = json['creationDate'];
+    score = json['score'] != null ? int.parse(json['score']) : 0;
+  }
+  // JobOfferCandidacy.fromJson(Map<String, dynamic> json)
+  //     : _id = json['_id'],
+  //       candidate = json['candidate'],
+  //       creationDate = json['creationDate'],
+  //       offer = json['offer'] != null
+  //           ? JobOffer.fromJson(json['offer'])
+  //           : JobOffer.empty();
 }
