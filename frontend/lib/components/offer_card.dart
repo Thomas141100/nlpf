@@ -62,9 +62,8 @@ class OfferCard extends Card {
                               children: [
                                 Expanded(
                                   child: Text(description,
-                                      //overflow: TextOverflow.fade,
                                       overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
+                                      maxLines: 6,
                                       softWrap: true,
                                       style: Theme.of(context)
                                           .textTheme
