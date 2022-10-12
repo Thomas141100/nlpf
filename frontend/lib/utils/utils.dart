@@ -1,4 +1,3 @@
-import 'package:fht_linkedin/models/candidacy.dart';
 import 'package:flutter/material.dart';
 
 void showSnackBar(BuildContext context, String message,

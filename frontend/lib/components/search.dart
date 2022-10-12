@@ -19,10 +19,6 @@ class _Search extends State<Search> {
   final TextEditingController _tagsController = TextEditingController();
   final TextEditingController _adresseController = TextEditingController();
 
-  _MyFormState() {
-    selectedValue = filters[0];
-  }
-
   void searchHandle() {
     Filter filters = Filter();
     if (_titleController.text != "") filters.addJobTitle(_titleController.text);
@@ -55,7 +51,7 @@ class _Search extends State<Search> {
           Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Text(
                   'Recherche',
                   style: TextStyle(
@@ -110,7 +106,7 @@ class _Search extends State<Search> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Text(
                   'Trier par',
                   style: TextStyle(

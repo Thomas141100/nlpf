@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fht_linkedin/main.dart';
 import 'package:fht_linkedin/models/user.dart';
 import 'package:fht_linkedin/utils/utils.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../module/client.dart';
 import 'package:flutter/material.dart';
@@ -307,14 +306,14 @@ class _LoginPage extends State<LoginPage> {
                           ]),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     'Vous recherchez du travail ? Traverser la rue !',
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(

@@ -140,11 +140,10 @@ class _HomePageState extends State<HomePage> {
                     companyName: _currentUser!.companyName!,
                   ));
         },
-        child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
         style: Theme.of(context).textButtonTheme.style,
+        child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
       ),
       secondButton: TextButton(
-        child: Text('Supprimer', style: Theme.of(context).textTheme.bodyMedium),
         style: Theme.of(context).textButtonTheme.style,
         onPressed: () {
           showDialog(
@@ -157,6 +156,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ));
         },
+        child: Text('Supprimer', style: Theme.of(context).textTheme.bodyMedium),
       ),
       cardHeight: _cardRatio,
     );
@@ -218,14 +218,19 @@ class _HomePageState extends State<HomePage> {
       ),
       body: LayoutBuilder(
         builder: (context, dimens) {
-          Widget bodyWidget = _currentUser != null && _jobOffers != null
+          Widget bodyWidget = _currentUser != null &&
+                  _jobOffers != null &&
+                  _jobOffers!.isNotEmpty
               ? GridView.count(
                   crossAxisCount: _columnRatio,
                   padding: const EdgeInsets.all(20),
                   children: _buildOfferGridTileList(10, 1))
               : Center(
-                  child: Text('Loading...',
-                      style: Theme.of(context).textTheme.displayLarge),
+                  child: Text(
+                    _currentUser != null && _currentUser!.isCompany
+                        ? "Vous n'avez pas encore posté d'offre. N'attendez plus pour accueillir les chômeurs du trottoir voisin!"
+                        : "Il n'y pas d'offre disponible en ce moment. Ne traversez pas la rue maintenant !",
+                  ),
                 );
           return Row(
             children: [

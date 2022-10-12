@@ -4,7 +4,6 @@ import 'package:fht_linkedin/module/auth.dart';
 import 'package:fht_linkedin/routes/auth_guard.dart';
 import 'package:fht_linkedin/routes/router.gr.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -53,7 +52,8 @@ class MyAppState extends State<MyApp> {
           highlightColor: const Color.fromARGB(255, 124, 62, 102),
           cardColor: const Color.fromARGB(255, 242, 235, 233),
           textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(textStyle: TextStyle(fontSize: 12)),
+            style:
+                TextButton.styleFrom(textStyle: const TextStyle(fontSize: 12)),
           ),
           buttonTheme: const ButtonThemeData(
               hoverColor: Color.fromARGB(255, 36, 58, 115),
@@ -68,8 +68,8 @@ class MyAppState extends State<MyApp> {
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       color: Color.fromARGB(255, 242, 235, 233)))),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-              hoverColor: const Color.fromARGB(255, 165, 190, 204),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              hoverColor: Color.fromARGB(255, 165, 190, 204),
               backgroundColor: Color.fromARGB(255, 124, 62, 102)),
           textTheme: const TextTheme(
               displayLarge: TextStyle(
@@ -91,7 +91,7 @@ class MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
                   fontFamily: 'Baskervville',
-                  color: const Color.fromARGB(255, 242, 235, 233)),
+                  color: Color.fromARGB(255, 242, 235, 233)),
               headlineMedium: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
