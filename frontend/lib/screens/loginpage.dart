@@ -123,201 +123,185 @@ class _LoginPage extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                         border:
                             Border.all(color: Theme.of(context).primaryColor)),
-                    child: Flexible(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              height: 30,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Bonjour',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            isLoggedIn
+                                ? 'Vous êtes connecté'
+                                : 'Veuillez vous connecter',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: TextFormField(
+                              controller: emailController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                  suffixIcon: Icon(Icons.mail_outline)),
+                              validator: Validators.emailValidator(),
                             ),
-                            Text(
-                              'Bonjour',
-                              style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextFormField(
+                              obscureText: true,
+                              controller: passwordController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Mot de passe',
+                                  suffixIcon: Icon(Icons.vpn_key_outlined)),
+                              validator: Validators.passwordValidator(),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              isLoggedIn
-                                  ? 'Vous êtes connecté'
-                                  : 'Veuillez vous connecter',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              child: TextFormField(
-                                controller: emailController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Email',
-                                    suffixIcon: Icon(Icons.mail_outline)),
-                                validator: Validators.emailValidator(),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              child: TextFormField(
-                                obscureText: true,
-                                controller: passwordController,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Mot de passe',
-                                    suffixIcon: Icon(Icons.vpn_key_outlined)),
-                                validator: Validators.passwordValidator(),
-                              ),
-                            ),
-                            TextButton(
-                              style: Theme.of(context).textButtonTheme.style,
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        // Retrieve the text the that user has entered by using the
-                                        // TextEditingController.
-                                        content: Text("Dommage...",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium),
-                                      );
-                                    });
-                              },
-                              child: Text('Mot de passe oublié',
-                                  style: Theme.of(context).textTheme.bodySmall),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              height: 50,
-                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ElevatedButton(
-                                style:
-                                    Theme.of(context).elevatedButtonTheme.style,
-                                child: Text('Se connecter',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displaySmall),
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    MyApp.of(context)
-                                        .authService
-                                        .authenticated = true;
-                                    widget._onLoginCallback(
-                                        context,
-                                        emailController.text,
-                                        passwordController.text);
-                                  }
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text('Vous n\'avez pas encore de compte ?',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium),
-                                TextButton(
+                          ),
+                          TextButton(
+                            style: Theme.of(context).textButtonTheme.style,
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      // Retrieve the text the that user has entered by using the
+                                      // TextEditingController.
+                                      content: Text("Dommage...",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
+                                    );
+                                  });
+                            },
+                            child: Text('Mot de passe oublié',
+                                style: Theme.of(context).textTheme.bodySmall),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            height: 50,
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: ElevatedButton(
+                              style:
+                                  Theme.of(context).elevatedButtonTheme.style,
+                              child: Text('Se connecter',
                                   style:
-                                      Theme.of(context).textButtonTheme.style,
-                                  child: Text('S\'inscrire',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge),
-                                  onPressed: () async {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            content: SignupForm(
-                                              emailController:
-                                                  signupEmailController,
-                                              passwordController:
-                                                  signupPasswordController,
-                                              companyController:
-                                                  signupCompanyNameController,
-                                              firstnameController:
-                                                  signupFirstnameController,
-                                              lastnameController:
-                                                  signupLastNameController,
-                                              formKey: _signupformKey,
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                  style: TextButton.styleFrom(
-                                                      foregroundColor:
-                                                          Colors.redAccent),
-                                                  onPressed: () {
-                                                    clearSignUpForm();
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Annuler',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .labelMedium)),
-
-                                              // The "Yes" button
-                                              TextButton(
-                                                onPressed: () async {
-                                                  // Close the dialog
-                                                  if (_signupformKey
-                                                      .currentState!
-                                                      .validate()) {
-                                                    User newUser =
-                                                        userFromSignUpForm();
-                                                    var response =
-                                                        await Client.signup(
-                                                            newUser,
-                                                            signupPasswordController
-                                                                .text);
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      clearSignUpForm();
-                                                      showSnackBar(context,
-                                                          "User Created");
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    } else {
-                                                      showSnackBar(context,
-                                                          "User creation failed",
-                                                          isError: true);
-                                                    }
-                                                  }
+                                      Theme.of(context).textTheme.displaySmall),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  MyApp.of(context).authService.authenticated =
+                                      true;
+                                  widget._onLoginCallback(
+                                      context,
+                                      emailController.text,
+                                      passwordController.text);
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('Vous n\'avez pas encore de compte ?',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium),
+                              TextButton(
+                                style: Theme.of(context).textButtonTheme.style,
+                                child: Text('S\'inscrire',
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge),
+                                onPressed: () async {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: SignupForm(
+                                            emailController:
+                                                signupEmailController,
+                                            passwordController:
+                                                signupPasswordController,
+                                            companyController:
+                                                signupCompanyNameController,
+                                            firstnameController:
+                                                signupFirstnameController,
+                                            lastnameController:
+                                                signupLastNameController,
+                                            formKey: _signupformKey,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                style: TextButton.styleFrom(
+                                                    foregroundColor:
+                                                        Colors.redAccent),
+                                                onPressed: () {
+                                                  clearSignUpForm();
+                                                  Navigator.of(context).pop();
                                                 },
-                                                child: Text('S\'inscrire',
+                                                child: Text('Annuler',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .labelLarge),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  },
-                                )
-                              ],
-                            ),
-                          ]),
-                    ),
+                                                        .labelMedium)),
+
+                                            // The "Yes" button
+                                            TextButton(
+                                              onPressed: () async {
+                                                // Close the dialog
+                                                if (_signupformKey.currentState!
+                                                    .validate()) {
+                                                  User newUser =
+                                                      userFromSignUpForm();
+                                                  var response =
+                                                      await Client.signup(
+                                                          newUser,
+                                                          signupPasswordController
+                                                              .text);
+                                                  if (response.statusCode ==
+                                                      200) {
+                                                    clearSignUpForm();
+                                                    showSnackBar(context,
+                                                        "User Created");
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    showSnackBar(context,
+                                                        "User creation failed",
+                                                        isError: true);
+                                                  }
+                                                }
+                                              },
+                                              child: Text('S\'inscrire',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                              )
+                            ],
+                          ),
+                        ]),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
                     'Vous recherchez du travail ? Traverser la rue !',
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Il suffit juste de Traverser la rue !',
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ]),
