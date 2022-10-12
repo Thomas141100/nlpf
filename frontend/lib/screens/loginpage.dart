@@ -301,7 +301,7 @@ class _LoginPage extends State<LoginPage> {
                     height: 20,
                   ),
                   Text(
-                    'Vous recherchez du travail ? Traverser la rue !',
+                    'Vous recherchez du travail ? Traversez la rue !',
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ]),

@@ -218,7 +218,7 @@ class _JobOffersPageState extends State<JobOffersPage> {
     return Scaffold(
       appBar: Header(
         title:
-            'Bonjour ${_currentUser != null ? ' - ${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
+            'Bonjour ${_currentUser != null ? '${_currentUser!.firstname} ${_currentUser!.lastname}' : ''}',
         isCompany: _currentUser?.isCompany ?? false,
       ),
       body: LayoutBuilder(
