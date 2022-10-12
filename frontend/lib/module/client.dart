@@ -28,13 +28,13 @@ class Client {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{
+          body: jsonEncode(<String, dynamic>{
             'firstname': newUser.firstname,
             'lastname': newUser.lastname,
             'mail': newUser.email,
             'password': password,
-            'isCompany': newUser.isCompany.toString(),
-            'company': newUser.companyName ?? '',
+            'isCompany': newUser.isCompany,
+            'companyName': newUser.companyName ?? '',
           }));
     } catch (e) {
       return Response("", 500);
@@ -442,8 +442,9 @@ class Client {
     currentUser.email = jsonMap['mail'];
     currentUser.firstname = jsonMap['firstname'];
     currentUser.lastname = jsonMap['lastname'];
-    currentUser.isCompany = jsonMap['isCompany'] == "true";
-    currentUser.companyName = currentUser.isCompany ? jsonMap['company'] : "";
+    currentUser.isCompany = jsonMap['isCompany'];
+    currentUser.companyName =
+        currentUser.isCompany ? jsonMap['companyName'] : "";
     currentUser.setId(jsonMap['_id']);
     return currentUser;
   }

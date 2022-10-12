@@ -26,13 +26,12 @@ class User {
 
   @override
   String toString() {
-    return '$firstname $lastname has email $email and id $_id';
+    return '$firstname $lastname ${isCompany ? 'is a company and ' : ''}has email $email and id $_id.';
   }
 
   String get id => _id;
 
   Map<String, dynamic> toJson() => {
-        'id': _id,
         'firstname': firstname,
         'lastname': lastname,
         'mail': email,
