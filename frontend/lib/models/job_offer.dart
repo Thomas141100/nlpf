@@ -27,7 +27,12 @@ class JobOffer {
 
     if (json.containsKey('candidacies')) {
       for (var candidacy in json['candidacies']) {
-        var temp = UserCandidacy.fromJson(candidacy);
+        UserCandidacy temp;
+        if (candidacy['offer'].runtimeType == String) {
+          temp = UserCandidacy.fromJsonWithUser(candidacy);
+        } else {
+          temp = UserCandidacy.fromJson(candidacy);
+        }
         candidacies.add(temp);
       }
     } else {

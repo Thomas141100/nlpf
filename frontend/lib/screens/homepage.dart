@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   bool userAlreadyCandidate(JobOffer jobOffer) {
     return _currentUser != null &&
         jobOffer.candidacies
-            .map((e) => e.candidate)
+            .map((e) => e.candidateId)
             .contains(_currentUser!.getId());
   }
 

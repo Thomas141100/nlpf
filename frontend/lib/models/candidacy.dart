@@ -3,47 +3,44 @@ import 'package:fht_linkedin/models/user.dart';
 
 class UserCandidacy {
   String _id = "";
-  String candidate = "";
-  String offerId = "";
+  String candidateId = "";
+  JobOffer? offer;
   int creationDate = 0;
 
-  UserCandidacy(this._id, this.candidate, this.offerId, this.creationDate);
-  UserCandidacy.empty() : this("", "", "", 0);
+  UserCandidacy(this._id, this.candidateId, this.offer, this.creationDate);
+  UserCandidacy.empty() : this("", "", JobOffer.empty(), 0);
 
   UserCandidacy.fromJson(Map<dynamic, dynamic> json)
       : _id = json['_id'],
-        candidate = json['candidate'],
+        candidateId = json['candidate'],
         creationDate = json['creationDate'],
-        offerId = json['offer'];
+        offer = json['offer'] != null ? JobOffer.fromJson(json['offer']) : null;
+
+  UserCandidacy.fromJsonWithUser(Map<dynamic, dynamic> json)
+      : _id = json['_id'],
+        candidateId = json['candidate'],
+        creationDate = json['creationDate'];
 }
 
 class JobOfferCandidacy {
   String _id = "";
   User candidate = User.empty();
-  // String candidate = "";
-  String offer = "";
+  String offerId = "";
   int creationDate = 0;
   int score = 0;
 
   String getId() => _id;
 
   JobOfferCandidacy(
-      this._id, this.candidate, this.offer, this.creationDate, this.score);
+      this._id, this.candidate, this.offerId, this.creationDate, this.score);
 
   JobOfferCandidacy.empty() : this("", User.empty(), "", 0, 0);
 
   JobOfferCandidacy.fromJson(Map<dynamic, dynamic> json) {
     _id = json['_id'];
     candidate = User.fromJson(json['candidate']);
-    offer = json['offer'];
+    offerId = json['offer'];
     creationDate = json['creationDate'];
     score = json['score'] != null ? int.parse(json['score']) : 0;
   }
-  // JobOfferCandidacy.fromJson(Map<String, dynamic> json)
-  //     : _id = json['_id'],
-  //       candidate = json['candidate'],
-  //       creationDate = json['creationDate'],
-  //       offer = json['offer'] != null
-  //           ? JobOffer.fromJson(json['offer'])
-  //           : JobOffer.empty();
 }
