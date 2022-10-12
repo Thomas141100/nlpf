@@ -183,7 +183,7 @@ class _JobOfferForm extends State<JobOfferForm> {
                   enableInput: widget.enableInput,
                   offerId: widget.offerId),
             ),
-            candidacies.isNotEmpty
+            candidacies.isNotEmpty && currentUser.isCompany
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
