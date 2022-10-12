@@ -117,19 +117,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   OfferCard _buildCompanyOfferCard(JobOffer jobOffer) {
-    return OfferCard(
-      title: jobOffer.title,
-      description: jobOffer.description ?? "",
-      companyName: jobOffer.companyName,
-      onTapHandle: () {
-        showDialog(
-            context: context,
-            builder: (context) => JobOfferDialog(
-                  jobOffer: jobOffer,
-                  companyName: _currentUser!.companyName!,
-                ));
-      },
-      firstButton: TextButton(
+    TextButton? firstButton = null;
+    TextButton? secondButton = null;
+    if (jobOffer.companyName == _currentUser!.companyName!) {
+      firstButton = TextButton(
         onPressed: () {
           showDialog(
               context: context,
@@ -142,8 +133,8 @@ class _HomePageState extends State<HomePage> {
         },
         style: Theme.of(context).textButtonTheme.style,
         child: Text('Modifier', style: Theme.of(context).textTheme.bodyMedium),
-      ),
-      secondButton: TextButton(
+      );
+      secondButton = TextButton(
         style: Theme.of(context).textButtonTheme.style,
         onPressed: () {
           showDialog(
@@ -157,7 +148,22 @@ class _HomePageState extends State<HomePage> {
                   ));
         },
         child: Text('Supprimer', style: Theme.of(context).textTheme.bodyMedium),
-      ),
+      );
+    }
+    return OfferCard(
+      title: jobOffer.title,
+      description: jobOffer.description ?? "",
+      companyName: jobOffer.companyName,
+      onTapHandle: () {
+        showDialog(
+            context: context,
+            builder: (context) => JobOfferDialog(
+                  jobOffer: jobOffer,
+                  companyName: _currentUser!.companyName!,
+                ));
+      },
+      firstButton: firstButton,
+      secondButton: secondButton,
       cardHeight: _cardRatio,
     );
   }
